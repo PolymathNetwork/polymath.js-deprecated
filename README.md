@@ -1,2 +1,3 @@
 # Polymath.js
-Core library/API/Node module for accessing chain code.
+
+Core library/API/node module for accessing chain code.
