@@ -1,23 +1,49 @@
 {
-  "name": "polymath-tools",
+  "name": "polymath",
   "version": "0.1.0",
-  "description": "Tools for the Polymath platform",
-  "main": "index.js",
+  "private": true,
+  "description": "Tools for interacting with the Polymath platform",
+  "main": "src/js/index.js",
   "scripts": {
-    "test": "mocha"
+    "compile": "truffle compile",
+    "lint": "eslint --fix src",
+    "migrate-ropsten": "truffle migrate --network=ropsten",
+    "precommit": "lint-staged",
+    "test": "ganache-cli & truffle test",
+    "watch-lint": "esw -w --fix src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PolymathNetwork/polymath.js.git"
   },
   "keywords": [
     "polymath"
   ],
   "author": "Polymath",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PolymathNetwork/polymath.js/issues"
+  },
+  "homepage": "https://github.com/PolymathNetwork/polymath.js#readme",
   "dependencies": {
-    "aes-js": "^3.1.0",
-    "bitcore-ecies": "^1.0.3",
-    "chai": "^4.1.2",
-    "elliptic": "^6.4.0",
-    "ethers": "^2.1.3",
-    "mocha": "^4.0.1",
-    "probability-distributions": "^0.9.1"
+    "truffle-contract": "3.0.1"
+  },
+  "devDependencies": {
+    "eslint": "4.11.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-config-prettier": "2.8.0",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-prettier": "2.4.0",
+    "eslint-watch": "3.1.3",
+    "ganache-cli": "6.0.3",
+    "husky": "0.14.3",
+    "lint-staged": "5.0.0",
+    "prettier": "1.8.2"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
