@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "description": "Tools for interacting with the Polymath platform",
-  "main": "src/js/index.js",
+  "main": "dist/bundle.js",
   "scripts": {
+    "build": "webpack",
     "compile": "truffle compile",
     "lint": "eslint --fix src",
     "migrate-ropsten": "truffle migrate --network=ropsten",
     "precommit": "lint-staged",
     "test": "ganache-cli & truffle test",
+    "watch-build": "webpack --watch",
     "watch-lint": "esw -w --fix src"
   },
   "repository": {
@@ -29,6 +31,10 @@
     "truffle-contract": "3.0.1"
   },
   "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-env": "1.6.1",
     "eslint": "4.11.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-config-prettier": "2.8.0",
@@ -38,7 +44,8 @@
     "ganache-cli": "6.0.3",
     "husky": "0.14.3",
     "lint-staged": "5.0.0",
-    "prettier": "1.8.2"
+    "prettier": "1.8.2",
+    "webpack": "3.10.0"
   },
   "lint-staged": {
     "src/**/*.js": [
