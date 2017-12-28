@@ -1,6 +1,5 @@
 # Built contracts
 build/
-dist/
 
 # Below this point are:
 # https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
