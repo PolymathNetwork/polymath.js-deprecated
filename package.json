@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Tools for interacting with the Polymath platform",
-  "main": "build/js/bundle.js",
+  "main": "index.js",
   "scripts": {
     "build": "webpack",
     "compile": "truffle compile",
@@ -28,7 +28,8 @@
   },
   "homepage": "https://github.com/PolymathNetwork/polymath.js#readme",
   "dependencies": {
-    "truffle-contract": "3.0.1"
+    "truffle-contract": "3.0.1",
+    "web3": "^1.0.0-beta.27"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -49,7 +50,8 @@
     "husky": "0.14.3",
     "lint-staged": "5.0.0",
     "prettier": "1.8.2",
-    "webpack": "3.10.0"
+    "webpack": "3.10.0",
+    "webpack-node-externals": "1.6.0"
   },
   "lint-staged": {
     "src/**/*.js": [

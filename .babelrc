@@ -2,5 +2,5 @@
   "presets": ["env", "flow"],
   "plugins": [
     "transform-runtime"
-  ]
+  ],
 }

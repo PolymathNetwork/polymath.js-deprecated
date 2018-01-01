@@ -1,4 +1,5 @@
 [ignore]
+.*/incomplete\.json
 
 [include]
 
