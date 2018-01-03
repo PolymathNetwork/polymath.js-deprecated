@@ -29,11 +29,11 @@ contract SecurityToken is IERC20 {
     // ERC20 Fields
     string public name;
     uint8 public decimals;
-    bytes8 public symbol;
+    string public symbol;
     address public owner;
     uint256 public totalSupply;
-    mapping (address => mapping (address => uint256)) allowed;
-    mapping (address => uint256) balances;
+    mapping(address => mapping(address => uint256)) allowed;
+    mapping(address => uint256) balances;
 
     // Template
     address public delegate;
@@ -64,12 +64,12 @@ contract SecurityToken is IERC20 {
         uint256 yayVotes;
         uint256 yayPercent;
         bool frozen;
-        mapping (address => bool) votes;
     }
+    mapping(address => mapping(address => bool)) voted;
     mapping(address => Allocation) allocations;
 
 		// Security Token Offering statistics
-    mapping (address => uint256) contributedToSTO;
+    mapping(address => uint256) contributedToSTO;
 		uint tokensIssuedBySTO = 0;
 
     // Notifications
@@ -117,7 +117,7 @@ contract SecurityToken is IERC20 {
     @param _polyComplianceAddress Ethereum address of the PolyCompliance contract */
     function SecurityToken(
         string _name,
-        bytes8 _ticker,
+        string _ticker,
         uint256 _totalSupply,
         address _owner,
         uint256 _maxPoly,
@@ -185,7 +185,7 @@ contract SecurityToken is IERC20 {
     {
         var (_stoContract, _auditor, _vestingPeriod, _quorum, _fee) = PolyCompliance.getOfferingByProposal(this, _offeringProposalIndex);
         require(_stoContract != address(0));
-        require(complianceProof != 0);
+        require(complianceProof != 0x0);
         require(delegate != address(0));
         require(_startTime > now && _endTime > _startTime);
         require(POLY.balanceOf(this) >= allocations[delegate].amount + _fee);
@@ -215,15 +215,15 @@ contract SecurityToken is IERC20 {
     /* @dev Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times
     @return bool success */
     function withdrawPoly() public returns (bool success) {
-  			if (delegate == address(0)) {
+  	   if (delegate == address(0)) {
           return POLY.transfer(owner, POLY.balanceOf(this));
         } else {
   				require(now > endSTO + allocations[msg.sender].vestingPeriod);
-          require(allocations[msg.sender].frozen == false);
-          require(allocations[msg.sender].amount > 0);
+                require(allocations[msg.sender].frozen == false);
+                require(allocations[msg.sender].amount > 0);
   				require(POLY.transfer(msg.sender, allocations[msg.sender].amount));
-          allocations[msg.sender].amount = 0;
-          return true;
+                allocations[msg.sender].amount = 0;
+                return true;
         }
     }
 
@@ -234,7 +234,8 @@ contract SecurityToken is IERC20 {
         require(delegate != address(0));
         require(now > endSTO);
         require(now < endSTO + allocations[_recipient].vestingPeriod);
-        require(allocations[_recipient].votes[msg.sender] == false);
+        require(voted[msg.sender][_recipient] == false);
+        voted[msg.sender][_recipient] == true;
         allocations[_recipient].yayVotes = allocations[_recipient].yayVotes + contributedToSTO[msg.sender];
         allocations[_recipient].yayPercent = allocations[_recipient].yayVotes.mul(100).div(tokensIssuedBySTO);
         if (allocations[_recipient].yayPercent > allocations[_recipient].quorum) {
@@ -249,13 +250,13 @@ contract SecurityToken is IERC20 {
     @param _amountOfSecurityTokens The amount of ST to pay out.
     @param _polyContributed The amount of POLY paid for the security tokens. */
     function issueSecurityTokens(address _contributor, uint256 _amountOfSecurityTokens, uint256 _polyContributed) public onlySTO returns (bool success) {
-        require(startSTO > now && endSTO < now);
+        require(startSTO > now && endSTO > now);
         require(POLY.transferFrom(_contributor, this, _polyContributed));
-        require(tokensIssuedBySTO.add(_amountOfSecurityTokens) <= balanceOf(this));
-        require(maxPoly > allocations[owner].amount + _polyContributed);
+        require(tokensIssuedBySTO.add(_amountOfSecurityTokens) <= balanceOf(owner));
+        require(maxPoly > allocations[owner].amount.add(_polyContributed));
         tokensIssuedBySTO = tokensIssuedBySTO.add(_amountOfSecurityTokens);
         contributedToSTO[_contributor] = contributedToSTO[_contributor].add(_amountOfSecurityTokens);
-        allocations[owner].amount = allocations[owner].amount + _polyContributed;
+        allocations[owner].amount = allocations[owner].amount.add(_polyContributed);
         return true;
     }
 

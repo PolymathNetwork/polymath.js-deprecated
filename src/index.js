@@ -6,10 +6,10 @@ import Web3 from 'web3';
 // import { ContractNotFoundError } from './types';
 import type { Web3Provider } from './types';
 
-/* eslint-disable import/no-unresolved */
-// $FlowFixMe
-const polyTokenArtifact = require('../../build/contracts/PolyToken.json');
-/* eslint-enable import/no-unresolved */
+const polyTokenArtifact = require('./artifacts/PolyToken.json');
+const customersArtifact = require('./artifacts/Customers.json');
+const complianceArtifact = require('./artifacts/Compliance.json');
+const securityTokenRegistrarArtifact = require('./artifacts/SecurityTokenRegistrar.json');
 
 /* eslint-disable import/prefer-default-export, no-param-reassign */
 /** Polymath class
@@ -21,6 +21,9 @@ export class Polymath {
   initializedPromise: any;
 
   polyToken: any;
+  customers: any;
+  compliance: any;
+  securityTokenRegistrar: any;
 
   constructor(provider: Web3Provider) {
     this.web3 = new Web3(provider);
@@ -29,10 +32,35 @@ export class Polymath {
 
     const polyTokenContract = contract(polyTokenArtifact);
     polyTokenContract.setProvider(provider);
-
     initializePromises.push(
       polyTokenContract.deployed().then(instance => {
         this.polyToken = instance;
+      }),
+    );
+
+    const customersContract = contract(customersArtifact);
+    customersContract.setProvider(provider);
+    initializePromises.push(
+      customersContract.deployed().then(instance => {
+        this.customers = instance;
+      }),
+    );
+
+    const complianceContract = contract(complianceArtifact);
+    complianceContract.setProvider(provider);
+    initializePromises.push(
+      complianceContract.deployed().then(instance => {
+        this.compliance = instance;
+      }),
+    );
+
+    const securityTokenRegistrarContract = contract(
+      securityTokenRegistrarArtifact,
+    );
+    securityTokenRegistrarContract.setProvider(provider);
+    initializePromises.push(
+      securityTokenRegistrarContract.deployed().then(instance => {
+        this.securityTokenRegistrar = instance;
       }),
     );
 

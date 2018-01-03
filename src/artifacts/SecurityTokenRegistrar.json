@@ -1,0 +1,211 @@
+{
+  "contractName": "SecurityTokenRegistrar",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "polyCustomersAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_STAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getSecurityTokenData",
+      "outputs": [
+        {
+          "name": "totalSupply",
+          "type": "uint256"
+        },
+        {
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "name": "ticker",
+          "type": "string"
+        },
+        {
+          "name": "securityType",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "polyComplianceAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "name": "_ticker",
+          "type": "string"
+        },
+        {
+          "name": "_totalSupply",
+          "type": "uint256"
+        },
+        {
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "name": "_host",
+          "type": "address"
+        },
+        {
+          "name": "_fee",
+          "type": "uint256"
+        },
+        {
+          "name": "_type",
+          "type": "uint8"
+        },
+        {
+          "name": "_maxPoly",
+          "type": "uint256"
+        },
+        {
+          "name": "_lockupPeriod",
+          "type": "uint256"
+        },
+        {
+          "name": "_quorum",
+          "type": "uint8"
+        }
+      ],
+      "name": "createSecurityToken",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "polyTokenAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_ticker",
+          "type": "string"
+        }
+      ],
+      "name": "getSecurityTokenAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_polyTokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "_polyCustomersAddress",
+          "type": "address"
+        },
+        {
+          "name": "_polyComplianceAddress",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "ticker",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "name": "securityTokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "host",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "fee",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_type",
+          "type": "uint8"
+        }
+      ],
+      "name": "LogNewSecurityToken",
+      "type": "event"
+    }
+  ],
+  "networks": {
+    "50": {
+      "events": {},
+      "links": {},
+      "address": "0xf0c61dcc2501336a4f5d1b89b4762f5500e1c1ea"
+    }
+  },
+  "sourceHash": "0xe6ecc42f49612aa72f99193ddde164007e3cc11f9fb9b0360d05235f5c89fa58"
+}

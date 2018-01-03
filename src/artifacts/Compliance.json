@@ -1,0 +1,455 @@
+{
+  "contractName": "Compliance",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "offeringProposals",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_securityToken",
+          "type": "address"
+        },
+        {
+          "name": "_offeringProposalIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "cancelOfferingProposal",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_securityToken",
+          "type": "address"
+        },
+        {
+          "name": "_stoContract",
+          "type": "address"
+        }
+      ],
+      "name": "proposeOfferingContract",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_securityToken",
+          "type": "address"
+        },
+        {
+          "name": "_templateProposalIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "cancelTemplateProposal",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_securityTokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "_templateIndex",
+          "type": "uint8"
+        }
+      ],
+      "name": "getTemplateByProposal",
+      "outputs": [
+        {
+          "name": "template",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_template",
+          "type": "address"
+        },
+        {
+          "name": "_templateIndex",
+          "type": "uint8"
+        }
+      ],
+      "name": "updateTemplateReputation",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_stoContract",
+          "type": "address"
+        },
+        {
+          "name": "_offeringProposalIndex",
+          "type": "uint8"
+        }
+      ],
+      "name": "updateOfferingReputation",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "templateProposals",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "minimumVestingPeriod",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_STOAddress",
+          "type": "address"
+        },
+        {
+          "name": "_fee",
+          "type": "uint256"
+        },
+        {
+          "name": "_vestingPeriod",
+          "type": "uint256"
+        },
+        {
+          "name": "_quorum",
+          "type": "uint8"
+        }
+      ],
+      "name": "setSTO",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "PolyCustomers",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_securityToken",
+          "type": "address"
+        },
+        {
+          "name": "_template",
+          "type": "address"
+        }
+      ],
+      "name": "proposeTemplate",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_offeringType",
+          "type": "string"
+        },
+        {
+          "name": "_issuerJurisdiction",
+          "type": "bytes32"
+        },
+        {
+          "name": "_accredited",
+          "type": "bool"
+        },
+        {
+          "name": "_KYC",
+          "type": "address"
+        },
+        {
+          "name": "_details",
+          "type": "bytes32"
+        },
+        {
+          "name": "_expires",
+          "type": "uint256"
+        },
+        {
+          "name": "_fee",
+          "type": "uint256"
+        },
+        {
+          "name": "_quorum",
+          "type": "uint8"
+        },
+        {
+          "name": "_vestingPeriod",
+          "type": "uint256"
+        }
+      ],
+      "name": "createTemplate",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_securityTokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "_offeringProposalIndex",
+          "type": "uint8"
+        }
+      ],
+      "name": "getOfferingByProposal",
+      "outputs": [
+        {
+          "name": "stoContract",
+          "type": "address"
+        },
+        {
+          "name": "auditor",
+          "type": "address"
+        },
+        {
+          "name": "vestingPeriod",
+          "type": "uint256"
+        },
+        {
+          "name": "quorum",
+          "type": "uint8"
+        },
+        {
+          "name": "fee",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "VERSION",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_polyCustomersAddress",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_template",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_offeringType",
+          "type": "string"
+        }
+      ],
+      "name": "LogTemplateCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_securityToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_template",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_delegate",
+          "type": "address"
+        }
+      ],
+      "name": "LogNewTemplateProposal",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_securityToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_offeringContract",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_delegate",
+          "type": "address"
+        }
+      ],
+      "name": "LogNewContractProposal",
+      "type": "event"
+    }
+  ],
+  "networks": {
+    "50": {
+      "events": {},
+      "links": {},
+      "address": "0x74e6bdf40c8c15f5f78f4855e3db1ed2ffef0753"
+    }
+  },
+  "sourceHash": "0x21cdca9da2eb6830485865ad464c5be4494a7959f9ee31e6606ae25a32ed89ec"
+}
