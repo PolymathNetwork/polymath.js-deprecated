@@ -5,13 +5,16 @@
   "description": "Tools for interacting with the Polymath platform",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack && babel --source-maps --out-dir lib {src,test}/**",
     "compile": "truffle compile",
     "lint": "eslint --fix src",
     "migrate-ropsten": "truffle migrate --network=ropsten",
+    "migrate-testrpc": "truffle migrate --network=testrpc",
     "precommit": "lint-staged && flow",
-    "test": "ganache-cli & truffle test",
-    "watch-build": "webpack --watch",
+    "prepublish": "compile && build",
+    "start": "babel --watch --source-maps --out-dir lib {src,test}/**",
+    "test": "mocha lib/test/**/*_test.js --timeout 10000 --bail --exit",
+    "testrpc": "ganache-cli -p 8545 --networkId 50 -m \"${npm_package_config_mnemonic}\"",
     "watch-lint": "esw -w --fix src"
   },
   "repository": {
@@ -27,9 +30,12 @@
     "url": "https://github.com/PolymathNetwork/polymath.js/issues"
   },
   "homepage": "https://github.com/PolymathNetwork/polymath.js#readme",
+  "config": {
+    "mnemonic": "age drama cover door helmet mechanic wine lesson vote inflict will keep"
+  },
   "dependencies": {
     "truffle-contract": "3.0.1",
-    "web3": "^1.0.0-beta.27"
+    "web3": "0.20.1"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -39,6 +45,7 @@
     "babel-plugin-transform-runtime": "6.23.0",
     "babel-preset-env": "1.6.1",
     "babel-preset-flow": "6.23.0",
+    "chai": "4.1.2",
     "eslint": "4.11.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-config-prettier": "2.8.0",
@@ -48,8 +55,12 @@
     "flow-bin": "0.61.0",
     "ganache-cli": "6.0.3",
     "husky": "0.14.3",
+    "json-loader": "0.5.7",
     "lint-staged": "5.0.0",
+    "mocha": "4.1.0",
     "prettier": "1.8.2",
+    "truffle": "4.0.4",
+    "uglifyjs-webpack-plugin": "1.1.5",
     "webpack": "3.10.0",
     "webpack-node-externals": "1.6.0"
   },

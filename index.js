@@ -1,5 +1,5 @@
 if (typeof process === 'object' && !process.browser) {
-  module.exports = require('./build/js/bundle-node');
+  module.exports = require('./lib/src/index');
 } else {
   module.exports = require('./build/js/bundle-web');
 }

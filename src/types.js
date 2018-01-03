@@ -1,6 +1,6 @@
 // @flow
 
-import * as Web3 from 'web3';
+import Web3 from 'web3';
 
 /** A Web3 provider */
 export type Web3Provider = Web3.Provider;
@@ -9,7 +9,11 @@ export type Web3Provider = Web3.Provider;
  * @param networkId The network id
  */
 export type PolymathConfig = {
-  networkId: number,
+  networkId?: number,
+  polyTokenContractAddress?: string,
+  securityTokenRegistrarContractAddress?: string,
+  complianceContractAddress?: string,
+  customersContractAddress?: string,
 };
 
 export class PolymathError extends Error {}

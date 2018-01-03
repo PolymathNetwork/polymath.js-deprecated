@@ -15,5 +15,10 @@ module.exports = {
       // In the meantime, get password file from Sukhveer.
       from: '0xb571be0e1876dc43345cfb08e1ad2792f678aefd',
     },
+    testrpc: {
+      host: "localhost",
+      port: 8545,
+      network_id: "50",
+    },
   },
 };
