@@ -88,5 +88,4 @@ export class Template {
     * @returns {string}  The type of offering of the Security token (solidity type string).
     */
   getOfferingType() {}
-
-  }
+}
