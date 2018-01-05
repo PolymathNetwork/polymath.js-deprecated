@@ -19,6 +19,10 @@ toc:
     description: |
       Methods that call into the PolyToken.sol contract.
   - PolyToken
+  - name: Template.sol
+    description: |
+      Methods that call into the Template.sol contract.
+  - Template
   - name: Events
     description: |
       Events emitted by the Polymath core code. 

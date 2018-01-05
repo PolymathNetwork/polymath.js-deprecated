@@ -91,7 +91,10 @@ import Web3 from 'web3';
     * @returns {string}  The type of offering of the Security token (solidity type string).
     */
   getOfferingType() {}
+  
 }
+
+
 
 
 export type TemplateClass = Template;
