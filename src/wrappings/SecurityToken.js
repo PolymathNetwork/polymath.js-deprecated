@@ -2,7 +2,10 @@
 
 import Web3 from 'web3';
 
-export class SecurityToken {
+/**
+ * Security Token Class
+ */
+class SecurityToken {
   constructor() {}
 
   /**
@@ -230,3 +233,8 @@ export class SecurityToken {
 
   // this DOES NOT NEED TO BE CALLED.It is a function that only the STO contract is allowed to call, therefore, no user would ever need to call
 }
+
+
+export type SecurityTokenClass = SecurityToken;
+
+module.exports = SecurityToken;

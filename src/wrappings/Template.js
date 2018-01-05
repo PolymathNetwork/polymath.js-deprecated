@@ -2,7 +2,10 @@
 
 import Web3 from 'web3';
 
-export class Template {
+/**
+ * Template Class
+ */
+ class Template {
   constructor() {}
 
   /**
@@ -89,3 +92,8 @@ export class Template {
     */
   getOfferingType() {}
 }
+
+
+export type TemplateClass = Template;
+
+module.exports = Template;

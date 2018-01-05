@@ -1,1 +1,3 @@
-/src/theme_polymath**
+src/theme_polymath/*
+src/wrappings/* 
+#wrappins will need to be removed once we get the linting working on there
