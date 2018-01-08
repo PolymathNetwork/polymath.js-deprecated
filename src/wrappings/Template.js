@@ -2,7 +2,10 @@
 
 import Web3 from 'web3';
 
-export class Template {
+/**
+ * Template Class
+ */
+ class Template {
   constructor() {}
 
   /**
@@ -88,5 +91,12 @@ export class Template {
     * @returns {string}  The type of offering of the Security token (solidity type string).
     */
   getOfferingType() {}
+  
+}
 
-  }
+
+
+
+export type TemplateClass = Template;
+
+module.exports = Template;
