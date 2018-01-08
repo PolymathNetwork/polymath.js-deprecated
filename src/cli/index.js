@@ -15,6 +15,7 @@ async function copyArtifact(filePath) {
     contractName: originalJSON.contractName,
     abi: originalJSON.abi,
     networks: originalJSON.networks,
+    bytecode: originalJSON.bytecode,
   };
   newJSON.sourceHash = hashSource(originalJSON.source);
 
@@ -62,7 +63,10 @@ async function copyArtifacts(/* argv */) {
     'PolyToken',
     'Customers',
     'Compliance',
+    'SecurityToken',
     'SecurityTokenRegistrar',
+    'STOContract',
+    'Template',
   ];
 
   for (let i = 0; i < toCopy.length; i++) {

@@ -7,33 +7,7 @@ import Web3 from 'web3';
 export class PolymathjsMethods {
     constructor() {
     }
-
-    /**
-        * Adds a {@link IControl} to the map, calling `control.onAdd(this)`.
-        *
-        * @param {IControl} control The {@link IControl} to add.
-        * @param {string} [position] position on the map to which the control will be added.
-        * Valid values are `'top-left'`, `'top-right'`, `'bottom-left'`, and `'bottom-right'`. Defaults to `'top-right'`.
-        * @returns {Map} `this`
-        * @see [Display map navigation controls]asdasda dsad s(https://www.mapbox.com/mapbox-gl-js/example/navigation/)
-        */
-    addControl(control: IControl, position?: ControlPosition) {
-        if (position === undefined && control.getDefaultPosition) {
-            position = control.getDefaultPosition();
-        }
-        if (position === undefined) {
-            position = 'top-right';
-        }
-        const controlElement = control.onAdd(this);
-        const positionContainer = this._controlPositions[position];
-        if (position.indexOf('bottom') !== -1) {
-            positionContainer.insertBefore(controlElement, positionContainer.firstChild);
-        } else {
-            positionContainer.appendChild(controlElement);
-        }
-        return this;
-    }
-
+    
     /**
     * Add a jurisdiction to the Security token that indicates investors in that jurisdiction are allowed to purchase this security token.
 
@@ -63,7 +37,7 @@ export class PolymathjsMethods {
     * @returns {boolean} True if it updated correctly to the blockchain.
     */
     updateTemplateDetails(details: string) {
-    
+
     }
 
 
@@ -74,7 +48,7 @@ export class PolymathjsMethods {
     * @returns {boolean} True if it template is finalized
     */
     finalizeTemplate() {
-    
+
     }
 
 
@@ -85,10 +59,10 @@ export class PolymathjsMethods {
     * @param {boolean} accredited Defines if the investor is accredited or not
     * @param {number} role Role number used to see if the role is allowed for a security token (solidity type uint8)
 
-    * @returns {boolean} True if it all template requirements are met 
+    * @returns {boolean} True if it all template requirements are met
     */
     checkTemplateRequirements(jurisdiction: string, accredited: boolean, role: number) {
-    
+
     }
 
     /**
@@ -97,16 +71,16 @@ export class PolymathjsMethods {
     * @returns {[details, finalized]} details is a string and finalized is a boolean
     */
     getTemplateDetails() {
-    
+
     }
 
     /**
-    * Gets multiple usage details for the template 
+    * Gets multiple usage details for the template
 
-    * @returns {[fee, quorum, vestingPeriod, owner, KYC]} An array of details for the template being used. 
+    * @returns {[fee, quorum, vestingPeriod, owner, KYC]} An array of details for the template being used.
     */
     getTemplateUsageDetails() {
-    
+
     }
 
         /**
@@ -115,7 +89,7 @@ export class PolymathjsMethods {
     * @returns {BigNumber} A BigNumber object representing the UNIX time the template expires (solidty type uint256)
     */
     getTemplateExpiry() {
-    
+
     }
 
         /**
@@ -125,7 +99,7 @@ export class PolymathjsMethods {
     * @returns {string} The issuer jurisdiction code (solidty type bytes32)
     */
     getIssuerJurisdiction() {
-    
+
     }
 
         /**
@@ -134,7 +108,7 @@ export class PolymathjsMethods {
     * @returns {string}  The type of offering of the Security token (solidity type string).
     */
     getOfferingType() {
-    
+
     }
 
 
@@ -149,7 +123,7 @@ export class PolymathjsMethods {
     * @returns {boolean} True if the template is correctly selected
     */
     selectTemplate(templateIndex: number) {
-    
+
     }
 
    /**
@@ -161,7 +135,7 @@ export class PolymathjsMethods {
     * @returns {boolean} True if it is updated correctly.
     */
     updateComplianceProof(newMerkleRoot: string, complianceProof: string) {
-    
+
     }
 
    /**
@@ -174,9 +148,9 @@ export class PolymathjsMethods {
 
     * @returns {boolean} True if it is offering is selected correctly.
     */
-    
+
     selectOfferingProposal(offeringProposalIndex: number, startTime: number, endTime: number) {
-    
+
     }
 
    /**
@@ -186,9 +160,9 @@ export class PolymathjsMethods {
 
     * @returns {boolean} True if the address was successfully whitelisted
     */
-    
+
     addToWhitelist(whitelistAddress: string) {
-    
+
     }
 
    /**
@@ -196,9 +170,9 @@ export class PolymathjsMethods {
 
     * @returns {boolean} True if the user was able to successfully withdraw their poly
     */
-    
+
     withdrawPoly() {
-    
+
     }
 
    /**
@@ -208,9 +182,9 @@ export class PolymathjsMethods {
 
     * @returns {boolean} True if the vote was recorded on the blockchain
     */
-    
+
     voteToFreeze(recipient: string) {
-    
+
     }
 
    /**
@@ -223,7 +197,7 @@ export class PolymathjsMethods {
     * @returns {boolean} True if the transfer is successful
     */
     transfer(to: string, value: number) {
-    
+
     }
 
    /**
@@ -238,7 +212,7 @@ export class PolymathjsMethods {
     * @returns {boolean} True if the transfer is successful
     */
     transferFrom(from: string, to: string, value: number) {
-    
+
     }
 
    /**
@@ -251,7 +225,7 @@ export class PolymathjsMethods {
     * @returns {boolean} True if the approval amount is successfully recorded on the blockchain
     */
     approve(spender: string, value: number) {
-    
+
     }
 
    /**
@@ -263,7 +237,7 @@ export class PolymathjsMethods {
     * @returns {BigNumber} The allowance that the spender has to spend on behalf of the owner
     */
     allowance(owner: string, spender: string) {
-    
+
     }
 
    /**
@@ -272,18 +246,18 @@ export class PolymathjsMethods {
     * @returns {[Template, delegate, complianceProof, STO, KYC]}
     */
     getTokenDetails() {
-    
+
     }
 
   /**
     * Check the Security token balance of an ethereum.
-    
+
     * @param {string} owner The address of the account owning tokens (solidity type address)
 
-    * @returns {BigNumber} The Security Token balance of the owner. 
+    * @returns {BigNumber} The Security Token balance of the owner.
     */
     balanceOf(owner: string) {
-    
+
     }
 
    /**
@@ -316,7 +290,7 @@ export class PolymathjsMethods {
        /**
     * Returns the amount of Security tokens that were issued by the STO by calling the state variable tokensIssuedBySTO. This value will be frozen after the end time of the STO has been triggered, or the max has been reached.
 
-    * @returns {BigNumber} The amount of tokens that have been raised for the security token (solidity type uint). 
+    * @returns {BigNumber} The amount of tokens that have been raised for the security token (solidity type uint).
 
     */
     tokensIssuedBySTO() {
@@ -328,7 +302,7 @@ export class PolymathjsMethods {
 
     * @param {string} address of the account to see how much they contributed to the STO (solidity type address).
 
-    * @returns {BigNumber} The amount of tokens that were purchased by this ethereum addressfor the security token (solidity type uint). 
+    * @returns {BigNumber} The amount of tokens that were purchased by this ethereum addressfor the security token (solidity type uint).
     */
     contributedToSTO(address: string) {
 
@@ -342,7 +316,7 @@ export class PolymathjsMethods {
     * @returns {Allocations} {@link Allocations}
     */
     allocations(address: string) {
-    
+
     }
 
        /**
@@ -385,7 +359,7 @@ export class PolymathjsMethods {
     * @returns {string} Symbol of the ST
     */
     getSecurityTokenSymbol() {
-    
+
     }
 
        /**
@@ -394,16 +368,16 @@ export class PolymathjsMethods {
     * @returns {string} Address of the owner of the ST (solidity type address).
     */
     getSecurityTokenOwner() {
-    
+
     }
 
        /**
-    * Returns the total supply of the Security Token. 
+    * Returns the total supply of the Security Token.
 
-    * @returns {BigNumber} total supply of all Security Tokens created. 
+    * @returns {BigNumber} total supply of all Security Tokens created.
     */
     getSecurityTokenTotalSupply() {
-    
+
     }
 
     // ### users.legalDelegate.issueSecurityToken()

@@ -1,68 +1,33 @@
 // @flow
 
-import contract from 'truffle-contract';
-import Web3 from 'web3';
+import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 // import { ContractNotFoundError } from './types';
+import PolyToken from './contract_wrappers/PolyToken';
 import type { Web3Provider } from './types';
 
-const polyTokenArtifact = require('./artifacts/PolyToken.json');
-const customersArtifact = require('./artifacts/Customers.json');
-const complianceArtifact = require('./artifacts/Compliance.json');
-const securityTokenRegistrarArtifact = require('./artifacts/SecurityTokenRegistrar.json');
+export * from './contract_wrappers';
+export * from './types';
 
 /* eslint-disable import/prefer-default-export, no-param-reassign */
-/** Polymath class
- * @param provider The web3 provider
+/**
+ * The entry point to the Polymath.js library
+ * @param web3Provider A web3 provider
  */
 export class Polymath {
-  web3: Web3;
+  _web3Wrapper: Web3Wrapper;
 
   initializedPromise: any;
 
-  polyToken: any;
-  customers: any;
-  compliance: any;
-  securityTokenRegistrar: any;
+  polyToken: PolyToken;
 
-  constructor(provider: Web3Provider) {
-    this.web3 = new Web3(provider);
+  constructor(web3Provider: Web3Provider) {
+    this._web3Wrapper = new Web3Wrapper(web3Provider);
 
     const initializePromises = [];
 
-    const polyTokenContract = contract(polyTokenArtifact);
-    polyTokenContract.setProvider(provider);
-    initializePromises.push(
-      polyTokenContract.deployed().then(instance => {
-        this.polyToken = instance;
-      }),
-    );
-
-    const customersContract = contract(customersArtifact);
-    customersContract.setProvider(provider);
-    initializePromises.push(
-      customersContract.deployed().then(instance => {
-        this.customers = instance;
-      }),
-    );
-
-    const complianceContract = contract(complianceArtifact);
-    complianceContract.setProvider(provider);
-    initializePromises.push(
-      complianceContract.deployed().then(instance => {
-        this.compliance = instance;
-      }),
-    );
-
-    const securityTokenRegistrarContract = contract(
-      securityTokenRegistrarArtifact,
-    );
-    securityTokenRegistrarContract.setProvider(provider);
-    initializePromises.push(
-      securityTokenRegistrarContract.deployed().then(instance => {
-        this.securityTokenRegistrar = instance;
-      }),
-    );
+    this.polyToken = new PolyToken(this._web3Wrapper);
+    initializePromises.push(this.polyToken.initialize());
 
     this.initializedPromise = Promise.all(initializePromises);
   }

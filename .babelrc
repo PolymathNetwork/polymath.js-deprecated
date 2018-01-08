@@ -1,7 +1,13 @@
 {
-  "presets": ["env", "flow"],
+  "passPerPreset": true,
   "plugins": [
-    "transform-object-rest-spread",
-    "transform-runtime"
+    "transform-object-rest-spread"
   ],
+  "presets": [
+    { "plugins": ["transform-runtime"] },
+    {
+      "passPerPreset": false,
+      "presets": ["env", "flow"]
+    }
+  ]
 }

@@ -19,7 +19,7 @@
     "precommit": "lint-staged && flow",
     "start": "run-p babel:watchsrc babel:watchtest",
     "test": "mocha lib/test/**/*_test.js --timeout 10000 --bail --exit",
-    "testrpc": "ganache-cli -p 8545 --networkId 50 -m \"${npm_package_config_mnemonic}\"",
+    "testrpc": "ganache-cli -p 8545 --networkId 50 --gasLimit 15000000 -m \"${npm_package_config_mnemonic}\"",
     "truffle:compile": "truffle compile",
     "watch-lint": "esw -w --fix src"
   },
@@ -44,6 +44,7 @@
     "web3": "0.20.1"
   },
   "devDependencies": {
+    "@0xproject/web3-wrapper": "0.1.2",
     "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
     "babel-eslint": "^8.1.2",

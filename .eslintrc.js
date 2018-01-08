@@ -6,6 +6,7 @@ module.exports = {
   ],
   "globals": {},
   "rules": {
+    // Disabled AirBnb rules
     "no-console": "off",
     "no-continue": "off",
     "no-nested-ternary": "off",
