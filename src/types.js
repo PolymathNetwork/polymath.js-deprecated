@@ -73,6 +73,62 @@ export type AllowanceEventArgs = {
  */
 export type PolyTokenEventArgs = TransferEventArgs | AllowanceEventArgs;
 
+// Customers types
+
+/**
+ * An enum of the types of `Customer`
+ */
+export type CustomerRole =
+  | 'investor'
+  | 'issuer'
+  | 'delegate'
+  | 'marketmaker'
+  | 'unknown';
+
+/**
+ * A user of the Polymath platform
+ */
+export type Customer = {
+  jurisdiction: string,
+  accredited: boolean,
+  role: CustomerRole,
+  verified: boolean,
+  expires: BigNumber,
+};
+
+/**
+ * A KYC provider
+ */
+export type KYCProvider = {
+  name: string,
+  joined: BigNumber,
+  detailsHash: string,
+  verificationFee: BigNumber,
+};
+
+/**
+ * Arguments for the Customers LogNewProvider event
+ */
+export type LogNewProviderArgs = {
+  providerAddress: string,
+  name: string,
+  details: string,
+};
+
+/**
+ * Arguments for the Customers LogCustomerVerified event
+ */
+export type LogCustomerVerifiedArgs = {
+  customer: string,
+  provider: string,
+  role: CustomerRole,
+};
+
+/**
+ * Arguments for the Customers events
+ */
+export type CustomersEventArgs = LogNewProviderArgs | LogCustomerVerifiedArgs;
+
 export class PolymathError extends Error {}
 
 export class ContractNotFoundError extends PolymathError {
@@ -83,5 +139,40 @@ export class ContractNotFoundError extends PolymathError {
         : 'Could not find contract.';
     super(message);
     this.name = 'ContractNotFound';
+  }
+}
+
+const feeErrorMessage = (methodName: ?string, fee: ?BigNumber) => {
+  const feePhrase =
+    fee != null ? `of ${fee.toFormat()} POLY (in base units)` : 'to be paid';
+  const message: string =
+    methodName != null
+      ? `"${methodName}" requires a fee ${feePhrase}. `
+      : `This method requires a fee ${feePhrase}.`;
+
+  return message;
+};
+
+export class InsufficientAllowanceError extends PolymathError {
+  constructor(methodName: ?string, fee: ?BigNumber) {
+    super(
+      `${feeErrorMessage(
+        methodName,
+        fee,
+      )} Use the PolyToken "approve" method to approve that payment.`,
+    );
+    this.name = 'InsufficientAllowance';
+  }
+}
+
+export class InsufficientBalanceError extends PolymathError {
+  constructor(methodName: ?string, fee: ?BigNumber) {
+    super(
+      `${feeErrorMessage(
+        methodName,
+        fee,
+      )} The account used has insufficient funds.`,
+    );
+    this.name = 'InsufficientBalance';
   }
 }

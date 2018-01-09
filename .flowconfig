@@ -1,7 +1,4 @@
 [ignore]
-.*/incomplete\.json
-.*/src/theme_polymath/.*
-.*/src/wrappings/.*
 
 [include]
 

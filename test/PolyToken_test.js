@@ -1,15 +1,11 @@
 import BigNumber from 'bignumber.js';
 import chai from 'chai';
 import 'mocha';
-import contract from 'truffle-contract';
-import Web3 from 'web3';
 
+import { makePolyToken } from './util/make_contracts';
 import { makeWeb3Wrapper } from './util/web3';
 
-import PolyToken from '../src/contract_wrappers/PolyToken';
-import PolyTokenArtifact from '../src/artifacts/PolyToken';
-
-const assert = chai.assert;
+const { assert } = chai;
 
 describe('PolyToken wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
@@ -17,26 +13,27 @@ describe('PolyToken wrapper', () => {
   let accounts;
   let polyToken;
 
-  beforeEach(async () => {
+  before(async () => {
     accounts = await web3Wrapper.getAvailableAddressesAsync();
+  });
 
-    const contractTemplate = contract(PolyTokenArtifact);
-    contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
-    const instance = await contractTemplate.new({ gas: 2000000, from: accounts[0] });
-
-    polyToken = new PolyToken(web3Wrapper, instance.address);
-    await polyToken.initialize();
+  beforeEach(async () => {
+    polyToken = await makePolyToken(web3Wrapper, accounts[0]);
   });
 
   it('getTotalSupply', async () => {
     const totalSupply = await polyToken.getTotalSupply();
-    assert.equal(totalSupply.constructor.name, 'BigNumber', 'totalSupply is BigNumber');
+    assert.equal(
+      totalSupply.constructor.name,
+      'BigNumber',
+      'totalSupply is BigNumber',
+    );
     assert(totalSupply.greaterThan(0), 'totalSupply nonzero');
   });
 
   it('getDecimals', async () => {
     const decimals = await polyToken.getDecimals();
-    assert.typeOf(decimals, 'number', 'decimals is number')
+    assert.typeOf(decimals, 'number', 'decimals is number');
     assert(decimals > 0, 'decimals nonzero');
   });
 
@@ -47,13 +44,16 @@ describe('PolyToken wrapper', () => {
 
   it('generateNewTokens, getBalanceOf', async () => {
     await polyToken.generateNewTokens(new BigNumber(50), accounts[1]);
-    assert((await polyToken.getBalanceOf(accounts[1])).equals(50), 'getBalanceOf');
+    assert(
+      (await polyToken.getBalanceOf(accounts[1])).equals(50),
+      'getBalanceOf',
+    );
   });
 
   describe('With a balance on accounts[0]', () => {
     beforeEach(async () => {
       await polyToken.generateNewTokens(new BigNumber(321), accounts[0]);
-    })
+    });
 
     it('transfer, subscribe, getLogs', async () => {
       let subscriptionID = null;
@@ -79,17 +79,32 @@ describe('PolyToken wrapper', () => {
 
       await polyToken.transfer(accounts[0], accounts[2], new BigNumber(10));
 
-      const logs = await polyToken.getLogs('Transfer', { _to: accounts[1] }, { fromBlock: 1, toBlock: 'latest' });
+      const logs = await polyToken.getLogs(
+        'Transfer',
+        { _to: accounts[1] },
+        { fromBlock: 1, toBlock: 'latest' },
+      );
       assert.equal(logs.length, 1, 'One log');
-      assert(logs[0].args._value.equals(5), 'Retrieved first Transfer log')
+      assert(logs[0].args._value.equals(5), 'Retrieved first Transfer log');
     });
 
     it('approve, allowance, transferFrom', async () => {
       await polyToken.approve(accounts[0], accounts[1], new BigNumber(10));
-      assert((await polyToken.getAllowance(accounts[0], accounts[1])).equals(10), 'allowance');
+      assert(
+        (await polyToken.getAllowance(accounts[0], accounts[1])).equals(10),
+        'allowance',
+      );
 
-      await polyToken.transferFrom(accounts[0], accounts[2], accounts[1], new BigNumber(10));
-      assert((await polyToken.getBalanceOf(accounts[2])).equals(10), 'balance after transferFrom');
+      await polyToken.transferFrom(
+        accounts[0],
+        accounts[2],
+        accounts[1],
+        new BigNumber(10),
+      );
+      assert(
+        (await polyToken.getBalanceOf(accounts[2])).equals(10),
+        'balance after transferFrom',
+      );
     });
   });
 });

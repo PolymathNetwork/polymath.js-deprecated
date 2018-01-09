@@ -3,6 +3,7 @@ toc:
   - name: Contracts
   - ContractWrapper
   - PolyToken
+  - Customers
   - name: Types
   - Web3Provider
   - Web3Filter

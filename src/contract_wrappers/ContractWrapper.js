@@ -62,6 +62,10 @@ export default class ContractWrapper {
     this.isInitialized = true;
   }
 
+  get address(): string {
+    return this._contract.address;
+  }
+
   _subscribe<LogArgs>(
     eventName: string,
     indexedFilterValues: IndexedFilterValues,

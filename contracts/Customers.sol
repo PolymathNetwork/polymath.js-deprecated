@@ -19,11 +19,9 @@ contract Customers is ICustomers {
     // A Customer
     struct Customer {
         bytes32 jurisdiction;
-        uint256 joined;
+        bool accredited;
         uint8 role;
         bool verified;
-        bool accredited;
-        bytes32 proof;
         uint256 expires;
     }
 

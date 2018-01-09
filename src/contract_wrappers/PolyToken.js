@@ -78,12 +78,9 @@ export default class PolyToken extends ContractWrapper {
     return this._contract.symbol.call();
   }
 
-  async generateNewTokens(
-    amount: BigNumber,
-    recipientAddress: string,
-  ): Promise<void> {
+  async generateNewTokens(amount: BigNumber, recipientAddress: string) {
     // TODO: Validate recipientAddress is one of our accounts
-    return this._contract.getTokens(amount, recipientAddress, {
+    await this._contract.getTokens(amount, recipientAddress, {
       from: recipientAddress,
     });
   }
@@ -104,13 +101,9 @@ export default class PolyToken extends ContractWrapper {
    * @param   amount        The amount, in base units, of POLY to transfer
    * @return  Success
    */
-  async transfer(
-    fromAddress: string,
-    toAddress: string,
-    amount: BigNumber,
-  ): Promise<boolean> {
+  async transfer(fromAddress: string, toAddress: string, amount: BigNumber) {
     // TODO: Validate fromAddress is one of our accounts
-    return this._contract.transfer(toAddress, amount, {
+    await this._contract.transfer(toAddress, amount, {
       from: fromAddress,
     });
   }
@@ -126,9 +119,9 @@ export default class PolyToken extends ContractWrapper {
     ownerAddress: string,
     spenderAddress: string,
     amount: BigNumber,
-  ): Promise<boolean> {
+  ) {
     // TODO: Validate ownerAddress is one of our accounts
-    return this._contract.approve(spenderAddress, amount, {
+    await this._contract.approve(spenderAddress, amount, {
       from: ownerAddress,
     });
   }
@@ -159,9 +152,9 @@ export default class PolyToken extends ContractWrapper {
     toAddress: string,
     spenderAddress: string,
     amount: BigNumber,
-  ): Promise<boolean> {
+  ) {
     // TODO: Validate spenderAddress is one of our accounts
-    return this._contract.transferFrom(fromAddress, toAddress, amount, {
+    await this._contract.transferFrom(fromAddress, toAddress, amount, {
       from: spenderAddress,
     });
   }
