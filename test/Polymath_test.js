@@ -3,9 +3,9 @@
 //
 // import { Polymath } from '../src/index';
 // import { makeWeb3 } from './util/web3';
-
+//
 // const { assert } = chai;
-
+//
 // describe('Polymath library', () => {
 //   let polymath;
 //

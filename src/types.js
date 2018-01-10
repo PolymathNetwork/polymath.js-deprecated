@@ -78,12 +78,7 @@ export type PolyTokenEventArgs = TransferEventArgs | AllowanceEventArgs;
 /**
  * An enum of the types of `Customer`
  */
-export type CustomerRole =
-  | 'investor'
-  | 'issuer'
-  | 'delegate'
-  | 'marketmaker'
-  | 'unknown';
+export type CustomerRole = 'investor' | 'issuer' | 'delegate' | 'marketmaker';
 
 /**
  * A user of the Polymath platform
@@ -128,6 +123,10 @@ export type LogCustomerVerifiedArgs = {
  * Arguments for the Customers events
  */
 export type CustomersEventArgs = LogNewProviderArgs | LogCustomerVerifiedArgs;
+
+// SecurityTokenRegistrar types
+
+export type SecurityTokenData = {};
 
 export class PolymathError extends Error {}
 

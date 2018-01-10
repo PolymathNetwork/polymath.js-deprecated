@@ -1,6 +1,7 @@
 // @flow
 
 import BigNumber from 'bignumber.js';
+import Web3 from 'web3';
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 import ContractWrapper from './ContractWrapper';
@@ -20,8 +21,8 @@ import { InsufficientAllowanceError, InsufficientBalanceError } from '../types';
 
 const roleToNumberObj: { [CustomerRole]: number } = {
   investor: 1,
-  issuer: 2,
-  delegate: 3,
+  delegate: 2, // Solidity code requires role == 2 for delegate but lists delegate elsewhere as #3
+  issuer: 3,
   marketmaker: 4,
 };
 
@@ -240,7 +241,7 @@ export default class Customers extends ContractWrapper {
   ) {
     await this._contract.verifyCustomer(
       customerAddress,
-      jurisdiction,
+      Web3.prototype.fromAscii(jurisdiction),
       new BigNumber(roleToNumber(role)),
       accredited,
       expires,
@@ -278,7 +279,7 @@ export default class Customers extends ContractWrapper {
     }
 
     return {
-      jurisdiction: customer[0],
+      jurisdiction: Web3.prototype.toAscii(customer[0]).replace(/\u0000/g, ''),
       accredited: customer[1],
       role,
       verified: customer[3],

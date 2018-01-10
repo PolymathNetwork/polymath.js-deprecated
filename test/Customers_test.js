@@ -2,8 +2,9 @@ import BigNumber from 'bignumber.js';
 import chai from 'chai';
 import 'mocha';
 
-import { makeCustomers } from './util/make_contracts';
+import { makeCustomers, makePolyToken } from './util/make_contracts';
 import { makeWeb3Wrapper } from './util/web3';
+import zeroAddress from './util/zeroAddress';
 
 const { assert } = chai;
 
@@ -19,8 +20,8 @@ describe('Customers wrapper', () => {
   });
 
   beforeEach(async () => {
-    customers = await makeCustomers(web3Wrapper, accounts[0]);
-    ({ polyToken } = customers);
+    polyToken = await makePolyToken(web3Wrapper, accounts[0]);
+    customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
 
     // Fund two accounts.
     await polyToken.generateNewTokens(
@@ -105,9 +106,7 @@ describe('Customers wrapper', () => {
     });
 
     it('should return null for nonexistent provider', async () => {
-      const nullProvider = await customers.getKYCProviderByAddress(
-        '0x0000000000000000000000000000000000000000',
-      );
+      const nullProvider = await customers.getKYCProviderByAddress(zeroAddress);
       assert.equal(nullProvider, null);
     });
   });
@@ -133,13 +132,14 @@ describe('Customers wrapper', () => {
     await customers.verifyCustomer(
       kycProvider,
       investor,
-      '0x00',
+      'US-CA',
       'investor',
       false,
       new BigNumber(1234),
     );
     const customer = await customers.getCustomer(kycProvider, investor);
     assert.equal(customer.verified, true);
+    assert.equal(customer.jurisdiction, 'US-CA');
 
     const logs = await customers.getLogs(
       'LogCustomerVerified',
@@ -155,10 +155,7 @@ describe('Customers wrapper', () => {
     await makeKYCProvider(accounts[0]);
 
     assert.equal(
-      await customers.getCustomer(
-        accounts[0],
-        '0x0000000000000000000000000000000000000000',
-      ),
+      await customers.getCustomer(accounts[0], zeroAddress),
       null,
       'getCustomer returns null for nonexistent customer',
     );
