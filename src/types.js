@@ -124,9 +124,97 @@ export type LogCustomerVerifiedArgs = {
  */
 export type CustomersEventArgs = LogNewProviderArgs | LogCustomerVerifiedArgs;
 
+// Compliance
+
+export type STOProposal = {
+  stoContractAddress: string,
+  auditorAddress: string,
+  vestingPeriod: BigNumber,
+  quorum: BigNumber,
+  fee: BigNumber,
+};
+
+export type LogTemplateCreated = {
+  creator: string,
+  _template: string,
+  _offeringType: string,
+};
+
+export type LogNewTemplateProposal = {
+  _securityToken: string,
+  _template: string,
+  _delegate: string,
+};
+
+export type LogNewContractProposal = {
+  _securityToken: string,
+  _offeringContract: string,
+  _delegate: string,
+};
+
+export type ComplianceEventArgs =
+  | LogTemplateCreated
+  | LogNewTemplateProposal
+  | LogNewContractProposal;
+
+// SecurityToken types
+
+export type LogTemplateSet = {
+  _delegateAddress: string,
+  _template: string,
+  _KYC: string,
+};
+
+export type LogUpdatedComplianceProof = {
+  merkleRoot: string,
+  _complianceProofHash: string,
+};
+
+export type LogSetSTOContract = {
+  _STO: string,
+  _STOtemplate: string,
+  _auditor: string,
+  _startTime: BigNumber,
+  _endTime: BigNumber,
+};
+
+export type LogNewWhitelistedAddress = {
+  _KYC: string,
+  _shareholder: string,
+  _role: CustomerRole,
+};
+
+export type LogVoteToFreeze = {
+  _recipient: string,
+  _yayPercent: BigNumber,
+  quorum: BigNumber,
+  _frozen: boolean,
+};
+
+export type LogTokenIssued = {
+  _contributor: string,
+  _stAmount: BigNumber,
+  _polyContributed: BigNumber,
+  _timestamp: BigNumber,
+};
+
+export type SecurityTokenEventArgs =
+  | LogTemplateSet
+  | LogUpdatedComplianceProof
+  | LogSetSTOContract
+  | LogNewWhitelistedAddress
+  | LogVoteToFreeze
+  | LogTokenIssued;
+
 // SecurityTokenRegistrar types
 
-export type SecurityTokenData = {};
+export type TokenDetails = {
+  templateAddress: string,
+  delegateAddress: string,
+  complianceProof: string,
+  STO: string,
+  KYC: string,
+};
 
 export class PolymathError extends Error {}
 

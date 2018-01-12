@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js';
 import chai from 'chai';
 import 'mocha';
 
-import { makeCustomers, makePolyToken } from './util/make_contracts';
+import { makeCustomers, makePolyToken } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
-import zeroAddress from './util/zeroAddress';
+import fakeAddress from './util/fakeAddress';
 
 const { assert } = chai;
 
@@ -106,7 +106,7 @@ describe('Customers wrapper', () => {
     });
 
     it('should return null for nonexistent provider', async () => {
-      const nullProvider = await customers.getKYCProviderByAddress(zeroAddress);
+      const nullProvider = await customers.getKYCProviderByAddress(fakeAddress);
       assert.equal(nullProvider, null);
     });
   });
@@ -155,7 +155,7 @@ describe('Customers wrapper', () => {
     await makeKYCProvider(accounts[0]);
 
     assert.equal(
-      await customers.getCustomer(accounts[0], zeroAddress),
+      await customers.getCustomer(accounts[0], fakeAddress),
       null,
       'getCustomer returns null for nonexistent customer',
     );

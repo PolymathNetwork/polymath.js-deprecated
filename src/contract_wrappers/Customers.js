@@ -7,6 +7,7 @@ import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import ContractWrapper from './ContractWrapper';
 import customersContract from '../artifacts/Customers.json';
 import PolyToken from './PolyToken';
+import { numberToRole, roleToNumber } from '../roles';
 import type {
   BlockRange,
   Customer,
@@ -18,30 +19,6 @@ import type {
   Log,
 } from '../types';
 import { InsufficientAllowanceError, InsufficientBalanceError } from '../types';
-
-const roleToNumberObj: { [CustomerRole]: number } = {
-  investor: 1,
-  delegate: 2, // Solidity code requires role == 2 for delegate but lists delegate elsewhere as #3
-  issuer: 3,
-  marketmaker: 4,
-};
-
-function roleToNumber(role: CustomerRole): number {
-  return roleToNumberObj[role];
-}
-
-function numberToRole(num: number): ?CustomerRole {
-  const roles = Object.keys(roleToNumberObj);
-  for (let i = 0; i < roles.length; i++) {
-    const role = roles[i];
-
-    if (roleToNumberObj[role] === num) {
-      return role;
-    }
-  }
-
-  return null;
-}
 
 type LogCustomerVerifiedArgsUnprocessed = {
   customer: string,

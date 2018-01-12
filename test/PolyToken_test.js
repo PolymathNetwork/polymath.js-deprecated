@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import chai from 'chai';
 import 'mocha';
 
-import { makePolyToken } from './util/make_contracts';
+import { makePolyToken } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
 
 const { assert } = chai;

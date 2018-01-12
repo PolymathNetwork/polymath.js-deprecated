@@ -1,0 +1,149 @@
+// @flow
+
+import BigNumber from 'bignumber.js';
+import contract from 'truffle-contract';
+import { Web3Wrapper } from '@0xproject/web3-wrapper';
+
+import {
+  Compliance,
+  Customers,
+  PolyToken,
+  SecurityToken,
+} from '../../src/contract_wrappers';
+import complianceArtifact from '../../src/artifacts/Compliance.json';
+import customersArtifact from '../../src/artifacts/Customers.json';
+import polyTokenArtifact from '../../src/artifacts/PolyToken.json';
+import securityTokenArtifact from '../../src/artifacts/SecurityToken.json';
+
+export async function makePolyToken(web3Wrapper: Web3Wrapper, account: string) {
+  const contractTemplate = contract(polyTokenArtifact);
+  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  const instance = await contractTemplate.new({ gas: 2000000, from: account });
+
+  const polyToken = new PolyToken(web3Wrapper, instance.address);
+  await polyToken.initialize();
+  return polyToken;
+}
+
+export async function makeCustomers(
+  web3Wrapper: Web3Wrapper,
+  polyToken: PolyToken,
+  account: string,
+) {
+  const contractTemplate = contract(customersArtifact);
+  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  const instance = await contractTemplate.new(polyToken.address, {
+    gas: 2000000,
+    from: account,
+  });
+
+  const customers = new Customers(web3Wrapper, polyToken, instance.address);
+  await customers.initialize();
+  return customers;
+}
+
+export async function makeCompliance(
+  web3Wrapper: Web3Wrapper,
+  customers: Customers,
+  account: string,
+) {
+  const contractTemplate = contract(complianceArtifact);
+  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  const instance = await contractTemplate.new(customers.address, {
+    from: account,
+    gas: 4000000,
+  });
+
+  const compliance = new Compliance(web3Wrapper, customers, instance.address);
+  await compliance.initialize();
+  return compliance;
+}
+
+export async function makeSecurityToken(
+  web3Wrapper: Web3Wrapper,
+  polyToken: PolyToken,
+  customers: Customers,
+  compliance: Compliance,
+  account: string,
+) {
+  const securityTokenTemplate = contract(securityTokenArtifact);
+  securityTokenTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  const instance = await securityTokenTemplate.new(
+    'Token Name',
+    'TONA',
+    new BigNumber(1000),
+    account,
+    new BigNumber(1000),
+    new BigNumber(9888888),
+    new BigNumber(20),
+    polyToken.address,
+    customers.address,
+    compliance.address,
+    {
+      from: account,
+      gas: 6000000,
+    },
+  );
+
+  const securityToken = new SecurityToken(
+    web3Wrapper,
+    polyToken,
+    customers,
+    compliance,
+    instance.address,
+    { from: account },
+  );
+  await securityToken.initialize();
+  return securityToken;
+}
+
+export const makeKYCProvider = async (
+  polyToken: PolyToken,
+  customers: Customers,
+  kycProviderAddress: string,
+) => {
+  const fee = await customers.getNewKYCProviderFee();
+  await polyToken.approve(kycProviderAddress, customers.address, fee);
+
+  await customers.newKYCProvider(
+    kycProviderAddress,
+    'Provider',
+    '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+    new BigNumber(100),
+  );
+};
+
+export const makeLegalDelegate = async (
+  polyToken: PolyToken,
+  customers: Customers,
+  kycProvider: string,
+  legalDelegate: string,
+) => {
+  await polyToken.approve(legalDelegate, customers.address, 100);
+  await customers.verifyCustomer(
+    kycProvider,
+    legalDelegate,
+    'US-CA',
+    'delegate',
+    true,
+    new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+  );
+};
+
+export const makeTemplate = async (
+  compliance: Compliance,
+  kycProvider: string,
+  legalDelegate: string,
+): Promise<string> =>
+  compliance.createTemplate(
+    legalDelegate,
+    'offeringtype',
+    'US-CA',
+    false,
+    kycProvider,
+    '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+    new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+    new BigNumber(1000),
+    new BigNumber(10),
+    new BigNumber(9888888),
+  );

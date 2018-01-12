@@ -10,7 +10,7 @@ import PolyToken from './PolyToken';
 import securityTokenRegistrarArtifact from '../artifacts/SecurityTokenRegistrar.json';
 
 /**
- * Wrapper for the Compliance Solidity contract
+ * Wrapper for the SecurityTokenRegistrar Solidity contract
  */
 export default class SecurityTokenRegistrar extends ContractWrapper {
   polyToken: PolyToken;

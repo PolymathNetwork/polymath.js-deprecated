@@ -6,9 +6,12 @@ import {
   makePolyToken,
   makeCompliance,
   makeCustomers,
-} from './util/make_contracts';
+  makeKYCProvider,
+  makeLegalDelegate,
+  makeTemplate,
+} from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
-import zeroAddress from './util/zeroAddress';
+import fakeAddress from './util/fakeAddress';
 
 const { assert } = chai;
 
@@ -40,56 +43,42 @@ describe('Compliance wrapper', () => {
     );
   });
 
-  const makeKYCProvider = async account => {
-    const fee = await customers.getNewKYCProviderFee();
-    await polyToken.approve(account, customers.address, fee);
-
-    await customers.newKYCProvider(
-      account,
-      'Provider',
-      '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-      new BigNumber(100),
-    );
-  };
-
-  const makeLegalDelegate = async (kycProvider, legalDelegate) => {
-    await polyToken.approve(legalDelegate, customers.address, 100);
-    await customers.verifyCustomer(
-      kycProvider,
-      legalDelegate,
-      'US-CA',
-      'delegate',
-      true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
-    );
-  };
-
-  const makeTemplate = async (kycProvider, legalDelegate): string =>
-    compliance.createTemplate(
-      legalDelegate,
-      'offeringtype',
-      'US-CA',
-      false,
-      kycProvider,
-      '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
-      new BigNumber(1000),
-      new BigNumber(10),
-      new BigNumber(9888888),
-    );
-
   it('createTemplate', async () => {
-    await makeKYCProvider(accounts[0]);
-    await makeLegalDelegate(accounts[0], accounts[1]);
-    const templateAddress = await makeTemplate(accounts[0], accounts[1]);
+    await makeKYCProvider(polyToken, customers, accounts[0]);
+    await makeLegalDelegate(polyToken, customers, accounts[0], accounts[1]);
+    const templateAddress = await makeTemplate(
+      compliance,
+      accounts[0],
+      accounts[1],
+    );
     assert.isAbove(templateAddress.length, 0);
   });
 
-  it('proposeTemplate', async () => {
-    await makeKYCProvider(accounts[0]);
-    await makeLegalDelegate(accounts[0], accounts[1]);
-    const templateAddress = await makeTemplate(accounts[0], accounts[1]);
+  it('proposeTemplate, getTemplateProposalsBySecurityToken, getTemplateAddressByProposal', async () => {
+    await makeKYCProvider(polyToken, customers, accounts[0]);
+    await makeLegalDelegate(polyToken, customers, accounts[0], accounts[1]);
+    const templateAddress = await makeTemplate(
+      compliance,
+      accounts[0],
+      accounts[1],
+    );
+    await compliance.proposeTemplate(accounts[1], fakeAddress, templateAddress);
 
-    await compliance.proposeTemplate(accounts[1], zeroAddress, templateAddress);
+    assert.equal(
+      await compliance.getTemplateAddressByProposal(fakeAddress, 0),
+      templateAddress,
+    );
+  });
+
+  it('setSTO', async () => {
+    await makeKYCProvider(polyToken, customers, accounts[0]);
+
+    await compliance.setSTO(
+      accounts[0],
+      fakeAddress,
+      new BigNumber(10),
+      new BigNumber(9888888),
+      new BigNumber(20),
+    );
   });
 });

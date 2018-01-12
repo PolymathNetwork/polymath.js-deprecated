@@ -86,7 +86,7 @@ export default class PolyToken extends ContractWrapper {
   }
 
   /**
-   * Gets the balance account balance of `address`.
+   * Gets the account balance of `address`.
    * @param   address   The Ethereum address of the account
    * @return  Account balance in base units
    */
@@ -99,7 +99,6 @@ export default class PolyToken extends ContractWrapper {
    * @param   fromAddress   The Ethereum address of the account to withdraw from
    * @param   toAddress     The Ethereum address of the account receiving POLY
    * @param   amount        The amount, in base units, of POLY to transfer
-   * @return  Success
    */
   async transfer(fromAddress: string, toAddress: string, amount: BigNumber) {
     // TODO: Validate fromAddress is one of our accounts
@@ -113,7 +112,6 @@ export default class PolyToken extends ContractWrapper {
    * @param   ownerAddress    The Ethereum address of the account setting the allowance
    * @param   spenderAddress  The Ethereum address of the account approved to withdraw the allowance
    * @param   amount          The amount, in base units, of POLY tokens that the spender will be able to withdraw
-   * @return  Success
    */
   async approve(
     ownerAddress: string,
@@ -145,7 +143,6 @@ export default class PolyToken extends ContractWrapper {
    * @param   toAddress       The Ethereum address receiving the POLY
    * @param   spenderAddress  The Ethereum address that was approved to withdraw POLY
    * @param   amount          The amount, in base units, of POLY to transfer
-   * @return  Success
    */
   async transferFrom(
     fromAddress: string,
