@@ -4,3 +4,4 @@ export { default as Compliance } from './Compliance';
 export { default as Customers } from './Customers';
 export { default as PolyToken } from './PolyToken';
 export { default as SecurityToken } from './SecurityToken';
+export { default as Template } from './Template';
