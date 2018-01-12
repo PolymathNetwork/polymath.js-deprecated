@@ -4,6 +4,8 @@ import 'mocha';
 
 import { makeTemplateDirectCall } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
+import { fakeBytes32, fakeAddress } from './util/fake';
+
 import Web3 from 'web3';
 
 
@@ -84,13 +86,13 @@ describe('Template wrapper', () => {
   })
 
   it('updateTemplateDetails, getTemplateDetails', async () => {
-    await template.updateTemplateDetails(accounts[0], '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'); //fake hash
+    await template.updateTemplateDetails(accounts[0], fakeBytes32); //fake hash
 
     const getUpdatedDetails = await template.getTemplateDetails();
     const newHash = getUpdatedDetails[0];
-    assert.equal(newHash, '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Template details were not updated');
+    assert.equal(newHash, fakeBytes32, 'Template details were not updated');
 
-    let ownerError = await template.updateTemplateDetails(accounts[1], '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855');
+    let ownerError = await template.updateTemplateDetails(fakeAddress, fakeBytes32);
     assert.equal(ownerError, "Only owner can call updateTemplateDetails", 'Custom error message did not work')
 
     let emptyStringError = await template.updateTemplateDetails(accounts[0], '');
@@ -108,7 +110,7 @@ describe('Template wrapper', () => {
     const templateShouldBeTrue = getUpdatedDetails[1];
     assert.equal(templateShouldBeTrue, true, 'Template did not update to be finalized')
 
-    let ownerError = await template.finalizeTemplate(accounts[1]);
+    let ownerError = await template.finalizeTemplate(fakeAddress);
     assert.equal(ownerError, "Only owner can call finalizeTemplate", 'Custom error message did not work')
   })
 
