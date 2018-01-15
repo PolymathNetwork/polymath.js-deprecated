@@ -4,7 +4,7 @@ import 'mocha';
 
 import { makeCustomers, makePolyToken } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
-import fakeAddress from './util/fakeAddress';
+import { fakeAddress, fakeBytes32 } from './util/fake';
 
 const { assert } = chai;
 

@@ -12,7 +12,7 @@ export default class Template extends ContractWrapper {
   /**
    * @hideconstructor
    */
-  constructor(web3Wrapper: Web3Wrapper, deployedAddress?: string) {
+  constructor(web3Wrapper: Web3Wrapper, deployedAddress: string) {
     super(web3Wrapper, templateArtifact, deployedAddress);
   }
 

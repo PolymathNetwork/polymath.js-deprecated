@@ -15,8 +15,7 @@ import complianceArtifact from '../../src/artifacts/Compliance.json';
 import customersArtifact from '../../src/artifacts/Customers.json';
 import polyTokenArtifact from '../../src/artifacts/PolyToken.json';
 import securityTokenArtifact from '../../src/artifacts/SecurityToken.json';
-import TemplateArtifact from  '../../src/artifacts/Template.json';
-
+import TemplateArtifact from '../../src/artifacts/Template.json';
 
 export async function makePolyToken(web3Wrapper: Web3Wrapper, account: string) {
   const contractTemplate = contract(polyTokenArtifact);
@@ -137,8 +136,8 @@ export const makeTemplate = async (
   compliance: Compliance,
   kycProvider: string,
   legalDelegate: string,
-): Promise<string> =>
-  compliance.createTemplate(
+): Promise<string> => {
+  const templateAddress = await compliance.createTemplate(
     legalDelegate,
     'offeringtype',
     'US-CA',
@@ -151,26 +150,48 @@ export const makeTemplate = async (
     new BigNumber(9888888),
   );
 
-  export async function makeTemplateDirectCall(
-    web3Wrapper: Web3Wrapper,
-    owner: string,
-    offeringType: string,
-    issuerJurisdiction: string,
-    accredited: boolean,
-    KYC: string,
-    details: string,
-    expires: number,
-    fee: number,
-    quorum: number,
-    vestingPeriod: number) {
-    const contractTemplate = contract(TemplateArtifact);
-    contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
-    const instance = await contractTemplate.new(owner, offeringType, issuerJurisdiction, accredited, KYC, details, expires, fee, quorum, vestingPeriod, {
-      gas: 4700000,
-      from: owner
-    });
-    const template = new Template(web3Wrapper, instance.address);
+  const template = new Template(compliance._web3Wrapper, templateAddress);
+  await template.initialize();
 
-    await template.initialize();
-    return template;
-  }
+  await template.addJurisdiction(legalDelegate, ['US-CA'], [true]);
+  await template.addRoles(legalDelegate, ['investor'], [true]);
+
+  return templateAddress;
+};
+
+export async function makeTemplateDirectCall(
+  web3Wrapper: Web3Wrapper,
+  owner: string,
+  offeringType: string,
+  issuerJurisdiction: string,
+  accredited: boolean,
+  KYC: string,
+  details: string,
+  expires: number,
+  fee: number,
+  quorum: number,
+  vestingPeriod: number,
+) {
+  const contractTemplate = contract(TemplateArtifact);
+  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  const instance = await contractTemplate.new(
+    owner,
+    offeringType,
+    issuerJurisdiction,
+    accredited,
+    KYC,
+    details,
+    expires,
+    fee,
+    quorum,
+    vestingPeriod,
+    {
+      gas: 4700000,
+      from: owner,
+    },
+  );
+  const template = new Template(web3Wrapper, instance.address);
+
+  await template.initialize();
+  return template;
+}

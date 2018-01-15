@@ -1,6 +1,8 @@
 # Polymath.js
 
-Core library/API/node module for accessing chain code.
+Polymath.js is the main library for interacting with Polymath's smart contracts.
+
+## Generating documentation
 
 To run the documentationjs docs on localhost run the following command from polymath.js folder:
 

@@ -14,10 +14,13 @@ import {
   makePolyToken,
   makeCompliance,
   makeCustomers,
+  makeKYCProvider,
+  makeLegalDelegate,
   makeSecurityToken,
+  makeTemplate,
 } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
-import fakeAddress from './util/fakeAddress';
+import { fakeAddress, fakeBytes32 } from './util/fake';
 
 const { assert } = chai;
 
@@ -46,7 +49,7 @@ describe('SecurityToken wrapper', () => {
       accounts[0],
     );
 
-    // Fund two accounts.
+    // Fund three accounts.
     await polyToken.generateNewTokens(
       new BigNumber(10).toPower(18).times(100000),
       accounts[0],
@@ -55,17 +58,61 @@ describe('SecurityToken wrapper', () => {
       new BigNumber(10).toPower(18).times(100000),
       accounts[1],
     );
+    await polyToken.generateNewTokens(
+      new BigNumber(10).toPower(18).times(100000),
+      accounts[2],
+    );
   });
 
   it('getName', async () => {
     assert.equal(await securityToken._contract.name.call(), 'Token Name');
   });
 
-  it('updateComplianceProof', async () => {
+  it('updateComplianceProof, getTokenDetails', async () => {
     await securityToken.updateComplianceProof(
       accounts[0],
-      fakeAddress,
-      fakeAddress,
+      fakeBytes32,
+      fakeBytes32,
     );
+
+    const details = await securityToken.getTokenDetails();
+    assert.equal(details.complianceProof, fakeBytes32);
+  });
+
+  it('selectTemplate, addToWhiteList', async () => {
+    const kycProvider = accounts[0];
+    const legalDelegate = accounts[1];
+    const investor = accounts[2];
+
+    await makeKYCProvider(polyToken, customers, kycProvider);
+    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+    const templateAddress = await makeTemplate(
+      compliance,
+      kycProvider,
+      legalDelegate,
+    );
+
+    await compliance.proposeTemplate(
+      legalDelegate,
+      securityToken.address,
+      templateAddress,
+    );
+
+    // Security token must have the template's fee before applying the template.
+    await polyToken.transfer(kycProvider, securityToken.address, 1000);
+
+    await securityToken.selectTemplate(kycProvider, 0);
+
+    await polyToken.approve(investor, customers.address, 100);
+    await customers.verifyCustomer(
+      kycProvider,
+      investor,
+      'US-CA',
+      'investor',
+      true,
+      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+    );
+
+    await securityToken.addToWhitelist(kycProvider, investor);
   });
 });

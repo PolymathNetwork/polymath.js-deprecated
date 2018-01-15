@@ -216,7 +216,6 @@ export default class SecurityToken extends ContractWrapper {
     complianceProof: string,
   ) {
     await this._contract.updateComplianceProof(newMerkleRoot, complianceProof, {
-      gas: 1000000,
       from: ownerOrLegalDelegateAddress,
     });
   }
@@ -224,6 +223,7 @@ export default class SecurityToken extends ContractWrapper {
   async selectTemplate(ownerAddress: string, templateIndex: number) {
     await this._contract.selectTemplate(templateIndex, {
       from: ownerAddress,
+      gas: 300000,
     });
   }
 
@@ -246,6 +246,7 @@ export default class SecurityToken extends ContractWrapper {
   async addToWhitelist(kycProviderAddress: string, investorAddress: string) {
     await this._contract.addToWhitelist(investorAddress, {
       from: kycProviderAddress,
+      gas: 1000000,
     });
   }
 
