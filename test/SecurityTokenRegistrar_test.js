@@ -47,7 +47,7 @@ describe('Registrar wrapper', () => {
 
   });
 
-  it('createSecurityToken, getSecurityTokenData, getSecurityTokenAddress', async () => {
+  it('createSecurityToken, getSecurityTokenData, getSecurityTokenAddress, getLogs ', async () => {
     const creator = accounts[0];
     const name = "FUNTOKEN";
     const ticker = "FUNT";
@@ -66,7 +66,19 @@ describe('Registrar wrapper', () => {
 
     const address = await registrar.getSecurityTokenAddress(ticker);
     const tokenData = await registrar.getSecurityTokenData(address);
-  })
+
+    const logs = await registrar.getLogs(
+      'LogNewSecurityToken',
+      {},
+      { fromBlock: 1 },
+    );
+    assert.isAbove(logs.length, 0, 'Got a log');
+    assert.equal(logs[0].args.ticker, ticker, 'Ticker wasnt picked up, therefore a problem with reading LogNewSecurityToken');
+
+    logs[0].args.fee = logs[0].args.fee.toNumber();
+    assert.equal(logs[0].args.fee, fee, 'Fee wasnt picked up, therefore a problem with reading LogNewSecurityToken');
+
+    })
 
 
   it('getPolyTokenAddress', async () => {

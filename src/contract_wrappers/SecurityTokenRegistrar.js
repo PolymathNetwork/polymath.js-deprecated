@@ -4,6 +4,13 @@ import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import { BigNumber } from 'bignumber.js';
 import ContractWrapper from './ContractWrapper';
 import securityTokenRegistrarArtifact from '../artifacts/SecurityTokenRegistrar.json';
+import type {
+  BlockRange,
+  LogNewSecurityToken,
+  EventCallback,
+  IndexedFilterValues,
+  Log,
+} from '../types';
 
 /**
  * Wrapper for the SecurityTokenRegistrar Solidity contract
@@ -14,6 +21,36 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    */
   constructor(web3Wrapper: Web3Wrapper, deployedAddress?: string) {
     super(web3Wrapper, securityTokenRegistrarArtifact, deployedAddress);
+  }
+
+  /**
+   * Subscribes to events emitted by the contract.
+   * @param   eventName           The name of the event to subscribe to
+   * @param   indexedFilterValues Event argument values with which to filter logs
+   * @param   callback            Callback to receive event logs
+   * @return  An identifier used to unsubscribe
+   */
+  subscribe(
+    eventName: 'LogNewSecurityToken',
+    indexedFilterValues: IndexedFilterValues,
+    callback: EventCallback<LogNewSecurityToken>,
+  ): string {
+    return super._subscribe(eventName, indexedFilterValues, callback);
+  }
+
+  /**
+   * Retrieves events emitted by this contract in an arbitrary block range.
+   * @param   eventName           The name of the event to look for
+   * @param   indexedFilterValues Event argument values with which to filter logs
+   * @param   blockRange          A range of blocks to look in. By default starts and ends at 'latest' block.
+   * @return  An array of logs
+   */
+  async getLogs(
+    eventName: 'LogNewSecurityToken',
+    indexedFilterValues: IndexedFilterValues,
+    blockRange?: BlockRange,
+  ): Promise<Array<Log<LogNewSecurityToken>>> {
+    return super._getLogs(eventName, indexedFilterValues, blockRange);
   }
 
   /**
