@@ -10,11 +10,13 @@ import {
   PolyToken,
   SecurityToken,
   Template,
+  SecurityTokenRegistrar,
 } from '../../src/contract_wrappers';
 import complianceArtifact from '../../src/artifacts/Compliance.json';
 import customersArtifact from '../../src/artifacts/Customers.json';
 import polyTokenArtifact from '../../src/artifacts/PolyToken.json';
 import securityTokenArtifact from '../../src/artifacts/SecurityToken.json';
+import securityTokenRegistrarArtifact from '../../src/artifacts/SecurityTokenRegistrar.json';
 import TemplateArtifact from '../../src/artifacts/Template.json';
 
 export async function makePolyToken(web3Wrapper: Web3Wrapper, account: string) {
@@ -194,4 +196,28 @@ export async function makeTemplateDirectCall(
 
   await template.initialize();
   return template;
+}
+
+export async function makeSecurityTokenRegistrar(
+  web3Wrapper: Web3Wrapper,
+  polyToken: PolyToken,
+  customers: Customers,
+  compliance: Compliance,
+  account: string,
+) {
+  const contractTemplate = contract(securityTokenRegistrarArtifact);
+  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  const instance = await contractTemplate.new(
+    polyToken.address,
+    customers.address,
+    compliance.address,
+    {
+      gas: 6700000,
+      from: account,
+    },
+  );
+  const registrar = new SecurityTokenRegistrar(web3Wrapper, instance.address);
+
+  await registrar.initialize();
+  return registrar;
 }

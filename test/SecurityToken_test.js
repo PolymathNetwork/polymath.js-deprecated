@@ -20,7 +20,7 @@ import {
   makeTemplate,
 } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
-import { fakeAddress, fakeBytes32 } from './util/fake';
+import { fakeBytes32 } from './util/fake';
 
 const { assert } = chai;
 

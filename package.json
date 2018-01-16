@@ -1,5 +1,5 @@
 {
-  "name": "polymath",
+  "name": "polymath.js",
   "version": "0.1.0",
   "private": true,
   "description": "Tools for interacting with the Polymath platform",
@@ -13,6 +13,7 @@
     "clean": "rm -rf ./lib ./build",
     "copy-artifacts": "node lib/src/cli copyartifacts",
     "compile": "run-s truffle:compile copy-artifacts",
+    "install": "run-s build",
     "lint": "eslint --fix src test",
     "migrate-ropsten": "truffle migrate --network=ropsten",
     "migrate-testrpc": "truffle migrate --network=testrpc",

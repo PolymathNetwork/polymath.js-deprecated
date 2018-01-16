@@ -216,6 +216,17 @@ export type TokenDetails = {
   KYC: string,
 };
 
+// SecurityTokenRegistrarEvents
+
+export type LogNewSecurityToken = {
+  ticker: string,
+  securityTokenAddress: string,
+  owner: string,
+  host: string,
+  fee: BigNumber,
+  _type: Number,
+};
+
 export class PolymathError extends Error {}
 
 export class ContractNotFoundError extends PolymathError {

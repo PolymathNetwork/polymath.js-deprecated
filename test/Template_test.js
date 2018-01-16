@@ -3,6 +3,7 @@ import 'mocha';
 
 import { makeTemplateDirectCall } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
+import { fakeBytes32, fakeAddress } from './util/fake';
 
 const { assert } = chai;
 
@@ -105,22 +106,15 @@ describe('Template wrapper', () => {
   });
 
   it('updateTemplateDetails, getTemplateDetails', async () => {
-    await template.updateTemplateDetails(
-      accounts[0],
-      '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-    ); // fake hash
+    await template.updateTemplateDetails(accounts[0], fakeBytes32); // fake hash
 
     const getUpdatedDetails = await template.getTemplateDetails();
     const newHash = getUpdatedDetails[0];
-    assert.equal(
-      newHash,
-      '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-      'Template details were not updated',
-    );
+    assert.equal(newHash, fakeBytes32, 'Template details were not updated');
 
     const ownerError = await template.updateTemplateDetails(
-      accounts[1],
-      '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+      fakeAddress,
+      fakeBytes32,
     );
     assert.equal(
       ownerError,
@@ -158,7 +152,7 @@ describe('Template wrapper', () => {
       'Template did not update to be finalized',
     );
 
-    const ownerError = await template.finalizeTemplate(accounts[1]);
+    const ownerError = await template.finalizeTemplate(fakeAddress);
     assert.equal(
       ownerError,
       'Only owner can call finalizeTemplate',
