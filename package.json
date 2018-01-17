@@ -44,7 +44,6 @@
     "mnemonic": "age drama cover door helmet mechanic wine lesson vote inflict will keep"
   },
   "dependencies": {
-    "documentation": "^5.3.5",
     "truffle-contract": "3.0.1",
     "uuid": "3.1.0",
     "web3": "0.20.1"
@@ -62,6 +61,7 @@
     "bignumber.js": "5.0.0",
     "chai": "4.1.2",
     "doctrine-temporary-fork": "^2.0.0-alpha-allowarrayindex",
+    "documentation": "^5.3.5",
     "eslint": "4.11.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-config-prettier": "2.8.0",

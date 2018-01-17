@@ -16,10 +16,12 @@ Polymath.js is the main library for interacting with Polymath's smart contracts.
 Clone the repo, then run
 - `yarn install`
 - `yarn testrpc` (keep this terminal running)
+
 In a new terminal
 - `yarn compile`
 - `yarn migrate-testrpc`
 - `yarn start `(babel compiling) (keep this terminal running)
+
 In a new terminal
 - `yarn test` to test all files
 - `yarn mocha lib/test/{FILENAME.js}` to test a single file
@@ -32,6 +34,7 @@ Note: If make changes to source files being compiled by babel, run `yarn clean` 
 - `yarn docs-copy-babel-ignored` to copy the ignored files into the /lib folder
 
 Then choose to serve or build with the following commands:
+
 - `yarn docs-serve` - served on localhost:4001
 - `yarn docs-build` files will output to /docs folder
 
