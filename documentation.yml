@@ -1,9 +1,12 @@
 toc:
-  - Polymath
   - name: Contracts
   - ContractWrapper
   - PolyToken
   - Customers
+  - Compliance
+  - SecurityToken
+  - SecurityTokenRegistrar
+  - Template
   - name: Types
   - Web3Provider
   - Web3Filter

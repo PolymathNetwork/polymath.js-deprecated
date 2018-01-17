@@ -1,6 +1,7 @@
 # Built contracts
 build/
 lib/
+docs/
 
 # Below this point are:
 # https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
