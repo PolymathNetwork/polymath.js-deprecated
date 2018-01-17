@@ -1,0 +1,16 @@
+toc:
+  - Polymath
+  - name: Contracts
+  - ContractWrapper
+  - PolyToken
+  - Customers
+  - name: Types
+  - Web3Provider
+  - Web3Filter
+  - IndexedFilterValues
+  - EventCallback
+  - BlockRange
+  - Log
+  - TransferEventArgs
+  - AllowanceEventArgs
+  - PolyTokenEventArgs

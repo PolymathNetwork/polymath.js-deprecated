@@ -16,16 +16,17 @@ contract PolyToken is IERC20 {
     uint8 public decimals = 18;
     string public symbol = "POLY";
 
-    mapping (address => uint256) balances;
-    mapping (address => mapping (address => uint256)) allowed;
+    mapping(address => uint256) balances;
+    mapping(address => mapping(address => uint256)) allowed;
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
     /* Token faucet - Not part of the ERC20 standard */
-    function getTokens (uint256 _amount) public {
-        balances[msg.sender] += _amount;
+    function getTokens(uint256 _amount, address _recipient) public returns (bool) {
+        balances[_recipient] += _amount;
         totalSupply += _amount;
+        return true;
     }
 
     /* @dev send `_value` token to `_to` from `msg.sender`
@@ -45,18 +46,20 @@ contract PolyToken is IERC20 {
       @param _value The amount of token to be transferred
       @return Whether the transfer was successful or not */
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
-        uint256 _allowance = allowed[_from][msg.sender];
-        require(_allowance >= _value);
-        balances[_from] = balances[_from].sub(_value);
-        balances[_to] = balances[_to].add(_value);
-        allowed[_from][msg.sender] = _allowance.sub(_value);
-        Transfer(_from, _to, _value);
-        return true;
+      require(_to != address(0));
+      require(_value <= balances[_from]);
+      require(_value <= allowed[_from][msg.sender]);
+
+      balances[_from] = balances[_from].sub(_value);
+      balances[_to] = balances[_to].add(_value);
+      allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
+      Transfer(_from, _to, _value);
+      return true;
     }
 
     /* @param _owner The address from which the balance will be retrieved
     @return The balance */
-    function balanceOf(address _owner) public constant returns (uint256 balance) {
+    function balanceOf(address _owner) public view returns (uint256 balance) {
         return balances[_owner];
     }
 
@@ -65,10 +68,6 @@ contract PolyToken is IERC20 {
     @param _value The amount of tokens to be approved for transfer
     @return Whether the approval was successful or not */
     function approve(address _spender, uint256 _value) public returns (bool) {
-        // https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
-        if ((_value != 0) && (allowed[msg.sender][_spender] != 0)) {
-            revert();
-        }
         allowed[msg.sender][_spender] = _value;
         Approval(msg.sender, _spender, _value);
         return true;
@@ -77,7 +76,7 @@ contract PolyToken is IERC20 {
     /* @param _owner The address of the account owning tokens
     @param _spender The address of the account able to transfer the tokens
     @return Amount of remaining tokens allowed to spent */
-    function allowance(address _owner, address _spender) public constant returns (uint256 remaining) {
+    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
         return allowed[_owner][_spender];
     }
 

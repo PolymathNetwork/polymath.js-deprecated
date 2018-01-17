@@ -12,15 +12,15 @@ import './interfaces/ITemplate.sol';
 contract Template is ITemplate {
 
     address owner;
-    string offeringType;
-    bytes32 issuerJurisdiction;
-    mapping (bytes32 => bool) allowedJurisdictions;
-    bool[] allowedRoles;
-    bool accredited;
+    string public offeringType;
+    bytes32 public issuerJurisdiction;
+    mapping(bytes32 => bool) public allowedJurisdictions;
+    mapping(uint8 => bool) public allowedRoles;
+    bool public accredited;
     address KYC;
     bytes32 details;
     bool finalized;
-    uint256 expires;
+    uint256 public expires;
     uint256 fee;
     uint8 quorum;
     uint256 vestingPeriod;

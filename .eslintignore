@@ -1,0 +1,3 @@
+src/theme_polymath/
+# Remove once we get the linting working here
+src/wrappings/

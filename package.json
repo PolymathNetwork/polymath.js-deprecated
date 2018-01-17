@@ -1,16 +1,28 @@
 {
-  "name": "polymath",
+  "name": "polymath.js",
   "version": "0.1.0",
   "private": true,
   "description": "Tools for interacting with the Polymath platform",
-  "main": "src/js/index.js",
+  "main": "index.js",
   "scripts": {
-    "compile": "truffle compile",
-    "lint": "eslint --fix src",
+    "babel:src": "babel --source-maps --copy-files --out-dir lib/src src",
+    "babel:test": "babel --source-maps --copy-files --out-dir lib/test test",
+    "babel:watchsrc": "babel --watch --source-maps --copy-files --out-dir lib/src src",
+    "babel:watchtest": "babel --watch --source-maps --copy-files --out-dir lib/test test",
+    "build": "webpack && run-s babel:src babel:test",
+    "clean": "rm -rf ./lib ./build",
+    "copy-artifacts": "node lib/src/cli copyartifacts",
+    "compile": "run-s truffle:compile copy-artifacts",
+    "install": "run-s build",
+    "lint": "eslint --fix src test",
     "migrate-ropsten": "truffle migrate --network=ropsten",
-    "precommit": "lint-staged",
-    "test": "ganache-cli & truffle test",
-    "watch-lint": "esw -w --fix src"
+    "migrate-testrpc": "truffle migrate --network=testrpc",
+    "precommit": "lint-staged && flow",
+    "start": "run-p babel:watchsrc babel:watchtest",
+    "test": "mocha lib/test/**/*_test.js --timeout 10000 --bail --exit",
+    "testrpc": "ganache-cli -p 8545 --networkId 50 --gasLimit 15000000 -m \"${npm_package_config_mnemonic}\"",
+    "truffle:compile": "truffle compile",
+    "watch-lint": "esw -w --fix src test"
   },
   "repository": {
     "type": "git",
@@ -25,20 +37,55 @@
     "url": "https://github.com/PolymathNetwork/polymath.js/issues"
   },
   "homepage": "https://github.com/PolymathNetwork/polymath.js#readme",
+  "config": {
+    "mnemonic": "age drama cover door helmet mechanic wine lesson vote inflict will keep"
+  },
   "dependencies": {
-    "truffle-contract": "3.0.1"
+    "truffle-contract": "3.0.1",
+    "uuid": "3.1.0",
+    "web3": "0.20.1"
   },
   "devDependencies": {
+    "@0xproject/web3-wrapper": "0.1.2",
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.0",
+    "babel-eslint": "^8.1.2",
+    "babel-loader": "7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-flow": "6.23.0",
+    "bignumber.js": "5.0.0",
+    "chai": "4.1.2",
+    "doctrine-temporary-fork": "^2.0.0-alpha-allowarrayindex",
     "eslint": "4.11.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-config-prettier": "2.8.0",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-prettier": "2.4.0",
     "eslint-watch": "3.1.3",
+    "flow-bin": "^0.63.1",
+    "fs-extra": "5.0.0",
     "ganache-cli": "6.0.3",
+    "github-slugger": "^1.2.0",
+    "globals-docs": "^2.4.0",
+    "highlight.js": "^9.12.0",
     "husky": "0.14.3",
+    "json-loader": "0.5.7",
     "lint-staged": "5.0.0",
-    "prettier": "1.8.2"
+    "mocha": "4.1.0",
+    "npm-run-all": "^4.1.2",
+    "prettier": "1.8.2",
+    "remark": "^8.0.0",
+    "remark-html": "^7.0.0",
+    "truffle": "4.0.4",
+    "uglifyjs-webpack-plugin": "1.1.5",
+    "unist-builder": "^1.0.2",
+    "vinyl": "^2.1.0",
+    "vinyl-fs": "^3.0.1",
+    "webpack": "3.10.0",
+    "webpack-node-externals": "1.6.0",
+    "yargs": "^10.0.3"
   },
   "lint-staged": {
     "src/**/*.js": [
