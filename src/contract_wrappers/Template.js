@@ -8,6 +8,9 @@ import ContractWrapper from './ContractWrapper';
 import templateArtifact from '../artifacts/Template.json';
 import { roleToNumber } from '../roles';
 
+/**
+ * Wrapper for the Template Solidity contract
+ */
 export default class Template extends ContractWrapper {
   /**
    * @hideconstructor
