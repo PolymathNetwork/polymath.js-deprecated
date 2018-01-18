@@ -20,8 +20,6 @@ import type {
  * Wrapper for the Compliance Solidity contract
  */
 export default class Compliance extends ContractWrapper {
-  customers: Customers;
-
   /**
    * @hideconstructor
    */
