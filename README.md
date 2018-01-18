@@ -30,16 +30,13 @@ Note: If make changes to source files being compiled by babel, run `yarn clean` 
 
 ## Serving and building documentation
 
-- `yarn install` 
-- `yarn start` to run babel to compile the source code (leave running)
+To serve the docs locally, run:
 
-In a new terminal 
-- `yarn docs-copy-babel-ignored` to copy the ignored files into the /lib folder
+- `yarn install`
+- `yarn start` to run babel to compile the source code and have it watching for updates (leave this terminal open)
+- `yarn serve-poly-docs`
 
-Then choose to serve or build with the following commands:
-
-- `yarn docs-serve` - served on localhost:4001
-- `yarn docs-build` files will output to /docs folder
+To build the docs run `yarn build-poly-docs`.
 
 ## Contributing
 
@@ -62,4 +59,3 @@ http://solidity.readthedocs.io/en/develop/style-guide.html
 [solidity]: https://solidity.readthedocs.io/en/develop/
 [truffle]: http://truffleframework.com/
 [testrpc]: https://github.com/ethereumjs/testrpc
-
