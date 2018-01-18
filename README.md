@@ -30,7 +30,10 @@ Note: If make changes to source files being compiled by babel, run `yarn clean` 
 
 ## Serving and building documentation
 
-- `yarn start` to run babel to compile the source code
+- `yarn install` 
+- `yarn start` to run babel to compile the source code (leave running)
+
+In a new terminal 
 - `yarn docs-copy-babel-ignored` to copy the ignored files into the /lib folder
 
 Then choose to serve or build with the following commands:
