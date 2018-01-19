@@ -71,6 +71,20 @@ export default class Compliance extends ContractWrapper {
     return super._getLogs(eventName, indexedFilterValues, blockRange);
   }
 
+  /**
+   * Creates a new Template smart contract on the blockchain
+   * @param   legalDelegateAddress  Ethereum address of legal delegate creating the template
+   * @param   offeringType          What type of security the template is being created for
+   * @param   issuerJurisdiction    The jurisdiction ID the issuer resides in
+   * @param   accredited            Indicates if accreditation is required to buy this security
+   * @param   kycProviderAddress    Eth address of the KYC provider who will verify the investors
+   * @param   details               Hashed details of the offering requirements
+   * @param   expires               Timestamp of when the template will expire
+   * @param   fee                   Amount of POLY to use the template (held in escrow until issuance)
+   * @param   quorum                Minimum percent of shareholders which need to vote to freeze
+   * @param   vestingPeriod         Length of time to vest funds
+   * @return  The address of the created template
+   */
   async createTemplate(
     legalDelegateAddress: string,
     offeringType: string,
@@ -110,6 +124,12 @@ export default class Compliance extends ContractWrapper {
     throw new Error('createTemplate should have emitted LogTemplateCreated.');
   }
 
+  /**
+   * Allows a legal delegate to propose a template to a security token.
+   * @param   legalDelegateAddress  Ethereum address of legal delegate creating the template
+   * @param   securityTokenAddress  Ethereum address of the security token the template is created for
+   * @param   templateAddress       Ethereum address of the template being proposed
+   */
   async proposeTemplate(
     legalDelegateAddress: string,
     securityTokenAddress: string,
@@ -122,6 +142,12 @@ export default class Compliance extends ContractWrapper {
     );
   }
 
+  /**
+   * Allows a legal delegate to cancle an already proposed template.
+   * @param   proposalMakerAddress  Ethereum address of legal delegate who originally proposed the template
+   * @param   securityTokenAddress  Ethereum address of the security token the template is created for
+   * @param   proposalIndex         The offering proposal array index
+   */
   async cancelTemplateProposal(
     proposalMakerAddress: string,
     securityTokenAddress: string,
@@ -134,6 +160,14 @@ export default class Compliance extends ContractWrapper {
     );
   }
 
+  /**
+   * Set an STO contract to be stored in the offerings mapping in Compliance.sol
+   * @param issuerAddress  Address of the STO contract deployed over the network
+   * @param stoAddress     Address of the STO contract deployed over the network
+   * @param fee            Fee to be paid in poly to use that contract
+   * @param vestingPeriod  Number of days investor binded to hold the Security token
+   * @param quorum         Minimum percent of shareholders which need to vote to freeze
+   */
   async setSTO(
     issuerAddress: string,
     stoAddress: string,
@@ -147,6 +181,12 @@ export default class Compliance extends ContractWrapper {
     });
   }
 
+  /**
+   * Propose a Security Token Offering Contract for an issuance
+   * @param stoCreatorAddress     Address of the STO developer
+   * @param securityTokenAddress  Address of the security token deployed over the network
+   * @param stoContractAddress    Address of the STO contract deployed over the network
+   */
   async proposeSTO(
     stoCreatorAddress: string,
     securityTokenAddress: string,
@@ -159,18 +199,30 @@ export default class Compliance extends ContractWrapper {
     );
   }
 
+  /**
+   * Allows an STO developer to cancle an already proposed STO.
+   * @param   proposalMakerAddress  Ethereum address of STO developer who originally proposed the template
+   * @param   securityTokenAddress  Ethereum address of the security token the template is created for
+   * @param   offeringIndex         The STO proposal array index
+   */
   async cancelSTOProposal(
     proposalMakerAddress: string,
     securityTokenAddress: string,
-    proposalIndex: number,
+    offeringIndex: number,
   ) {
     await this._contract.cancelOfferingProposal(
       securityTokenAddress,
-      proposalIndex,
+      offeringIndex,
       { from: proposalMakerAddress },
     );
   }
 
+  /**
+   * Get the template address for a security token by passing its proposal index.
+   * @param   securityTokenAddress  Ethereum address of the security token the template is created for
+   * @param   proposalIndex         The template proposal array index
+   * @return  The template address
+   */
   async getTemplateAddressByProposal(
     securityTokenAddress: string,
     proposalIndex: number,
@@ -181,13 +233,19 @@ export default class Compliance extends ContractWrapper {
     );
   }
 
+  /**
+   * Get an STO that has been proposed for a security token by passing its offering index.
+   * @param   securityTokenAddress  Ethereum address of the security token the STO is created for
+   * @param   offeringIndex         The STO proposal array index
+   * @return  The type {@link Offering}.
+   */
   async getSTOProposal(
     securityTokenAddress: string,
-    proposalIndex: string,
+    offeringIndex: string,
   ): Promise<STOProposal> {
     const proposal = await this._contract.getOfferingByProposal(
       securityTokenAddress,
-      proposalIndex,
+      offeringIndex,
     );
 
     return {
