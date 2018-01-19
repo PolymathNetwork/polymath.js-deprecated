@@ -131,11 +131,15 @@ function formatType(getHref: Function, node: ?Object) {
         commaList(getHref, node.applications, '<', '>'),
       );
     case Syntax.UnionType:
-      return commaList(getHref, node.elements, '(', ')', ' | ');
+      return commaList(getHref, node.elements, '', '', ' | ');
     case Syntax.ArrayType:
       return commaList(getHref, node.elements, '[', ']');
     case Syntax.RecordType:
-      return commaList(getHref, node.fields, '{', '}');
+      const rtRes = commaList(getHref, node.fields, '{', '}');
+      // TODO @bshevchenko: put line breaks on the 2nd and penultimate places of rtRes
+      // TODO @bshevchenko: add left margin for all elements besides first two and last two
+      //console.log('wtf', rtRes);
+      return rtRes;
 
     case Syntax.FieldType:
       if (node.value) {
@@ -185,7 +189,9 @@ function formatType(getHref: Function, node: ?Object) {
     case Syntax.NullableType:
       return decorate(formatType(getHref, node.expression), '?');
     case Syntax.StringLiteralType:
-      return [u('inlineCode', JSON.stringify(node.value))];
+      const res = u('inlineCode', JSON.stringify(node.value));
+      res.value = res.value.replace(/['"]+/g, '');
+      return [res];
     case Syntax.NumericLiteralType:
     case Syntax.BooleanLiteralType:
       return [u('inlineCode', String(node.value))];
