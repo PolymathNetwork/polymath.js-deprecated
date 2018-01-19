@@ -48,7 +48,7 @@ module.exports = function(
         } else if (!isFunction(section)) {
           return section.name;
         }
-        return prefix + section.name + formatters.parameters(section, true);
+        return prefix + section.name; // + formatters.parameters(section, true)
       },
       signature(section) {
         let returns = '';

@@ -359,7 +359,7 @@ export default class SecurityToken extends ContractWrapper {
   async approve(
     ownerAddress: string,
     spenderAddress: string,
-    amount: BigNumber,
+    amount: Promise<BigNumber>,
   ) {
     // TODO: Validate ownerAddress is one of our accounts
     await this._contract.approve(spenderAddress, amount, {
@@ -385,7 +385,7 @@ export default class SecurityToken extends ContractWrapper {
    * @param   fromAddress     The Ethereum address from which the tokens are withdrawn
    * @param   toAddress       The Ethereum address receiving the tokens
    * @param   spenderAddress  The Ethereum address that was approved to withdraw tokens
-   * @param   number          The number of security tokens to transfer
+   * @param   amount          The number of security tokens to transfer
    */
   async transferFrom(
     fromAddress: string,
