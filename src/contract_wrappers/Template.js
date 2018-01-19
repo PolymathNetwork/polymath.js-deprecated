@@ -21,7 +21,7 @@ export default class Template extends ContractWrapper {
 
   /**
    * Add a jurisdiction to the Security token that indicates investors in that jurisdiction are allowed to purchase this security token.
-   * @param  legalDelegatesAddress The Ethereum address of the legal delegate who made the template
+   * @param  legalDelegateAddress The Ethereum address of the legal delegate who made the template
    * @param  allowedJurisdictions An array of strings (solidity type bytes32) that represent the jurisdiction
    * @param  allowed An array of whether the jurisdiction is allowed to purchase the security or not
    */
@@ -47,7 +47,7 @@ export default class Template extends ContractWrapper {
 
   /**
    * Allows the adding of new roles to be added to whitelist
-   * @param legalDelegatesAddress The Ethereum address of the legal delegate who made the template
+   * @param legalDelegateAddress The Ethereum address of the legal delegate who made the template
    * @param allowedRoles An array of strings  that adds new roles to the whitelist
    */
   async addRoles(legalDelegateAddress: string, allowedRoles: Array<string>) {
@@ -62,10 +62,14 @@ export default class Template extends ContractWrapper {
 
   /**
    * Allows the legal delegate to update the hash of the details of the template that is stored off the blockchain.
-   * @param  legalDelegatesAddress The Ethereum address of the legal delegate who made the template
+   * @param  legalDelegateAddress The Ethereum address of the legal delegate who made the template
    * @param  details Hash of the new details documentation (solidity type bytes32)
+   * @return True in case of success, string error in case of fail
    */
-  async updateTemplateDetails(legalDelegateAddress: string, details: string) {
+  async updateTemplateDetails(
+    legalDelegateAddress: string,
+    details: string,
+  ): Promise<string | boolean> {
     if (details === '') return 'Details cannot be an empty string';
 
     const owner = (await this.getTemplateUsageDetails())[3];
@@ -80,9 +84,12 @@ export default class Template extends ContractWrapper {
 
   /**
    * Allows the legal delegate to finalize the template.
-   * @param  legalDelegatesAddress The Ethereum address of the legal delegate who made the template
+   * @param  legalDelegateAddress The Ethereum address of the legal delegate who made the template
+   * @return True in case of success, string error in case of fail
    */
-  async finalizeTemplate(legalDelegateAddress: string) {
+  async finalizeTemplate(
+    legalDelegateAddress: string,
+  ): Promise<string | boolean> {
     const owner = (await this.getTemplateUsageDetails())[3];
     if (legalDelegateAddress === owner) {
       await this._contract.finalizeTemplate({
@@ -94,8 +101,8 @@ export default class Template extends ContractWrapper {
   }
 
   /**
-   * Checks if the template requirements for jurisdiction, accredation, and role are met.
-   * @param jurisdiction The ISO-3166 code of the investors jurisdiction (solidty type bytes32)
+   * Checks if the template requirements for jurisdiction, accreditation, and role are met.
+   * @param jurisdiction The ISO-3166 code of the investors jurisdiction (solidity type bytes32)
    * @param accredited Defines if the investor is accredited or not
    * @param role Role string used to see if the role is allowed for a security token (solidity type uint8)
    * @return True if it all template requirements are met
@@ -104,7 +111,7 @@ export default class Template extends ContractWrapper {
     jurisdiction: string,
     accredited: boolean,
     role: string,
-  ) {
+  ): Promise<boolean> {
     const uppercaseJurisdiction = jurisdiction.toUpperCase();
     const jurisdictionsToBytes32 = Web3.prototype.fromAscii(
       uppercaseJurisdiction,
