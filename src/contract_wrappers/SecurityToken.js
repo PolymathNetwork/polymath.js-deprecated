@@ -190,26 +190,52 @@ export default class SecurityToken extends ContractWrapper {
     return this._contract.complianceProof.call();
   }
 
+  /**
+   * Gets the KYC address if set.
+   * @return If set, the KYC address. Otherwise null
+   */
   async getKYCProviderAddress(): Promise<string> {
     return this._contract.KYC.call();
   }
 
+  /**
+   * Gets the STO contract address if set.
+   * @return If set, the STO contract address. Otherwise null
+   */
   async getSTOContractAddress(): Promise<string> {
     return this._contract.STO.call();
   }
 
+  /**
+   * Gets the Max Poly contribution allowed for the security token.
+   * @return Max poly allowed.
+   */
   async getMaximumPOLYContribution(): Promise<BigNumber> {
     return this._contract.maxPoly.call();
   }
 
+  /**
+   * Gets the STO start time as a unix timestamp.
+   * @return The start time
+   */
   async getSTOStart(): Promise<BigNumber> {
     return this._contract.startSTO.call();
   }
 
+  /**
+   * Gets the STO end time as a unix timestamp.
+   * @return The end time
+   */
   async getSTOEnd(): Promise<BigNumber> {
     return this._contract.endSTO.call();
   }
 
+  /**
+   * Update compliance proof hash for the issuance
+   * @param ownerOrLegalDelegateAddress Owner or legal delegate address which have access to update the contract
+   * @param newMerkleRoot               New merkle root hash of the compliance Proofs
+   * @param complianceProof             Compliance Proof hash
+   */
   async updateComplianceProof(
     ownerOrLegalDelegateAddress: string,
     newMerkleRoot: string,
@@ -220,6 +246,11 @@ export default class SecurityToken extends ContractWrapper {
     });
   }
 
+  /**
+   * Select a proposed template for the issuance
+   * @param ownerAddress    Owner address who can select the template
+   * @param templateIndex   Array index of the delegates proposed template
+   */
   async selectTemplate(ownerAddress: string, templateIndex: number) {
     await this._contract.selectTemplate(templateIndex, {
       from: ownerAddress,
@@ -227,6 +258,13 @@ export default class SecurityToken extends ContractWrapper {
     });
   }
 
+  /**
+   * Select an security token offering proposal for the issuance
+   * @param ownerAddress           Owner address who can select the template
+   * @param offeringProposalIndex  Array index of the STO proposal
+   * @param startTime              Start of issuance period
+   * @param endTime                End of issuance period
+   */
   async selectSTOProposal(
     ownerAddress: string,
     proposalIndex: number,
@@ -243,6 +281,11 @@ export default class SecurityToken extends ContractWrapper {
     );
   }
 
+  /**
+   * Add a verified address to the Security Token whitelist
+   * @param kycProviderAddress     KYC address who can add to the whitelist
+   * @param investorAddress        Investor address to whitelist
+   */
   async addToWhitelist(kycProviderAddress: string, investorAddress: string) {
     await this._contract.addToWhitelist(investorAddress, {
       from: kycProviderAddress,
@@ -250,17 +293,30 @@ export default class SecurityToken extends ContractWrapper {
     });
   }
 
+  /**
+   * Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times
+   * @param address  User withdrawing their POLY
+   */
   async withdrawPoly(address: string): Promise<boolean> {
     const receipt = await this._contract.withdrawPoly({ from: address });
     return receipt.logs.map(log => log.event).includes('Transfer');
   }
 
+  /**
+   * Add a verified address to the Security Token whitelist
+   * @param investorAddress   Investor address to whitelist
+   * @param recipientAddress  User who is getting voted agaisnt to freeze their POLY
+   */
   async voteToFreeze(investorAddress: string, recipientAddress: string) {
     await this._contract.voteToFreeze(recipientAddress, {
       from: investorAddress,
     });
   }
 
+  /**
+   * Get security token details
+   * @return Return the template address, the delegate address, the compliance proof, the STO creator address and the KYC provider address
+   */
   async getTokenDetails(): Promise<TokenDetails> {
     const details = await this._contract.getTokenDetails();
 

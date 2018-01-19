@@ -78,6 +78,7 @@ export default class PolyToken extends ContractWrapper {
     return this._contract.symbol.call();
   }
 
+  // does not need  documentationjs docs, as it is not part of the actual PolyToken contract on mainnet.
   async generateNewTokens(amount: BigNumber, recipientAddress: string) {
     // TODO: Validate recipientAddress is one of our accounts
     await this._contract.getTokens(amount, recipientAddress, {

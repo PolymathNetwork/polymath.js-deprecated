@@ -13,7 +13,7 @@ import type {
 } from '../types';
 
 /**
- * Base class for contract wrappers
+ * ContractWrapper is the base class for all contract wrappers in this library.
  */
 export default class ContractWrapper {
   _web3Wrapper: Web3Wrapper;
@@ -81,7 +81,7 @@ export default class ContractWrapper {
   }
 
   /**
-   * Unsubscribes from an event previously subscribed to on this contract.
+   * Unsubscribes from an event previously subscribed to on the contract.
    * @param  subscriptionID The subscription ID returned from the `subscribe` method
    */
   unsubscribe(subscriptionID: string) {
@@ -92,7 +92,7 @@ export default class ContractWrapper {
   }
 
   /**
-   * Unsubscribes from all events subscribed to on this contract.
+   * Unsubscribes from all events subscribed to on the contract.
    */
   unsubscribeAll() {
     this._filters.forEach(filter => {
