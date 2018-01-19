@@ -22,7 +22,7 @@ import TemplateArtifact from '../../src/artifacts/Template.json';
 export async function makePolyToken(web3Wrapper: Web3Wrapper, account: string) {
   const contractTemplate = contract(polyTokenArtifact);
   contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
-  const instance = await contractTemplate.new({ gas: 2000000, from: account });
+  const instance = await contractTemplate.new({ gas: 6000000, from: account });
 
   const polyToken = new PolyToken(web3Wrapper, instance.address);
   await polyToken.initialize();
@@ -37,7 +37,7 @@ export async function makeCustomers(
   const contractTemplate = contract(customersArtifact);
   contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
   const instance = await contractTemplate.new(polyToken.address, {
-    gas: 2000000,
+    gas: 6000000,
     from: account,
   });
 
@@ -55,7 +55,7 @@ export async function makeCompliance(
   contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
   const instance = await contractTemplate.new(customers.address, {
     from: account,
-    gas: 4000000,
+    gas: 6000000,
   });
 
   const compliance = new Compliance(web3Wrapper, customers, instance.address);
@@ -104,6 +104,7 @@ export async function makeSecurityToken(
 export const makeKYCProvider = async (
   polyToken: PolyToken,
   customers: Customers,
+  ownerAddress: string,
   kycProviderAddress: string,
 ) => {
   const fee = await customers.getNewKYCProviderFee();
@@ -115,6 +116,8 @@ export const makeKYCProvider = async (
     '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
     new BigNumber(100),
   );
+
+  await customers.changeStatusOfKYC(ownerAddress, [kycProviderAddress], [true]);
 };
 
 export const makeLegalDelegate = async (

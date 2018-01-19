@@ -42,6 +42,10 @@ a:hover {
   padding: 5px 0;
 }
 
+.py2 {
+  padding-bottom: 0;
+}
+
 .max-height-100 {
   max-height: 100%;
 }
@@ -88,7 +92,9 @@ h4:hover .anchorjs-link {
 }
 
 .fill-light {
-  background: #F9F9F9;
+  background-color: #dde4e9 !important;
+  border-left: 5px solid #0091EA !important;
+  padding: 30px;
 }
 
 .width2 {
@@ -137,4 +143,54 @@ table {
 
 .minishadow {
   box-shadow: 2px 2px 10px #f3f3f3;
+}
+
+.mb1 {
+  float: right;
+  margin-top: -25px;
+}
+
+.pl1 {
+  padding-left: 1rem;
+}
+
+#split-left {
+  max-width: 350px;
+}
+
+#split-right {
+  flex-basis: auto !important;
+}
+
+#split-right > .minishadow .fill-light:first-child {
+  display: none;
+}
+
+.list-reset.py1-ul.h5 {
+  margin-top: -10px;
+}
+
+.minishadow .minishadow {
+  padding-top: 0;
+}
+
+code.quiet {
+  display: none;
+}
+
+h2.mt0 {
+  padding-left: 14px;
+}
+
+.h5.bold.black.caps {
+  display: inline-block;
+  padding-top: 10px;
+}
+
+div.py1.contain {
+  cursor: pointer;
+}
+
+div.py1.contain:hover {
+  background-color: #efefef;
 }

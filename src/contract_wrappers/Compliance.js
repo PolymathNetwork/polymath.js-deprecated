@@ -107,7 +107,7 @@ export default class Compliance extends ContractWrapper {
       vestingPeriod,
       {
         from: legalDelegateAddress,
-        gas: 1000000,
+        gas: 3000000,
       },
     );
 

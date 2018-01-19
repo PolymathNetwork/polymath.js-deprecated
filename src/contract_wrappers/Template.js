@@ -30,15 +30,12 @@ export default class Template extends ContractWrapper {
     allowedJurisdictions: Array<string>,
     allowed: Array<boolean>,
   ) {
-    // console.log(allowedJurisdictions);
     const uppercaseJurisdictions = allowedJurisdictions.map(i =>
       i.toUpperCase(),
     );
     const jurisdictionsToBytes32 = uppercaseJurisdictions.map(j =>
       Web3.prototype.fromAscii(j),
     );
-    // console.log(uppercaseJurisdictions);
-    // console.log(jurisdictionsToBytes32);
 
     await this._contract.addJurisdiction(jurisdictionsToBytes32, allowed, {
       from: legalDelegateAddress,

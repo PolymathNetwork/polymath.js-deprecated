@@ -24,6 +24,10 @@ describe('Compliance wrapper', () => {
   let customers;
 
   before(async () => {
+    //accounts[0] = owner
+    //accounts[1] = kyc
+    //accounts[2] = legal delegate
+
     accounts = await web3Wrapper.getAvailableAddressesAsync();
   });
 
@@ -32,7 +36,7 @@ describe('Compliance wrapper', () => {
     customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
     compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
 
-    // Fund two accounts.
+    // Fund three accounts.
     await polyToken.generateNewTokens(
       new BigNumber(10).toPower(18).times(100000),
       accounts[0],
@@ -40,29 +44,35 @@ describe('Compliance wrapper', () => {
     await polyToken.generateNewTokens(
       new BigNumber(10).toPower(18).times(100000),
       accounts[1],
+    );
+    await polyToken.generateNewTokens(
+      new BigNumber(10).toPower(18).times(100000),
+      accounts[2],
     );
   });
 
   it('createTemplate', async () => {
-    await makeKYCProvider(polyToken, customers, accounts[0]);
-    await makeLegalDelegate(polyToken, customers, accounts[0], accounts[1]);
+    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
+
     const templateAddress = await makeTemplate(
       compliance,
-      accounts[0],
       accounts[1],
+      accounts[2],
     );
+
     assert.isAbove(templateAddress.length, 0);
   });
 
   it('proposeTemplate, getTemplateProposalsBySecurityToken, getTemplateAddressByProposal', async () => {
-    await makeKYCProvider(polyToken, customers, accounts[0]);
-    await makeLegalDelegate(polyToken, customers, accounts[0], accounts[1]);
+    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
     const templateAddress = await makeTemplate(
       compliance,
-      accounts[0],
       accounts[1],
+      accounts[2],
     );
-    await compliance.proposeTemplate(accounts[1], fakeAddress, templateAddress);
+    await compliance.proposeTemplate(accounts[2], fakeAddress, templateAddress);
 
     assert.equal(
       await compliance.getTemplateAddressByProposal(fakeAddress, 0),
@@ -71,7 +81,7 @@ describe('Compliance wrapper', () => {
   });
 
   it('setSTO', async () => {
-    await makeKYCProvider(polyToken, customers, accounts[0]);
+    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
 
     await compliance.setSTO(
       accounts[0],

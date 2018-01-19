@@ -36,7 +36,7 @@ To serve the docs locally, run:
 - `yarn start` to run babel to compile the source code and have it watching for updates (leave this terminal open)
 - `yarn serve-poly-docs`
 
-To build the docs run `yarn build-poly-docs`.
+To build the docs run `yarn build-poly-docs`. Make sure when you make edits, you rebuild the docs so they are added in!
 
 ## Contributing
 

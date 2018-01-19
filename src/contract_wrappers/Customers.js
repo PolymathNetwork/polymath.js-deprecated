@@ -126,7 +126,7 @@ export default class Customers extends ContractWrapper {
    * @return The fee in base units
    */
   async getNewKYCProviderFee(): Promise<BigNumber> {
-    return this._contract.newProviderFee.call();
+    return this._contract.NEW_PROVIDER_FEE.call();
   }
 
   /**
@@ -147,6 +147,7 @@ export default class Customers extends ContractWrapper {
       joined: provider[1],
       detailsHash: provider[2],
       verificationFee: provider[3],
+      active: provider[4],
     };
   }
 
@@ -209,6 +210,7 @@ export default class Customers extends ContractWrapper {
    * @param  expires            The time at which this verification should expire, in seconds since the Unix epoch
    */
   async verifyCustomer(
+    // ownerAddress: string,
     kycProviderAddress: string,
     customerAddress: string,
     jurisdiction: string,
@@ -224,9 +226,47 @@ export default class Customers extends ContractWrapper {
       expires,
       {
         from: kycProviderAddress,
-        gas: 250000,
+        gas: 2500000,
       },
     );
+  }
+
+  /**
+   * Used to withdraw POLY from the contract to owner account
+   * @param  ownerAddress
+   * @param  addressToSendTo
+   */
+  async withdrawReservePoly(ownerAddress: string, addressToSendTo: string) {
+    await this._contract.withdrawReservePoly(addressToSendTo, {
+      from: ownerAddress,
+    });
+  }
+
+  /**
+   * Use to change the Registeration fee for Providers to register on platform
+   * @param  ownerAddress
+   * @param  newFee
+   */
+  async changeRegisterationFee(ownerAddress: string, newFee: number) {
+    await this._contract.changeRegisterationFee(newFee, {
+      from: ownerAddress,
+    });
+  }
+
+  /**
+   * Owner change the flag active to true or false
+   * @param  ownerAddress
+   * @param  providerList
+   * @param  providerStatus
+   */
+  async changeStatusOfKYC(
+    ownerAddress: string,
+    providerList: Array<string>,
+    providerStatus: Array<boolean>,
+  ) {
+    await this._contract.changeStatus(providerList, providerStatus, {
+      from: ownerAddress,
+    });
   }
 
   /**

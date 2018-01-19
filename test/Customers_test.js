@@ -32,6 +32,10 @@ describe('Customers wrapper', () => {
       new BigNumber(10).toPower(18).times(100000),
       accounts[1],
     );
+    await polyToken.generateNewTokens(
+      new BigNumber(10).toPower(18).times(100000),
+      accounts[2],
+    );
   });
 
   it('getNewKYCProviderFee', async () => {
@@ -39,28 +43,33 @@ describe('Customers wrapper', () => {
     assert(fee.greaterThan(0), 'New KYC provider fee > 0');
   });
 
-  const makeKYCProvider = async account => {
+  const makeKYCProvider = async (owner, kyc) => {
+
     const fee = await customers.getNewKYCProviderFee();
-    await polyToken.approve(account, customers.address, fee);
+
+    await polyToken.approve(kyc, customers.address, fee);
 
     await customers.newKYCProvider(
-      account,
+      kyc,
       'Provider',
       '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
       new BigNumber(100),
     );
+
+    await customers.changeStatusOfKYC(owner, [kyc], [true]);
+
   };
 
   describe('newKYCProvider', () => {
     it('should successfully create with sufficient fee', async () => {
-      await makeKYCProvider(accounts[0]);
+      await makeKYCProvider(accounts[0], accounts[1]);
     });
 
     it('should throw InsufficientBalanceError when balance too small', async () => {
       try {
-        // Using accounts[2] which has 0 POLY
+        // Using accounts[8] which has 0 POLY
         await customers.newKYCProvider(
-          accounts[2],
+          accounts[8],
           'Provider',
           '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
           new BigNumber(100),
@@ -95,9 +104,9 @@ describe('Customers wrapper', () => {
 
   describe('getKYCProviderByAddress', () => {
     it('should return created provider', async () => {
-      await makeKYCProvider(accounts[0]);
+      await makeKYCProvider(accounts[0], accounts[1]);
 
-      const provider = await customers.getKYCProviderByAddress(accounts[0]);
+      const provider = await customers.getKYCProviderByAddress(accounts[1]);
       assert.equal(provider.name, 'Provider');
       assert(
         provider.verificationFee.equals(100),
@@ -112,21 +121,23 @@ describe('Customers wrapper', () => {
   });
 
   it('changeFee', async () => {
-    await makeKYCProvider(accounts[0]);
 
-    await customers.changeVerificationFee(accounts[0], new BigNumber(120));
+    await makeKYCProvider(accounts[0], accounts[1]);
+    await customers.changeVerificationFee(accounts[1], new BigNumber(120));
+
     assert(
       (await customers.getKYCProviderByAddress(
-        accounts[0],
+        accounts[1],
       )).verificationFee.equals(120),
     );
   });
 
   it('verifyCustomer, getCustomer, getLogs', async () => {
-    const kycProvider = accounts[0];
-    const investor = accounts[1];
+    const owner = accounts[0]
+    const kycProvider = accounts[1];
+    const investor = accounts[2];
 
-    await makeKYCProvider(kycProvider);
+    await makeKYCProvider(accounts[0], accounts[1]);
 
     await polyToken.approve(investor, customers.address, new BigNumber(100));
     await customers.verifyCustomer(
@@ -135,9 +146,10 @@ describe('Customers wrapper', () => {
       'US-CA',
       'investor',
       false,
-      new BigNumber(1234),
+      new BigNumber(15163975079),
     );
     const customer = await customers.getCustomer(kycProvider, investor);
+
     assert.equal(customer.verified, true);
     assert.equal(customer.jurisdiction, 'US-CA');
 
@@ -152,7 +164,7 @@ describe('Customers wrapper', () => {
   });
 
   it('getCustomer should return null for nonexistent customer', async () => {
-    await makeKYCProvider(accounts[0]);
+    await makeKYCProvider(accounts[0], accounts[1]);
 
     assert.equal(
       await customers.getCustomer(accounts[0], fakeAddress),

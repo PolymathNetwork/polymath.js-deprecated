@@ -186,8 +186,8 @@ export default class SecurityToken extends ContractWrapper {
    * Gets the compliance proof hash.
    * @return Compliance proof hash
    */
-  async getComplianceProof(): Promise<string> {
-    return this._contract.complianceProof.call();
+  async getMerkleRoot(): Promise<string> {
+    return this._contract.merkleRoot.call();
   }
 
   /**
@@ -234,14 +234,14 @@ export default class SecurityToken extends ContractWrapper {
    * Update compliance proof hash for the issuance
    * @param ownerOrLegalDelegateAddress Owner or legal delegate address which have access to update the contract
    * @param newMerkleRoot               New merkle root hash of the compliance Proofs
-   * @param complianceProof             Compliance Proof hash
+   * @param merkleRoot                  Compliance Proof hash
    */
   async updateComplianceProof(
     ownerOrLegalDelegateAddress: string,
     newMerkleRoot: string,
-    complianceProof: string,
+    merkleRoot: string,
   ) {
-    await this._contract.updateComplianceProof(newMerkleRoot, complianceProof, {
+    await this._contract.updateComplianceProof(newMerkleRoot, merkleRoot, {
       from: ownerOrLegalDelegateAddress,
     });
   }
@@ -323,7 +323,7 @@ export default class SecurityToken extends ContractWrapper {
     return {
       templateAddress: details[0],
       delegateAddress: details[1],
-      complianceProof: details[2],
+      merkleRoot: details[2],
       STO: details[3],
       KYC: details[4],
     };
