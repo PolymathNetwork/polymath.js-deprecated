@@ -56,6 +56,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
   /**
    * Creates a security token and stores it in the security token registry. Returns a promise of true it the security token was successfully created. This is done by event watching for the event {@link LogNewSecurityToken()}.
    *
+   * @param creator The address from which the token is created
    * @param name Name of the security token
    * @param ticker Ticker name of the security
    * @param totalSupply Total amount of tokens being created
@@ -100,6 +101,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
 
   /**
    * Getter function for ST data by passing the address as the variable.
+   * @param tokenAddress
    * @return The security token data
    */
   async getSecurityTokenData(tokenAddress: string): Promise<Array<mixed>> {
@@ -115,6 +117,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
 
   /**
    * Getter function for ST addresses by passing the ticker/symbol as the variable.
+   * @param ticker
    * @return The security token address
    */
   async getSecurityTokenAddress(ticker: string): Promise<string> {
