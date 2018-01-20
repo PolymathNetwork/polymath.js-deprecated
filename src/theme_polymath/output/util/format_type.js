@@ -136,9 +136,14 @@ function formatType(getHref: Function, node: ?Object) {
       return commaList(getHref, node.elements, '[', ']');
     case Syntax.RecordType:
       const rtRes = commaList(getHref, node.fields, '{', '}');
-      // TODO @bshevchenko: put line breaks on the 2nd and penultimate places of rtRes
-      // TODO @bshevchenko: add left margin for all elements besides first two and last two
-      //console.log('wtf', rtRes);
+      rtRes.splice(1, 0, u('html', '<br/>&nbsp;&nbsp;&nbsp;&nbsp;'));
+      rtRes.splice(-1, 0, u('html', '<br/>'));
+      for (let i = 2; i < rtRes.length; i++) {
+        if  (rtRes[i].value === ', ') {
+          rtRes[i].type = 'html';
+          rtRes[i].value = ', <br/>&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
+      }
       return rtRes;
 
     case Syntax.FieldType:
