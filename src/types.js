@@ -99,6 +99,7 @@ export type KYCProvider = {
   joined: BigNumber,
   detailsHash: string,
   verificationFee: BigNumber,
+  active: boolean,
 };
 
 /**
@@ -211,7 +212,7 @@ export type SecurityTokenEventArgs =
 export type TokenDetails = {
   templateAddress: string,
   delegateAddress: string,
-  complianceProof: string,
+  merkleRoot: string,
   STO: string,
   KYC: string,
 };

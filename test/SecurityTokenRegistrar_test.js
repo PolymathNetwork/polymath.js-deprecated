@@ -59,7 +59,7 @@ describe('Registrar wrapper', () => {
     const fee = 1000;
     const type = 1;
     const maxPoly = 100000;
-    const lockupPeriod = 31557600; // one year
+    const lockupPeriod = 1516397507 + 31557600; // one year from jan 19 2017
     const quorum = 75;
 
     await polyToken.approve(owner, registrar.address, fee);

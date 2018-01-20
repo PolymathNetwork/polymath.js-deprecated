@@ -14,7 +14,7 @@
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>polymath.js</h3>
-          <div class='mb1'><code>0.1.0</code></div>
+          <div class='mb1'><code>v0.1.0</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -45,7 +45,7 @@
                   
                   
                     <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
+                      
                       
                       <li><a
                         href='#contractwrapperunsubscribe'
@@ -79,7 +79,7 @@
                   
                   
                     <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
+                      
                       
                       <li><a
                         href='#polytokensubscribe'
@@ -161,7 +161,7 @@
                   
                   
                     <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
+                      
                       
                       <li><a
                         href='#customerssubscribe'
@@ -206,6 +206,24 @@
                       </a></li>
                       
                       <li><a
+                        href='#customerswithdrawreservepoly'
+                        class='regular pre-open'>
+                        #withdrawReservePoly
+                      </a></li>
+                      
+                      <li><a
+                        href='#customerschangeregisterationfee'
+                        class='regular pre-open'>
+                        #changeRegisterationFee
+                      </a></li>
+                      
+                      <li><a
+                        href='#customerschangestatusofkyc'
+                        class='regular pre-open'>
+                        #changeStatusOfKYC
+                      </a></li>
+                      
+                      <li><a
                         href='#customersgetcustomer'
                         class='regular pre-open'>
                         #getCustomer
@@ -231,7 +249,7 @@
                   
                   
                     <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
+                      
                       
                       <li><a
                         href='#compliancesubscribe'
@@ -313,7 +331,7 @@
                   
                   
                     <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
+                      
                       
                       <li><a
                         href='#securitytokensubscribe'
@@ -358,9 +376,9 @@
                       </a></li>
                       
                       <li><a
-                        href='#securitytokengetcomplianceproof'
+                        href='#securitytokengetmerkleroot'
                         class='regular pre-open'>
-                        #getComplianceProof
+                        #getMerkleRoot
                       </a></li>
                       
                       <li><a
@@ -485,7 +503,7 @@
                   
                   
                     <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
+                      
                       
                       <li><a
                         href='#securitytokenregistrarsubscribe'
@@ -555,7 +573,7 @@
                   
                   
                     <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
+                      
                       
                       <li><a
                         href='#templateaddjurisdiction'
@@ -844,8 +862,6 @@
   <p>ContractWrapper is the base class for all contract wrappers in this library.</p>
 
 
-  <div class='pre p1 fill-light mt0'>new ContractWrapper()</div>
-  
   
 
   
@@ -868,14 +884,14 @@
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class='py1 quiet mt1 prose-big'>Methods</div>
     <div class="clearfix">
   
     <div class='border-bottom' id='contractwrapperunsubscribe'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>unsubscribe(subscriptionID)</span>
+            <span class='code strong strong truncate'>unsubscribe</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -886,8 +902,11 @@
   <p>Unsubscribes from an event previously subscribed to on the contract.</p>
 
 
-  <div class='pre p1 fill-light mt0'>unsubscribe(subscriptionID: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>unsubscribe(subscriptionID: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    
+    
   
 
   
@@ -937,7 +956,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>unsubscribeAll()</span>
+            <span class='code strong strong truncate'>unsubscribeAll</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -948,8 +967,11 @@
   <p>Unsubscribes from all events subscribed to on the contract.</p>
 
 
-  <div class='pre p1 fill-light mt0'>unsubscribeAll()</div>
   
+    
+      <div class='pre p1 fill-light mt0'>unsubscribeAll()</div>
+    
+    
   
 
   
@@ -1005,15 +1027,6 @@
   <p>Wrapper for the PolyToken Solidity contract</p>
 
 
-  <div class='pre p1 fill-light mt0'>new PolyToken()</div>
-  
-  
-    <p>
-      Extends
-      
-        <a href="#contractwrapper">ContractWrapper</a>
-      
-    </p>
   
 
   
@@ -1036,14 +1049,14 @@
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class='py1 quiet mt1 prose-big'>Methods</div>
     <div class="clearfix">
   
     <div class='border-bottom' id='polytokensubscribe'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>subscribe(eventName, indexedFilterValues, callback)</span>
+            <span class='code strong strong truncate'>subscribe</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1054,8 +1067,11 @@
   <p>Subscribes to events emitted by the contract.</p>
 
 
-  <div class='pre p1 fill-light mt0'>subscribe(eventName: (<code>"Transfer"</code> | <code>"Allowance"</code>), indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;<a href="#polytokeneventargs">PolyTokenEventArgs</a>>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
+    
+      <div class='pre p1 fill-light mt0'>subscribe(eventName: <code>Transfer</code> | <code>Allowance</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;<a href="#polytokeneventargs">PolyTokenEventArgs</a>>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+    
+    
   
 
   
@@ -1071,7 +1087,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>((<code>"Transfer"</code> | <code>"Allowance"</code>))</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>Transfer</code> | <code>Allowance</code>)</code>
 	    The name of the event to subscribe to
 
           </div>
@@ -1104,7 +1120,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+      
         An identifier used to unsubscribe
 
       
@@ -1129,7 +1145,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getLogs(eventName, indexedFilterValues, blockRange)</span>
+            <span class='code strong strong truncate'>getLogs</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1140,8 +1156,11 @@
   <p>Retrieves events emitted by this contract in an arbitrary block range.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getLogs(eventName: (<code>"Transfer"</code> | <code>"Allowance"</code>), indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;<a href="#polytokeneventargs">PolyTokenEventArgs</a>>>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getLogs(eventName: <code>Transfer</code> | <code>Allowance</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;<a href="#polytokeneventargs">PolyTokenEventArgs</a>>>></div>
+    
+    
   
 
   
@@ -1157,7 +1176,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>((<code>"Transfer"</code> | <code>"Allowance"</code>))</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>Transfer</code> | <code>Allowance</code>)</code>
 	    The name of the event to look for
 
           </div>
@@ -1190,7 +1209,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;<a href="#polytokeneventargs">PolyTokenEventArgs</a>>>></code>:
+      
         An array of logs
 
       
@@ -1215,7 +1234,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getTotalSupply()</span>
+            <span class='code strong strong truncate'>getTotalSupply</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1226,8 +1245,11 @@
   <p>Gets the total supply of POLY tokens.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getTotalSupply(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getTotalSupply(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
+    
+    
   
 
   
@@ -1244,7 +1266,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></code>:
+      
         Total supply in base units
 
       
@@ -1269,7 +1291,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getDecimals()</span>
+            <span class='code strong strong truncate'>getDecimals</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1280,8 +1302,11 @@
   <p>Gets the number of decimals the POLY token uses.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getDecimals(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getDecimals(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>></div>
+    
+    
   
 
   
@@ -1298,7 +1323,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>></code>:
+      
         Number of decimals
 
       
@@ -1323,7 +1348,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getSymbol()</span>
+            <span class='code strong strong truncate'>getSymbol</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1334,8 +1359,11 @@
   <p>Gets the POLY token symbol (i.e. POLY).</p>
 
 
-  <div class='pre p1 fill-light mt0'>getSymbol(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getSymbol(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -1352,7 +1380,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The POLY token symbol
 
       
@@ -1377,7 +1405,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getBalanceOf(address)</span>
+            <span class='code strong strong truncate'>getBalanceOf</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1388,8 +1416,11 @@
   <p>Gets the account balance of <code>address</code>.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getBalanceOf(address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): BigNumber</div>
   
+    
+      <div class='pre p1 fill-light mt0'>getBalanceOf(address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): BigNumber</div>
+    
+    
   
 
   
@@ -1420,7 +1451,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>BigNumber</code>:
+      
         Account balance in base units
 
       
@@ -1445,7 +1476,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>transfer(fromAddress, toAddress, amount)</span>
+            <span class='code strong strong truncate'>transfer</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1456,8 +1487,11 @@
   <p>Transfers <code>amount</code> POLY tokens from <code>fromAddress</code> to <code>toAddress</code>.</p>
 
 
-  <div class='pre p1 fill-light mt0'>transfer(fromAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, toAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>transfer(fromAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, toAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
+    
+    
   
 
   
@@ -1523,7 +1557,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>approve(ownerAddress, spenderAddress, amount)</span>
+            <span class='code strong strong truncate'>approve</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1534,8 +1568,11 @@
   <p>Approves <code>spenderAddress</code> to withdraw <code>amount</code> POLY tokens from <code>ownerAddress</code>.</p>
 
 
-  <div class='pre p1 fill-light mt0'>approve(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>approve(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
+    
+    
   
 
   
@@ -1601,7 +1638,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getAllowance(ownerAddress, spenderAddress)</span>
+            <span class='code strong strong truncate'>getAllowance</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1612,8 +1649,11 @@
   <p>Gets the amount of POLY tokens that <code>spenderAddress</code> is allowed to withdraw from <code>ownerAddress</code>.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getAllowance(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getAllowance(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
+    
+    
   
 
   
@@ -1653,7 +1693,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></code>:
+      
         Amount of POLY allowed to be withdrawn, in base units
 
       
@@ -1678,7 +1718,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>transferFrom(fromAddress, toAddress, spenderAddress, amount)</span>
+            <span class='code strong strong truncate'>transferFrom</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1689,8 +1729,11 @@
   <p>Transfers <code>amount</code> POLY tokens from <code>fromAddress</code> to <code>toAddress</code> using <code>spenderAddress</code>'s previously approved allowance.</p>
 
 
-  <div class='pre p1 fill-light mt0'>transferFrom(fromAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, toAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>transferFrom(fromAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, toAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
+    
+    
   
 
   
@@ -1787,15 +1830,6 @@
   <p>Wrapper for the Customers Solidity contract</p>
 
 
-  <div class='pre p1 fill-light mt0'>new Customers()</div>
-  
-  
-    <p>
-      Extends
-      
-        <a href="#contractwrapper">ContractWrapper</a>
-      
-    </p>
   
 
   
@@ -1818,14 +1852,14 @@
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class='py1 quiet mt1 prose-big'>Methods</div>
     <div class="clearfix">
   
     <div class='border-bottom' id='customerssubscribe'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>subscribe(eventName, indexedFilterValues, callback)</span>
+            <span class='code strong strong truncate'>subscribe</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1836,8 +1870,11 @@
   <p>Subscribes to events emitted by the contract.</p>
 
 
-  <div class='pre p1 fill-light mt0'>subscribe(eventName: (<code>"LogNewProvider"</code> | <code>"LogCustomerVerified"</code>), indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;<a href="#customerseventargs">CustomersEventArgs</a>>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
+    
+      <div class='pre p1 fill-light mt0'>subscribe(eventName: <code>LogNewProvider</code> | <code>LogCustomerVerified</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;<a href="#customerseventargs">CustomersEventArgs</a>>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+    
+    
   
 
   
@@ -1853,7 +1890,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>((<code>"LogNewProvider"</code> | <code>"LogCustomerVerified"</code>))</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>LogNewProvider</code> | <code>LogCustomerVerified</code>)</code>
 	    The name of the event to subscribe to
 
           </div>
@@ -1886,7 +1923,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+      
         An identifier used to unsubscribe
 
       
@@ -1911,7 +1948,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getLogs(eventName, indexedFilterValues, blockRange)</span>
+            <span class='code strong strong truncate'>getLogs</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -1922,8 +1959,11 @@
   <p>Retrieves events emitted by this contract in an arbitrary block range.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getLogs(eventName: (<code>"LogNewProvider"</code> | <code>"LogCustomerVerified"</code>), indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;<a href="#customerseventargs">CustomersEventArgs</a>>>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getLogs(eventName: <code>LogNewProvider</code> | <code>LogCustomerVerified</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;<a href="#customerseventargs">CustomersEventArgs</a>>>></div>
+    
+    
   
 
   
@@ -1939,7 +1979,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>((<code>"LogNewProvider"</code> | <code>"LogCustomerVerified"</code>))</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>LogNewProvider</code> | <code>LogCustomerVerified</code>)</code>
 	    The name of the event to look for
 
           </div>
@@ -1972,7 +2012,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;<a href="#customerseventargs">CustomersEventArgs</a>>>></code>:
+      
         An array of logs
 
       
@@ -1997,7 +2037,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getNewKYCProviderFee()</span>
+            <span class='code strong strong truncate'>getNewKYCProviderFee</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2008,8 +2048,11 @@
   <p>Gets the fee payable when becoming a new KYC provider.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getNewKYCProviderFee(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getNewKYCProviderFee(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
+    
+    
   
 
   
@@ -2026,7 +2069,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></code>:
+      
         The fee in base units
 
       
@@ -2051,7 +2094,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getKYCProviderByAddress(address)</span>
+            <span class='code strong strong truncate'>getKYCProviderByAddress</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2062,8 +2105,11 @@
   <p>Retrieve a KYC provider by their Ethereum address</p>
 
 
-  <div class='pre p1 fill-light mt0'>getKYCProviderByAddress(address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="#kycprovider">KYCProvider</a>?></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getKYCProviderByAddress(address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="#kycprovider">KYCProvider</a>?></div>
+    
+    
   
 
   
@@ -2094,7 +2140,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="#kycprovider">KYCProvider</a>?></code>:
+      
         The KYC provider, or null if none exists with the given address
 
       
@@ -2119,7 +2165,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>newKYCProvider(providerAddress, name, detailsHash, verificationFee)</span>
+            <span class='code strong strong truncate'>newKYCProvider</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2130,8 +2176,11 @@
   <p>Turns the provided account into a KYC provider, withdrawing the required fee.</p>
 
 
-  <div class='pre p1 fill-light mt0'>newKYCProvider(providerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, detailsHash: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, verificationFee: BigNumber)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>newKYCProvider(providerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, detailsHash: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, verificationFee: BigNumber)</div>
+    
+    
   
 
   
@@ -2206,7 +2255,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>changeVerificationFee(kycProviderAddress, newVerificationFee)</span>
+            <span class='code strong strong truncate'>changeVerificationFee</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2217,8 +2266,11 @@
   <p>As a KYC provider, changes your fee per customer verification.</p>
 
 
-  <div class='pre p1 fill-light mt0'>changeVerificationFee(kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, newVerificationFee: BigNumber)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>changeVerificationFee(kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, newVerificationFee: BigNumber)</div>
+    
+    
   
 
   
@@ -2275,7 +2327,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>verifyCustomer(kycProviderAddress, customerAddress, jurisdiction, role, accredited, expires)</span>
+            <span class='code strong strong truncate'>verifyCustomer</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2286,8 +2338,11 @@
   <p>Submit an on-chain record that you have verified a customer's information.</p>
 
 
-  <div class='pre p1 fill-light mt0'>verifyCustomer(kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, customerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, jurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, role: <a href="#customerrole">CustomerRole</a>, accredited: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, expires: BigNumber)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>verifyCustomer(kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, customerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, jurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, role: <a href="#customerrole">CustomerRole</a>, accredited: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, expires: BigNumber)</div>
+    
+    
   
 
   
@@ -2376,11 +2431,229 @@
       </div>
     </div>
   
+    <div class='border-bottom' id='customerswithdrawreservepoly'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>withdrawReservePoly</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Used to withdraw POLY from the contract to owner account</p>
+
+
+  
+    
+      <div class='pre p1 fill-light mt0'>withdrawReservePoly(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, addressToSendTo: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    
+    
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>ownerAddress</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>addressToSendTo</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='customerschangeregisterationfee'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>changeRegisterationFee</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Use to change the Registeration fee for Providers to register on platform</p>
+
+
+  
+    
+      <div class='pre p1 fill-light mt0'>changeRegisterationFee(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, newFee: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    
+    
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>ownerAddress</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>newFee</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='customerschangestatusofkyc'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>changeStatusOfKYC</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Owner change the flag active to true or false</p>
+
+
+  
+    
+      <div class='pre p1 fill-light mt0'>changeStatusOfKYC(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, providerList: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, providerStatus: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>>)</div>
+    
+    
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>ownerAddress</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>providerList</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>providerStatus</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='customersgetcustomer'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getCustomer(kycProviderAddress, customerAddress)</span>
+            <span class='code strong strong truncate'>getCustomer</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2391,8 +2664,11 @@
   <p>Retrieve a Polymath user by their associated KYC provider and their Ethereum address. Users can be associated with multiple KYC providers.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getCustomer(kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, customerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="#customer">Customer</a>?></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getCustomer(kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, customerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="#customer">Customer</a>?></div>
+    
+    
   
 
   
@@ -2432,7 +2708,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="#customer">Customer</a>?></code>:
+      
         The user's 
 <code>Customer</code>
  object
@@ -2481,15 +2757,6 @@
   <p>Wrapper for the Compliance Solidity contract</p>
 
 
-  <div class='pre p1 fill-light mt0'>new Compliance()</div>
-  
-  
-    <p>
-      Extends
-      
-        <a href="#contractwrapper">ContractWrapper</a>
-      
-    </p>
   
 
   
@@ -2512,14 +2779,14 @@
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class='py1 quiet mt1 prose-big'>Methods</div>
     <div class="clearfix">
   
     <div class='border-bottom' id='compliancesubscribe'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>subscribe(eventName, indexedFilterValues, callback)</span>
+            <span class='code strong strong truncate'>subscribe</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2530,8 +2797,11 @@
   <p>Subscribes to events emitted by the contract.</p>
 
 
-  <div class='pre p1 fill-light mt0'>subscribe(eventName: (<code>"LogTemplateCreated"</code> | <code>"LogNewTemplateProposal"</code> | <code>"LogNewContractProposal"</code>), indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;ComplianceEventArgs>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
+    
+      <div class='pre p1 fill-light mt0'>subscribe(eventName: <code>LogTemplateCreated</code> | <code>LogNewTemplateProposal</code> | <code>LogNewContractProposal</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;ComplianceEventArgs>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+    
+    
   
 
   
@@ -2547,7 +2817,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>((<code>"LogTemplateCreated"</code> | <code>"LogNewTemplateProposal"</code> | <code>"LogNewContractProposal"</code>))</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>LogTemplateCreated</code> | <code>LogNewTemplateProposal</code> | <code>LogNewContractProposal</code>)</code>
 	    The name of the event to subscribe to
 
           </div>
@@ -2580,7 +2850,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+      
         An identifier used to unsubscribe
 
       
@@ -2605,7 +2875,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getLogs(eventName, indexedFilterValues, blockRange)</span>
+            <span class='code strong strong truncate'>getLogs</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2616,8 +2886,11 @@
   <p>Retrieves events emitted by this contract in an arbitrary block range.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getLogs(eventName: (<code>"LogTemplateCreated"</code> | <code>"LogNewTemplateProposal"</code> | <code>"LogNewContractProposal"</code>), indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;ComplianceEventArgs>>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getLogs(eventName: <code>LogTemplateCreated</code> | <code>LogNewTemplateProposal</code> | <code>LogNewContractProposal</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;ComplianceEventArgs>>></div>
+    
+    
   
 
   
@@ -2633,7 +2906,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>((<code>"LogTemplateCreated"</code> | <code>"LogNewTemplateProposal"</code> | <code>"LogNewContractProposal"</code>))</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>LogTemplateCreated</code> | <code>LogNewTemplateProposal</code> | <code>LogNewContractProposal</code>)</code>
 	    The name of the event to look for
 
           </div>
@@ -2666,7 +2939,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;ComplianceEventArgs>>></code>:
+      
         An array of logs
 
       
@@ -2691,7 +2964,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createTemplate(legalDelegateAddress, offeringType, issuerJurisdiction, accredited, kycProviderAddress, details, expires, fee, quorum, vestingPeriod)</span>
+            <span class='code strong strong truncate'>createTemplate</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2702,8 +2975,11 @@
   <p>Creates a new Template smart contract on the blockchain</p>
 
 
-  <div class='pre p1 fill-light mt0'>createTemplate(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, offeringType: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, issuerJurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, accredited: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, details: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, expires: BigNumber, fee: BigNumber, quorum: BigNumber, vestingPeriod: BigNumber): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>createTemplate(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, offeringType: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, issuerJurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, accredited: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, details: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, expires: BigNumber, fee: BigNumber, quorum: BigNumber, vestingPeriod: BigNumber): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -2815,7 +3091,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The address of the created template
 
       
@@ -2840,7 +3116,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>proposeTemplate(legalDelegateAddress, securityTokenAddress, templateAddress)</span>
+            <span class='code strong strong truncate'>proposeTemplate</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2851,8 +3127,11 @@
   <p>Allows a legal delegate to propose a template to a security token.</p>
 
 
-  <div class='pre p1 fill-light mt0'>proposeTemplate(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, templateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>proposeTemplate(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, templateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    
+    
   
 
   
@@ -2918,7 +3197,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>cancelTemplateProposal(proposalMakerAddress, securityTokenAddress, proposalIndex)</span>
+            <span class='code strong strong truncate'>cancelTemplateProposal</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2929,8 +3208,11 @@
   <p>Allows a legal delegate to cancle an already proposed template.</p>
 
 
-  <div class='pre p1 fill-light mt0'>cancelTemplateProposal(proposalMakerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, proposalIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>cancelTemplateProposal(proposalMakerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, proposalIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    
+    
   
 
   
@@ -2996,7 +3278,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>setSTO(issuerAddress, stoAddress, fee, vestingPeriod, quorum)</span>
+            <span class='code strong strong truncate'>setSTO</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3007,8 +3289,11 @@
   <p>Set an STO contract to be stored in the offerings mapping in Compliance.sol</p>
 
 
-  <div class='pre p1 fill-light mt0'>setSTO(issuerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, stoAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, fee: BigNumber, vestingPeriod: BigNumber, quorum: BigNumber)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>setSTO(issuerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, stoAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, fee: BigNumber, vestingPeriod: BigNumber, quorum: BigNumber)</div>
+    
+    
   
 
   
@@ -3092,7 +3377,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>proposeSTO(stoCreatorAddress, securityTokenAddress, stoContractAddress)</span>
+            <span class='code strong strong truncate'>proposeSTO</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3103,8 +3388,11 @@
   <p>Propose a Security Token Offering Contract for an issuance</p>
 
 
-  <div class='pre p1 fill-light mt0'>proposeSTO(stoCreatorAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, stoContractAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>proposeSTO(stoCreatorAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, stoContractAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    
+    
   
 
   
@@ -3170,7 +3458,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>cancelSTOProposal(proposalMakerAddress, securityTokenAddress, offeringIndex)</span>
+            <span class='code strong strong truncate'>cancelSTOProposal</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3181,8 +3469,11 @@
   <p>Allows an STO developer to cancle an already proposed STO.</p>
 
 
-  <div class='pre p1 fill-light mt0'>cancelSTOProposal(proposalMakerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, offeringIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>cancelSTOProposal(proposalMakerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, offeringIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    
+    
   
 
   
@@ -3248,7 +3539,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getTemplateAddressByProposal(securityTokenAddress, proposalIndex)</span>
+            <span class='code strong strong truncate'>getTemplateAddressByProposal</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3259,8 +3550,11 @@
   <p>Get the template address for a security token by passing its proposal index.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getTemplateAddressByProposal(securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, proposalIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getTemplateAddressByProposal(securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, proposalIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -3300,7 +3594,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The template address
 
       
@@ -3325,7 +3619,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getSTOProposal(securityTokenAddress, offeringIndex)</span>
+            <span class='code strong strong truncate'>getSTOProposal</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3336,8 +3630,11 @@
   <p>Get an STO that has been proposed for a security token by passing its offering index.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getSTOProposal(securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, offeringIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;STOProposal></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getSTOProposal(securityTokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, offeringIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;STOProposal></div>
+    
+    
   
 
   
@@ -3377,7 +3674,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;STOProposal></code>:
+      
         The type 
 <a href="Offering">Offering</a>
 .
@@ -3426,15 +3723,6 @@
   <p>Wrapper for the SecurityToken Solidity contract</p>
 
 
-  <div class='pre p1 fill-light mt0'>new SecurityToken()</div>
-  
-  
-    <p>
-      Extends
-      
-        <a href="#contractwrapper">ContractWrapper</a>
-      
-    </p>
   
 
   
@@ -3457,14 +3745,14 @@
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class='py1 quiet mt1 prose-big'>Methods</div>
     <div class="clearfix">
   
     <div class='border-bottom' id='securitytokensubscribe'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>subscribe(eventName, indexedFilterValues, callback)</span>
+            <span class='code strong strong truncate'>subscribe</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3475,8 +3763,11 @@
   <p>Subscribes to events emitted by the contract.</p>
 
 
-  <div class='pre p1 fill-light mt0'>subscribe(eventName: (<code>"LogTemplateSet"</code> | <code>"LogUpdatedComplianceProof"</code> | <code>"LogSetSTOContract"</code> | <code>"LogNewWhitelistedAddress"</code> | <code>"LogVoteToFreeze"</code> | <code>"LogTokenIssued"</code>), indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;SecurityTokenEventArgs>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
+    
+      <div class='pre p1 fill-light mt0'>subscribe(eventName: <code>LogTemplateSet</code> | <code>LogUpdatedComplianceProof</code> | <code>LogSetSTOContract</code> | <code>LogNewWhitelistedAddress</code> | <code>LogVoteToFreeze</code> | <code>LogTokenIssued</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;SecurityTokenEventArgs>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+    
+    
   
 
   
@@ -3492,7 +3783,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>((<code>"LogTemplateSet"</code> | <code>"LogUpdatedComplianceProof"</code> | <code>"LogSetSTOContract"</code> | <code>"LogNewWhitelistedAddress"</code> | <code>"LogVoteToFreeze"</code> | <code>"LogTokenIssued"</code>))</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>LogTemplateSet</code> | <code>LogUpdatedComplianceProof</code> | <code>LogSetSTOContract</code> | <code>LogNewWhitelistedAddress</code> | <code>LogVoteToFreeze</code> | <code>LogTokenIssued</code>)</code>
 	    The name of the event to subscribe to
 
           </div>
@@ -3525,7 +3816,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+      
         An identifier used to unsubscribe
 
       
@@ -3550,7 +3841,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getLogs(eventName, indexedFilterValues, blockRange)</span>
+            <span class='code strong strong truncate'>getLogs</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3561,8 +3852,11 @@
   <p>Retrieves events emitted by this contract in an arbitrary block range.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getLogs(eventName: (<code>"LogTemplateSet"</code> | <code>"LogUpdatedComplianceProof"</code> | <code>"LogSetSTOContract"</code> | <code>"LogNewWhitelistedAddress"</code> | <code>"LogVoteToFreeze"</code> | <code>"LogTokenIssued"</code>), indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;SecurityTokenEventArgs>>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getLogs(eventName: <code>LogTemplateSet</code> | <code>LogUpdatedComplianceProof</code> | <code>LogSetSTOContract</code> | <code>LogNewWhitelistedAddress</code> | <code>LogVoteToFreeze</code> | <code>LogTokenIssued</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;SecurityTokenEventArgs>>></div>
+    
+    
   
 
   
@@ -3578,7 +3872,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>((<code>"LogTemplateSet"</code> | <code>"LogUpdatedComplianceProof"</code> | <code>"LogSetSTOContract"</code> | <code>"LogNewWhitelistedAddress"</code> | <code>"LogVoteToFreeze"</code> | <code>"LogTokenIssued"</code>))</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>LogTemplateSet</code> | <code>LogUpdatedComplianceProof</code> | <code>LogSetSTOContract</code> | <code>LogNewWhitelistedAddress</code> | <code>LogVoteToFreeze</code> | <code>LogTokenIssued</code>)</code>
 	    The name of the event to look for
 
           </div>
@@ -3611,7 +3905,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;SecurityTokenEventArgs>>></code>:
+      
         An array of logs
 
       
@@ -3636,7 +3930,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getName()</span>
+            <span class='code strong strong truncate'>getName</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3647,8 +3941,11 @@
   <p>Gets the name of the security token.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getName(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getName(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -3665,7 +3962,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         Name of security token
 
       
@@ -3690,7 +3987,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getSymbol()</span>
+            <span class='code strong strong truncate'>getSymbol</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3701,8 +3998,11 @@
   <p>Gets the security token ticker symbol.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getSymbol(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getSymbol(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -3719,7 +4019,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         Ticker symbol
 
       
@@ -3744,7 +4044,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getOwnerAddress()</span>
+            <span class='code strong strong truncate'>getOwnerAddress</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3755,8 +4055,11 @@
   <p>Gets the address of the security token contract owner.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getOwnerAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getOwnerAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -3773,7 +4076,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The token owner address
 
       
@@ -3798,7 +4101,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getTotalSupply()</span>
+            <span class='code strong strong truncate'>getTotalSupply</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3809,8 +4112,11 @@
   <p>Gets the total supply of tokens.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getTotalSupply(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getTotalSupply(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
+    
+    
   
 
   
@@ -3827,7 +4133,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></code>:
+      
         Total supply in base units
 
       
@@ -3852,7 +4158,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getDelegateAddress()</span>
+            <span class='code strong strong truncate'>getDelegateAddress</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3863,8 +4169,11 @@
   <p>Gets the delegate address if set.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getDelegateAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getDelegateAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?></div>
+    
+    
   
 
   
@@ -3881,7 +4190,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?></code>:
+      
         If set, the delegate address. Otherwise null
 
       
@@ -3902,11 +4211,11 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='securitytokengetcomplianceproof'>
+    <div class='border-bottom' id='securitytokengetmerkleroot'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getComplianceProof()</span>
+            <span class='code strong strong truncate'>getMerkleRoot</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3917,8 +4226,11 @@
   <p>Gets the compliance proof hash.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getComplianceProof(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getMerkleRoot(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -3935,7 +4247,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         Compliance proof hash
 
       
@@ -3960,7 +4272,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getKYCProviderAddress()</span>
+            <span class='code strong strong truncate'>getKYCProviderAddress</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -3971,8 +4283,11 @@
   <p>Gets the KYC address if set.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getKYCProviderAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getKYCProviderAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -3989,7 +4304,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         If set, the KYC address. Otherwise null
 
       
@@ -4014,7 +4329,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getSTOContractAddress()</span>
+            <span class='code strong strong truncate'>getSTOContractAddress</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4025,8 +4340,11 @@
   <p>Gets the STO contract address if set.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getSTOContractAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getSTOContractAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -4043,7 +4361,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         If set, the STO contract address. Otherwise null
 
       
@@ -4068,7 +4386,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getMaximumPOLYContribution()</span>
+            <span class='code strong strong truncate'>getMaximumPOLYContribution</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4079,8 +4397,11 @@
   <p>Gets the Max Poly contribution allowed for the security token.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getMaximumPOLYContribution(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getMaximumPOLYContribution(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
+    
+    
   
 
   
@@ -4097,7 +4418,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></code>:
+      
         Max poly allowed.
 
       
@@ -4122,7 +4443,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getSTOStart()</span>
+            <span class='code strong strong truncate'>getSTOStart</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4133,8 +4454,11 @@
   <p>Gets the STO start time as a unix timestamp.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getSTOStart(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getSTOStart(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
+    
+    
   
 
   
@@ -4151,7 +4475,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></code>:
+      
         The start time
 
       
@@ -4176,7 +4500,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getSTOEnd()</span>
+            <span class='code strong strong truncate'>getSTOEnd</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4187,8 +4511,11 @@
   <p>Gets the STO end time as a unix timestamp.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getSTOEnd(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getSTOEnd(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
+    
+    
   
 
   
@@ -4205,7 +4532,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></code>:
+      
         The end time
 
       
@@ -4230,7 +4557,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>updateComplianceProof(ownerOrLegalDelegateAddress, newMerkleRoot, complianceProof)</span>
+            <span class='code strong strong truncate'>updateComplianceProof</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4241,8 +4568,11 @@
   <p>Update compliance proof hash for the issuance</p>
 
 
-  <div class='pre p1 fill-light mt0'>updateComplianceProof(ownerOrLegalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, newMerkleRoot: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, complianceProof: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>updateComplianceProof(ownerOrLegalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, newMerkleRoot: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, merkleRoot: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    
+    
   
 
   
@@ -4276,7 +4606,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>complianceProof</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>merkleRoot</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
 	    Compliance Proof hash
 
           </div>
@@ -4308,7 +4638,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>selectTemplate(ownerAddress, templateIndex)</span>
+            <span class='code strong strong truncate'>selectTemplate</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4319,8 +4649,11 @@
   <p>Select a proposed template for the issuance</p>
 
 
-  <div class='pre p1 fill-light mt0'>selectTemplate(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, templateIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>selectTemplate(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, templateIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    
+    
   
 
   
@@ -4377,7 +4710,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>selectSTOProposal(ownerAddress, proposalIndex, startTime, endTime, offeringProposalIndex)</span>
+            <span class='code strong strong truncate'>selectSTOProposal</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4388,8 +4721,11 @@
   <p>Select an security token offering proposal for the issuance</p>
 
 
-  <div class='pre p1 fill-light mt0'>selectSTOProposal(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, proposalIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, startTime: BigNumber, endTime: BigNumber, offeringProposalIndex: any)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>selectSTOProposal(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, proposalIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, startTime: BigNumber, endTime: BigNumber, offeringProposalIndex: any)</div>
+    
+    
   
 
   
@@ -4472,7 +4808,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>addToWhitelist(kycProviderAddress, investorAddress)</span>
+            <span class='code strong strong truncate'>addToWhitelist</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4483,8 +4819,11 @@
   <p>Add a verified address to the Security Token whitelist</p>
 
 
-  <div class='pre p1 fill-light mt0'>addToWhitelist(kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, investorAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>addToWhitelist(kycProviderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, investorAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    
+    
   
 
   
@@ -4541,7 +4880,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>withdrawPoly(address)</span>
+            <span class='code strong strong truncate'>withdrawPoly</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4552,8 +4891,11 @@
   <p>Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times</p>
 
 
-  <div class='pre p1 fill-light mt0'>withdrawPoly(address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>withdrawPoly(address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
+    
+    
   
 
   
@@ -4584,7 +4926,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></code>
+      
     
   
 
@@ -4606,7 +4948,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>voteToFreeze(investorAddress, recipientAddress)</span>
+            <span class='code strong strong truncate'>voteToFreeze</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4617,8 +4959,11 @@
   <p>Add a verified address to the Security Token whitelist</p>
 
 
-  <div class='pre p1 fill-light mt0'>voteToFreeze(investorAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, recipientAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>voteToFreeze(investorAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, recipientAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    
+    
   
 
   
@@ -4675,7 +5020,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getTokenDetails()</span>
+            <span class='code strong strong truncate'>getTokenDetails</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4686,8 +5031,11 @@
   <p>Get security token details</p>
 
 
-  <div class='pre p1 fill-light mt0'>getTokenDetails(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;TokenDetails></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getTokenDetails(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;TokenDetails></div>
+    
+    
   
 
   
@@ -4704,7 +5052,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;TokenDetails></code>:
+      
         Return the template address, the delegate address, the compliance proof, the STO creator address and the KYC provider address
 
       
@@ -4729,7 +5077,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getBalanceOf(address)</span>
+            <span class='code strong strong truncate'>getBalanceOf</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4740,8 +5088,11 @@
   <p>Gets the account balance of <code>address</code>.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getBalanceOf(address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): BigNumber</div>
   
+    
+      <div class='pre p1 fill-light mt0'>getBalanceOf(address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): BigNumber</div>
+    
+    
   
 
   
@@ -4772,7 +5123,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>BigNumber</code>:
+      
         Account balance
 
       
@@ -4797,7 +5148,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>transfer(fromAddress, toAddress, amount)</span>
+            <span class='code strong strong truncate'>transfer</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4808,8 +5159,11 @@
   <p>Transfers <code>amount</code> security tokens from <code>fromAddress</code> to <code>toAddress</code>.</p>
 
 
-  <div class='pre p1 fill-light mt0'>transfer(fromAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, toAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>transfer(fromAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, toAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
+    
+    
   
 
   
@@ -4875,7 +5229,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>approve(ownerAddress, spenderAddress, amount)</span>
+            <span class='code strong strong truncate'>approve</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4886,8 +5240,11 @@
   <p>Approves <code>spenderAddress</code> to withdraw <code>amount</code> security tokens from <code>ownerAddress</code>.</p>
 
 
-  <div class='pre p1 fill-light mt0'>approve(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>approve(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber>)</div>
+    
+    
   
 
   
@@ -4921,7 +5278,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>amount</span> <code class='quiet'>(BigNumber)</code>
+            <span class='code bold'>amount</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber>)</code>
 	    The number of tokens the spender will be able to withdraw
 
           </div>
@@ -4953,7 +5310,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getAllowance(ownerAddress, spenderAddress)</span>
+            <span class='code strong strong truncate'>getAllowance</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -4964,8 +5321,11 @@
   <p>Gets the number of security tokens that <code>spenderAddress</code> is allowed to withdraw from <code>ownerAddress</code>.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getAllowance(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getAllowance(ownerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
+    
+    
   
 
   
@@ -5005,7 +5365,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></code>:
+      
         Number of tokens to be withdrawn
 
       
@@ -5030,7 +5390,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>transferFrom(fromAddress, toAddress, spenderAddress, amount, number)</span>
+            <span class='code strong strong truncate'>transferFrom</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5041,8 +5401,11 @@
   <p>Transfers <code>amount</code> security tokens from <code>fromAddress</code> to <code>toAddress</code> using <code>spenderAddress</code>'s previously approved allowance.</p>
 
 
-  <div class='pre p1 fill-light mt0'>transferFrom(fromAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, toAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber, number: any)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>transferFrom(fromAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, toAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, spenderAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, amount: BigNumber)</div>
+    
+    
   
 
   
@@ -5086,14 +5449,6 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>amount</span> <code class='quiet'>(BigNumber)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>number</span> <code class='quiet'>(any)</code>
 	    The number of security tokens to transfer
 
           </div>
@@ -5147,15 +5502,6 @@
   <p>Wrapper for the SecurityTokenRegistrar Solidity contract</p>
 
 
-  <div class='pre p1 fill-light mt0'>new SecurityTokenRegistrar()</div>
-  
-  
-    <p>
-      Extends
-      
-        <a href="#contractwrapper">ContractWrapper</a>
-      
-    </p>
   
 
   
@@ -5178,14 +5524,14 @@
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class='py1 quiet mt1 prose-big'>Methods</div>
     <div class="clearfix">
   
     <div class='border-bottom' id='securitytokenregistrarsubscribe'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>subscribe(eventName, indexedFilterValues, callback)</span>
+            <span class='code strong strong truncate'>subscribe</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5196,8 +5542,11 @@
   <p>Subscribes to events emitted by the contract.</p>
 
 
-  <div class='pre p1 fill-light mt0'>subscribe(eventName: <code>"LogNewSecurityToken"</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;LogNewSecurityToken>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
+    
+      <div class='pre p1 fill-light mt0'>subscribe(eventName: <code>LogNewSecurityToken</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, callback: <a href="#eventcallback">EventCallback</a>&#x3C;LogNewSecurityToken>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+    
+    
   
 
   
@@ -5213,7 +5562,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>(<code>"LogNewSecurityToken"</code>)</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>LogNewSecurityToken</code>)</code>
 	    The name of the event to subscribe to
 
           </div>
@@ -5246,7 +5595,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+      
         An identifier used to unsubscribe
 
       
@@ -5271,7 +5620,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getLogs(eventName, indexedFilterValues, blockRange)</span>
+            <span class='code strong strong truncate'>getLogs</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5282,8 +5631,11 @@
   <p>Retrieves events emitted by this contract in an arbitrary block range.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getLogs(eventName: <code>"LogNewSecurityToken"</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;LogNewSecurityToken>>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getLogs(eventName: <code>LogNewSecurityToken</code>, indexedFilterValues: <a href="#indexedfiltervalues">IndexedFilterValues</a>, blockRange: <a href="#blockrange">BlockRange</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;LogNewSecurityToken>>></div>
+    
+    
   
 
   
@@ -5299,7 +5651,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>eventName</span> <code class='quiet'>(<code>"LogNewSecurityToken"</code>)</code>
+            <span class='code bold'>eventName</span> <code class='quiet'>(<code>LogNewSecurityToken</code>)</code>
 	    The name of the event to look for
 
           </div>
@@ -5332,7 +5684,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#log">Log</a>&#x3C;LogNewSecurityToken>>></code>:
+      
         An array of logs
 
       
@@ -5357,7 +5709,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>createSecurityToken(creator, name, ticker, totalSupply, owner, host, fee, type, maxPoly, lockupPeriod, quorum)</span>
+            <span class='code strong strong truncate'>createSecurityToken</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5368,8 +5720,11 @@
   <p>Creates a security token and stores it in the security token registry. Returns a promise of true it the security token was successfully created. This is done by event watching for the event <a href="LogNewSecurityToken()">LogNewSecurityToken()</a>.</p>
 
 
-  <div class='pre p1 fill-light mt0'>createSecurityToken(creator: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, ticker: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, totalSupply: BigNumber, owner: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, host: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, fee: BigNumber, type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, maxPoly: BigNumber, lockupPeriod: BigNumber, quorum: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>createSecurityToken(creator: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, ticker: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, totalSupply: BigNumber, owner: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, host: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, fee: BigNumber, type: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, maxPoly: BigNumber, lockupPeriod: BigNumber, quorum: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    
+    
   
 
   
@@ -5386,7 +5741,8 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>creator</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
+	    The address from which the token is created
+
           </div>
           
         </div>
@@ -5506,7 +5862,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getSecurityTokenData(tokenAddress)</span>
+            <span class='code strong strong truncate'>getSecurityTokenData</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5517,8 +5873,11 @@
   <p>Getter function for ST data by passing the address as the variable.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getSecurityTokenData(tokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getSecurityTokenData(tokenAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>></div>
+    
+    
   
 
   
@@ -5548,7 +5907,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>></code>:
+      
         The security token data
 
       
@@ -5573,7 +5932,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getSecurityTokenAddress(ticker)</span>
+            <span class='code strong strong truncate'>getSecurityTokenAddress</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5584,8 +5943,11 @@
   <p>Getter function for ST addresses by passing the ticker/symbol as the variable.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getSecurityTokenAddress(ticker: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getSecurityTokenAddress(ticker: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -5615,7 +5977,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The security token address
 
       
@@ -5640,7 +6002,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getPolyTokenAddress()</span>
+            <span class='code strong strong truncate'>getPolyTokenAddress</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5651,8 +6013,11 @@
   <p>Getter function for the state variable in the registrar for the polytoken address</p>
 
 
-  <div class='pre p1 fill-light mt0'>getPolyTokenAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getPolyTokenAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -5669,7 +6034,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The address of polyToken on the blockchain that the registrar is connected to
 
       
@@ -5694,7 +6059,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getCustomersAddress()</span>
+            <span class='code strong strong truncate'>getCustomersAddress</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5705,8 +6070,11 @@
   <p>Getter function for the state variable in the registrar for the customers address</p>
 
 
-  <div class='pre p1 fill-light mt0'>getCustomersAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getCustomersAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -5723,7 +6091,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The address of customers on the blockchain that the registrar is connected to
 
       
@@ -5748,7 +6116,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getComplianceAddress()</span>
+            <span class='code strong strong truncate'>getComplianceAddress</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5759,8 +6127,11 @@
   <p>Getter function for the state variable in the registrar for the compliance address</p>
 
 
-  <div class='pre p1 fill-light mt0'>getComplianceAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getComplianceAddress(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -5777,7 +6148,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The address of compliance on the blockchain that the registrar is connected to
 
       
@@ -5824,15 +6195,6 @@
   <p>Wrapper for the Template Solidity contract</p>
 
 
-  <div class='pre p1 fill-light mt0'>new Template()</div>
-  
-  
-    <p>
-      Extends
-      
-        <a href="#contractwrapper">ContractWrapper</a>
-      
-    </p>
   
 
   
@@ -5855,14 +6217,14 @@
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class='py1 quiet mt1 prose-big'>Methods</div>
     <div class="clearfix">
   
     <div class='border-bottom' id='templateaddjurisdiction'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>addJurisdiction(legalDelegateAddress, allowedJurisdictions, allowed, legalDelegatesAddress)</span>
+            <span class='code strong strong truncate'>addJurisdiction</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5873,8 +6235,11 @@
   <p>Add a jurisdiction to the Security token that indicates investors in that jurisdiction are allowed to purchase this security token.</p>
 
 
-  <div class='pre p1 fill-light mt0'>addJurisdiction(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, allowedJurisdictions: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, allowed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>>, legalDelegatesAddress: any)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>addJurisdiction(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, allowedJurisdictions: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, allowed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>>)</div>
+    
+    
   
 
   
@@ -5891,7 +6256,8 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>legalDelegateAddress</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
+	    The Ethereum address of the legal delegate who made the template
+
           </div>
           
         </div>
@@ -5909,15 +6275,6 @@
           <div>
             <span class='code bold'>allowed</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>>)</code>
 	    An array of whether the jurisdiction is allowed to purchase the security or not
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>legalDelegatesAddress</span> <code class='quiet'>(any)</code>
-	    The Ethereum address of the legal delegate who made the template
 
           </div>
           
@@ -5948,7 +6305,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>addRoles(legalDelegateAddress, allowedRoles, legalDelegatesAddress)</span>
+            <span class='code strong strong truncate'>addRoles</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -5959,8 +6316,11 @@
   <p>Allows the adding of new roles to be added to whitelist</p>
 
 
-  <div class='pre p1 fill-light mt0'>addRoles(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, allowedRoles: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, legalDelegatesAddress: any)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>addRoles(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, allowedRoles: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)</div>
+    
+    
   
 
   
@@ -5977,7 +6337,8 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>legalDelegateAddress</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
+	    The Ethereum address of the legal delegate who made the template
+
           </div>
           
         </div>
@@ -5986,15 +6347,6 @@
           <div>
             <span class='code bold'>allowedRoles</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)</code>
 	    An array of strings  that adds new roles to the whitelist
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>legalDelegatesAddress</span> <code class='quiet'>(any)</code>
-	    The Ethereum address of the legal delegate who made the template
 
           </div>
           
@@ -6025,7 +6377,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>updateTemplateDetails(legalDelegateAddress, details, legalDelegatesAddress)</span>
+            <span class='code strong strong truncate'>updateTemplateDetails</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6036,8 +6388,11 @@
   <p>Allows the legal delegate to update the hash of the details of the template that is stored off the blockchain.</p>
 
 
-  <div class='pre p1 fill-light mt0'>updateTemplateDetails(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, details: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, legalDelegatesAddress: any)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>updateTemplateDetails(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, details: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
+    
+    
   
 
   
@@ -6054,7 +6409,8 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>legalDelegateAddress</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
+	    The Ethereum address of the legal delegate who made the template
+
           </div>
           
         </div>
@@ -6068,20 +6424,19 @@
           
         </div>
       
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>legalDelegatesAddress</span> <code class='quiet'>(any)</code>
-	    The Ethereum address of the legal delegate who made the template
-
-          </div>
-          
-        </div>
-      
     </div>
   
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      
+        True in case of success, string error in case of fail
+
+      
+    
   
 
   
@@ -6102,7 +6457,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>finalizeTemplate(legalDelegateAddress, legalDelegatesAddress)</span>
+            <span class='code strong strong truncate'>finalizeTemplate</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6113,8 +6468,11 @@
   <p>Allows the legal delegate to finalize the template.</p>
 
 
-  <div class='pre p1 fill-light mt0'>finalizeTemplate(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, legalDelegatesAddress: any)</div>
   
+    
+      <div class='pre p1 fill-light mt0'>finalizeTemplate(legalDelegateAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
+    
+    
   
 
   
@@ -6131,14 +6489,6 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>legalDelegateAddress</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>legalDelegatesAddress</span> <code class='quiet'>(any)</code>
 	    The Ethereum address of the legal delegate who made the template
 
           </div>
@@ -6150,6 +6500,14 @@
 
   
 
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      
+        True in case of success, string error in case of fail
+
+      
+    
   
 
   
@@ -6170,7 +6528,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>checkTemplateRequirements(jurisdiction, accredited, role)</span>
+            <span class='code strong strong truncate'>checkTemplateRequirements</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6178,11 +6536,14 @@
 
   
 
-  <p>Checks if the template requirements for jurisdiction, accredation, and role are met.</p>
+  <p>Checks if the template requirements for jurisdiction, accreditation, and role are met.</p>
 
 
-  <div class='pre p1 fill-light mt0'>checkTemplateRequirements(jurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, accredited: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, role: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): any</div>
   
+    
+      <div class='pre p1 fill-light mt0'>checkTemplateRequirements(jurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, accredited: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, role: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
+    
+    
   
 
   
@@ -6199,7 +6560,7 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>jurisdiction</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The ISO-3166 code of the investors jurisdiction (solidty type bytes32)
+	    The ISO-3166 code of the investors jurisdiction (solidity type bytes32)
 
           </div>
           
@@ -6231,7 +6592,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>any</code>:
+      
         True if it all template requirements are met
 
       
@@ -6256,7 +6617,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getTemplateDetails()</span>
+            <span class='code strong strong truncate'>getTemplateDetails</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6267,8 +6628,11 @@
   <p>Get the template details, which is a hash that points to a document off the blockchain with more detailed information on the template.It also returns the finalization status of the template</p>
 
 
-  <div class='pre p1 fill-light mt0'>getTemplateDetails(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getTemplateDetails(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>></div>
+    
+    
   
 
   
@@ -6285,7 +6649,7 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>></code>:
+      
         An array 
 [
 details, finalized
@@ -6314,7 +6678,7 @@ details, finalized
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getTemplateUsageDetails()</span>
+            <span class='code strong strong truncate'>getTemplateUsageDetails</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6326,8 +6690,11 @@ details, finalized
 bignumber, number, bignumber, string, string</p>
 
 
-  <div class='pre p1 fill-light mt0'>getTemplateUsageDetails(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getTemplateUsageDetails(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>></div>
+    
+    
   
 
   
@@ -6344,7 +6711,7 @@ bignumber, number, bignumber, string, string</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>></code>:
+      
         An array of details for the template being used.
 
       
@@ -6369,7 +6736,7 @@ bignumber, number, bignumber, string, string</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getOfferingType()</span>
+            <span class='code strong strong truncate'>getOfferingType</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6380,8 +6747,11 @@ bignumber, number, bignumber, string, string</p>
   <p>Returns what type of offering the Security Token is by calling the state variable .</p>
 
 
-  <div class='pre p1 fill-light mt0'>getOfferingType(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getOfferingType(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -6398,7 +6768,7 @@ bignumber, number, bignumber, string, string</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The type of offering of the Security token (solidity type string).
 
       
@@ -6423,7 +6793,7 @@ bignumber, number, bignumber, string, string</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getIssuerJurisdiction()</span>
+            <span class='code strong strong truncate'>getIssuerJurisdiction</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6434,8 +6804,11 @@ bignumber, number, bignumber, string, string</p>
   <p>Returns the issuers jurisdiction by calling the state variable.</p>
 
 
-  <div class='pre p1 fill-light mt0'>getIssuerJurisdiction(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getIssuerJurisdiction(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    
+    
   
 
   
@@ -6452,7 +6825,7 @@ bignumber, number, bignumber, string, string</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      
         The issuer jurisdiction code (solidty type bytes32)
 
       
@@ -6477,7 +6850,7 @@ bignumber, number, bignumber, string, string</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>checkIfJurisdictionIsAllowed(jurisdiction)</span>
+            <span class='code strong strong truncate'>checkIfJurisdictionIsAllowed</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6488,8 +6861,11 @@ bignumber, number, bignumber, string, string</p>
   <p>Checks if the jurisdiction is allowed for this template</p>
 
 
-  <div class='pre p1 fill-light mt0'>checkIfJurisdictionIsAllowed(jurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>checkIfJurisdictionIsAllowed(jurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
+    
+    
   
 
   
@@ -6519,7 +6895,7 @@ bignumber, number, bignumber, string, string</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></code>:
+      
         True if the jurisdiction is allowed
 
       
@@ -6544,7 +6920,7 @@ bignumber, number, bignumber, string, string</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>checkIfRoleIsAllowed(role)</span>
+            <span class='code strong strong truncate'>checkIfRoleIsAllowed</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6555,8 +6931,11 @@ bignumber, number, bignumber, string, string</p>
   <p>Checks if a role is allowed for the template</p>
 
 
-  <div class='pre p1 fill-light mt0'>checkIfRoleIsAllowed(role: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>checkIfRoleIsAllowed(role: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
+    
+    
   
 
   
@@ -6586,7 +6965,7 @@ bignumber, number, bignumber, string, string</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></code>:
+      
         True if the role is allowed
 
       
@@ -6611,7 +6990,7 @@ bignumber, number, bignumber, string, string</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>checkIfAccreditationIsRequired()</span>
+            <span class='code strong strong truncate'>checkIfAccreditationIsRequired</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6622,8 +7001,11 @@ bignumber, number, bignumber, string, string</p>
   <p>Checks for investor accreditation</p>
 
 
-  <div class='pre p1 fill-light mt0'>checkIfAccreditationIsRequired(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
   
+    
+      <div class='pre p1 fill-light mt0'>checkIfAccreditationIsRequired(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
+    
+    
   
 
   
@@ -6640,7 +7022,7 @@ bignumber, number, bignumber, string, string</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></code>:
+      
         True if the template does require investors to be accredited
 
       
@@ -6665,7 +7047,7 @@ bignumber, number, bignumber, string, string</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>getTemplateExpiry()</span>
+            <span class='code strong strong truncate'>getTemplateExpiry</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6676,8 +7058,11 @@ bignumber, number, bignumber, string, string</p>
   <p>Returns when the template expires by calling the state variable</p>
 
 
-  <div class='pre p1 fill-light mt0'>getTemplateExpiry(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
   
+    
+      <div class='pre p1 fill-light mt0'>getTemplateExpiry(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></div>
+    
+    
   
 
   
@@ -6694,7 +7079,7 @@ bignumber, number, bignumber, string, string</p>
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;BigNumber></code>:
+      
         A BigNumber object representing the UNIX time the template expires (solidty type uint256)
 
       
@@ -6756,13 +7141,13 @@ bignumber, number, bignumber, string, string</p>
   <p>A Web3 provider</p>
 
 
-  <div class='pre p1 fill-light mt0'>Web3Provider</div>
   
-    <p>
-      Type:
-      Web3.Provider
-    </p>
-  
+    
+      <div class='pre p1 fill-light mt0'>
+        Web3.Provider
+      </div>
+    
+    
   
 
   
@@ -6808,13 +7193,13 @@ bignumber, number, bignumber, string, string</p>
   <p>A Web3 filter</p>
 
 
-  <div class='pre p1 fill-light mt0'>Web3Filter</div>
   
-    <p>
-      Type:
-      Filter
-    </p>
-  
+    
+      <div class='pre p1 fill-light mt0'>
+        Filter
+      </div>
+    
+    
   
 
   
@@ -6860,13 +7245,13 @@ bignumber, number, bignumber, string, string</p>
   <p>Argument values for filtering event logs</p>
 
 
-  <div class='pre p1 fill-light mt0'>IndexedFilterValues</div>
   
-    <p>
-      Type:
-      {}
-    </p>
-  
+    
+      <div class='pre p1 fill-light mt0'>
+        {}
+      </div>
+    
+    
   
 
   
@@ -6912,13 +7297,13 @@ bignumber, number, bignumber, string, string</p>
   <p>Callback for event logs</p>
 
 
-  <div class='pre p1 fill-light mt0'>EventCallback</div>
   
-    <p>
-      Type:
-      function (err: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>?, log: <a href="#log">Log</a>&#x3C;LogArgs>): void
-    </p>
-  
+    
+      <div class='pre p1 fill-light mt0'>
+        function (err: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>?, log: <a href="#log">Log</a>&#x3C;LogArgs>): void
+      </div>
+    
+    
   
 
   
@@ -6964,41 +7349,24 @@ bignumber, number, bignumber, string, string</p>
   <p>A range of blocks on the blockchain</p>
 
 
-  <div class='pre p1 fill-light mt0'>BlockRange</div>
   
-    <p>
-      Type:
-      {fromBlock: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?, toBlock: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?}
-    </p>
+    
+      <div class='pre p1 fill-light mt0'>
+        {fromBlock: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?, toBlock: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?}
+      </div>
+    
+    
+  
+
+  
+  
+  
+  
   
   
 
   
-  
-  
-  
-  
-  
 
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>fromBlock</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>toBlock</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?)</code>
-          
-          
-        </div>
-      
-    </div>
   
 
   
@@ -7033,89 +7401,24 @@ bignumber, number, bignumber, string, string</p>
   <p>An event log</p>
 
 
-  <div class='pre p1 fill-light mt0'>Log</div>
   
-    <p>
-      Type:
-      {args: LogArgs, address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, blockHash: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?, blockNumber: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?, data: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, event: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, logIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?, topics: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, transactionHash: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, transactionIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?}
-    </p>
+    
+      <div class='pre p1 fill-light mt0'>
+        {args: LogArgs, address: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, blockHash: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?, blockNumber: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?, data: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, event: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, logIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?, topics: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, transactionHash: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, transactionIndex: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?}
+      </div>
+    
+    
+  
+
+  
+  
+  
+  
   
   
 
   
-  
-  
-  
-  
-  
 
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>args</span> <code class='quiet'>(LogArgs)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>address</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>blockHash</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>blockNumber</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>data</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>event</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>logIndex</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>topics</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>transactionHash</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>transactionIndex</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?)</code>
-          
-          
-        </div>
-      
-    </div>
   
 
   
@@ -7150,47 +7453,24 @@ bignumber, number, bignumber, string, string</p>
   <p>Arguments for the PolyToken Transfer event</p>
 
 
-  <div class='pre p1 fill-light mt0'>TransferEventArgs</div>
   
-    <p>
-      Type:
-      {_from: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _to: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _value: BigNumber}
-    </p>
+    
+      <div class='pre p1 fill-light mt0'>
+        {_from: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _to: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _value: BigNumber}
+      </div>
+    
+    
+  
+
+  
+  
+  
+  
   
   
 
   
-  
-  
-  
-  
-  
 
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>_from</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>_to</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>_value</span> <code class='quiet'>(BigNumber)</code>
-          
-          
-        </div>
-      
-    </div>
   
 
   
@@ -7225,47 +7505,24 @@ bignumber, number, bignumber, string, string</p>
   <p>Arguments for the PolyToken Allowance event</p>
 
 
-  <div class='pre p1 fill-light mt0'>AllowanceEventArgs</div>
   
-    <p>
-      Type:
-      {_owner: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _spender: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _value: BigNumber}
-    </p>
+    
+      <div class='pre p1 fill-light mt0'>
+        {_owner: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _spender: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, _value: BigNumber}
+      </div>
+    
+    
+  
+
+  
+  
+  
+  
   
   
 
   
-  
-  
-  
-  
-  
 
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>_owner</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>_spender</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>_value</span> <code class='quiet'>(BigNumber)</code>
-          
-          
-        </div>
-      
-    </div>
   
 
   
@@ -7300,13 +7557,13 @@ bignumber, number, bignumber, string, string</p>
   <p>Arguments for the PolyToken events</p>
 
 
-  <div class='pre p1 fill-light mt0'>PolyTokenEventArgs</div>
   
-    <p>
-      Type:
-      (<a href="#transfereventargs">TransferEventArgs</a> | <a href="#allowanceeventargs">AllowanceEventArgs</a>)
-    </p>
-  
+    
+      <div class='pre p1 fill-light mt0'>
+        <a href="#transfereventargs">TransferEventArgs</a> | <a href="#allowanceeventargs">AllowanceEventArgs</a>
+      </div>
+    
+    
   
 
   
@@ -7352,13 +7609,13 @@ bignumber, number, bignumber, string, string</p>
   <p>An enum of the types of <code>Customer</code></p>
 
 
-  <div class='pre p1 fill-light mt0'>CustomerRole</div>
   
-    <p>
-      Type:
-      (<code>"investor"</code> | <code>"issuer"</code> | <code>"delegate"</code> | <code>"marketmaker"</code>)
-    </p>
-  
+    
+      <div class='pre p1 fill-light mt0'>
+        <code>investor</code> | <code>issuer</code> | <code>delegate</code> | <code>marketmaker</code>
+      </div>
+    
+    
   
 
   
@@ -7404,59 +7661,24 @@ bignumber, number, bignumber, string, string</p>
   <p>A user of the Polymath platform</p>
 
 
-  <div class='pre p1 fill-light mt0'>Customer</div>
   
-    <p>
-      Type:
-      {jurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, accredited: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, role: <a href="#customerrole">CustomerRole</a>, verified: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, expires: BigNumber}
-    </p>
+    
+      <div class='pre p1 fill-light mt0'>
+        {jurisdiction: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, accredited: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, role: <a href="#customerrole">CustomerRole</a>, verified: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, expires: BigNumber}
+      </div>
+    
+    
+  
+
+  
+  
+  
+  
   
   
 
   
-  
-  
-  
-  
-  
 
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>jurisdiction</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>accredited</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>role</span> <code class='quiet'>(<a href="#customerrole">CustomerRole</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>verified</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>expires</span> <code class='quiet'>(BigNumber)</code>
-          
-          
-        </div>
-      
-    </div>
   
 
   
@@ -7491,53 +7713,24 @@ bignumber, number, bignumber, string, string</p>
   <p>A KYC provider</p>
 
 
-  <div class='pre p1 fill-light mt0'>KYCProvider</div>
   
-    <p>
-      Type:
-      {name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, joined: BigNumber, detailsHash: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, verificationFee: BigNumber}
-    </p>
+    
+      <div class='pre p1 fill-light mt0'>
+        {name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, joined: BigNumber, detailsHash: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, verificationFee: BigNumber, active: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>}
+      </div>
+    
+    
+  
+
+  
+  
+  
+  
   
   
 
   
-  
-  
-  
-  
-  
 
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>name</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>joined</span> <code class='quiet'>(BigNumber)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>detailsHash</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>verificationFee</span> <code class='quiet'>(BigNumber)</code>
-          
-          
-        </div>
-      
-    </div>
   
 
   
@@ -7572,47 +7765,24 @@ bignumber, number, bignumber, string, string</p>
   <p>Arguments for the Customers LogNewProvider event</p>
 
 
-  <div class='pre p1 fill-light mt0'>LogNewProviderArgs</div>
   
-    <p>
-      Type:
-      {providerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, details: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>}
-    </p>
+    
+      <div class='pre p1 fill-light mt0'>
+        {providerAddress: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, details: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>}
+      </div>
+    
+    
+  
+
+  
+  
+  
+  
   
   
 
   
-  
-  
-  
-  
-  
 
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>providerAddress</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>name</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>details</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-    </div>
   
 
   
@@ -7647,47 +7817,24 @@ bignumber, number, bignumber, string, string</p>
   <p>Arguments for the Customers LogCustomerVerified event</p>
 
 
-  <div class='pre p1 fill-light mt0'>LogCustomerVerifiedArgs</div>
   
-    <p>
-      Type:
-      {customer: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, provider: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, role: <a href="#customerrole">CustomerRole</a>}
-    </p>
+    
+      <div class='pre p1 fill-light mt0'>
+        {customer: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, provider: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, role: <a href="#customerrole">CustomerRole</a>}
+      </div>
+    
+    
+  
+
+  
+  
+  
+  
   
   
 
   
-  
-  
-  
-  
-  
 
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>customer</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>provider</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>role</span> <code class='quiet'>(<a href="#customerrole">CustomerRole</a>)</code>
-          
-          
-        </div>
-      
-    </div>
   
 
   
@@ -7722,13 +7869,13 @@ bignumber, number, bignumber, string, string</p>
   <p>Arguments for the Customers events</p>
 
 
-  <div class='pre p1 fill-light mt0'>CustomersEventArgs</div>
   
-    <p>
-      Type:
-      (<a href="#lognewproviderargs">LogNewProviderArgs</a> | <a href="#logcustomerverifiedargs">LogCustomerVerifiedArgs</a>)
-    </p>
-  
+    
+      <div class='pre p1 fill-light mt0'>
+        <a href="#lognewproviderargs">LogNewProviderArgs</a> | <a href="#logcustomerverifiedargs">LogCustomerVerifiedArgs</a>
+      </div>
+    
+    
   
 
   
