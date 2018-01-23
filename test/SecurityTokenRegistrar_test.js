@@ -126,4 +126,5 @@ describe('Registrar wrapper', () => {
       'Address wasnt queried properly',
     );
   });
+
 });

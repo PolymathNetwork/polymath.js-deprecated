@@ -78,6 +78,9 @@ describe('Compliance wrapper', () => {
       await compliance.getTemplateAddressByProposal(fakeAddress, 0),
       templateAddress,
     );
+
+    let templateReputation = await compliance.getTemplateReputation(templateAddress);
+    assert.equal(templateReputation.owner, accounts[2], "TemplateReputation not stored or read properly")
   });
 
   it('setSTO', async () => {
@@ -91,4 +94,14 @@ describe('Compliance wrapper', () => {
       new BigNumber(20),
     );
   });
+
+  it('getMinimumVestingPeriod', async() => {
+    let minimum = await compliance.getMinimumVestingPeriod();
+    assert.equal(minimum, 60*60*24*100, "Does not equal 100 days, when it should")
+  })
+
+  // it('getTemplateReputation', async() => {
+
+  // })
+
 });

@@ -233,8 +233,8 @@ export default class Customers extends ContractWrapper {
 
   /**
    * Used to withdraw POLY from the contract to owner account
-   * @param  ownerAddress
-   * @param  addressToSendTo
+   * @param  ownerAddress Address of the owner
+   * @param  addressToSendTo Address to send POLY to
    */
   async withdrawReservePoly(ownerAddress: string, addressToSendTo: string) {
     await this._contract.withdrawReservePoly(addressToSendTo, {
@@ -244,8 +244,8 @@ export default class Customers extends ContractWrapper {
 
   /**
    * Use to change the Registeration fee for Providers to register on platform
-   * @param  ownerAddress
-   * @param  newFee
+   * @param  ownerAddress Address of the owner
+   * @param  newFee The new fee to be used
    */
   async changeRegisterationFee(ownerAddress: string, newFee: number) {
     await this._contract.changeRegisterationFee(newFee, {
@@ -254,10 +254,10 @@ export default class Customers extends ContractWrapper {
   }
 
   /**
-   * Owner change the flag active to true or false
-   * @param  ownerAddress
-   * @param  providerList
-   * @param  providerStatus
+   * Owner can call to change the status of a KYC to be active or not
+   * @param  ownerAddress The address of the owner
+   * @param  providerList An array of providers to pass in
+   * @param  providerStatus The status of each provider, in the same order as providerList
    */
   async changeStatusOfKYC(
     ownerAddress: string,

@@ -18,6 +18,8 @@ import type {
   Log,
   SecurityTokenEventArgs,
   TokenDetails,
+  PolyAllocation,
+  Shareholder,
 } from '../types';
 
 export type LogNewWhitelistedAddress = {
@@ -397,5 +399,72 @@ export default class SecurityToken extends ContractWrapper {
     await this._contract.transferFrom(fromAddress, toAddress, amount, {
       from: spenderAddress,
     });
+  }
+
+  /**
+   * Amount of decimals the security token is divisable by.
+   * @return The number of decimals
+   */
+  async getDecimals(): Promise<number> {
+    return this._contract.decimals.call();
+  }
+
+  /**
+   * Gets the address of the Security Token Registrar.
+   * @return The registrar address
+   */
+  async getRegistrarAddress(): Promise<BigNumber> {
+    return this._contract.registrarAddress.call();
+  }
+
+  /**
+   * Returns if the STO is propsed or not
+   * @return Returns true if it has been proposed.
+   */
+  async isSTOProposed(): Promise<boolean> {
+    return this._contract.isSTOProposed.call();
+  }
+
+  /**
+   * Gets how many security tokens have been issued so far for the security token offering
+   * @return The number of tokens issued.
+   */
+  async tokensIssuedBySTO(): Promise<BigNumber> {
+    return this._contract.tokensIssuedBySTO.call();
+  }
+
+  /** Queries the shareholder details.
+   * @return Returns the type {@link Shareholder}
+   */
+  async getShareholderDetails(
+    shareholderAddress: string,
+  ): Promise<Shareholder> {
+    return this._contract.shareholders.call(shareholderAddress);
+  }
+
+  /** Queries the POLY allocation details, which cover the rules determining if the stakeholder will receive their POLY vesting.
+   * @return Returns the type {@link PolyAllocation}
+   */
+  async getPolyAllocationDetails(
+    polyStakeholderAddress: string,
+  ): Promise<PolyAllocation> {
+    return this._contract.allocations.call(polyStakeholderAddress);
+  }
+
+  /** Checks to see how much a shareholder has contributed to the Security token.
+   * @return The amount the user has contributed contributed
+   */
+  async getContributedToSTO(contributorAddress: string): Promise<BigNumber> {
+    return this._contract.contributedToSTO.call(contributorAddress);
+  }
+
+  /** Get information on if a shareholder has voted to freeze a POLY allocation.
+   * @return True if the shareholder has voted to freeze
+   */
+  async getVoted(
+    userAddress: string,
+    addressBeingVotedOn: string,
+  ): Promise<boolean> {
+    return this._contract.voted.call(userAddress, addressBeingVotedOn);
   }
 }

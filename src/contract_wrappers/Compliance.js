@@ -14,6 +14,7 @@ import type {
   IndexedFilterValues,
   Log,
   STOProposal,
+  TemplateReputation,
 } from '../types';
 
 /**
@@ -252,6 +253,31 @@ export default class Compliance extends ContractWrapper {
       vestingPeriod: proposal[2],
       quorum: proposal[3],
       fee: proposal[4],
+    };
+  }
+
+  /**
+   * Returns the minimum vesting period for POLY earned.
+   * @return Minimum vesting period.
+   */
+  async getMinimumVestingPeriod(): Promise<BigNumber> {
+    return (await this._contract.MINIMUM_VESTING_PERIOD.call()).toNumber();
+  }
+
+  /**
+   * Get the Template reputation details.
+   * @param   templateAddress  Ethereum address of the template on the EVM
+   * @return  The type {@link TemplateReputation}.
+   */
+  async getTemplateReputation(
+    templateAddress: string,
+  ): Promise<TemplateReputation> {
+    const template = await this._contract.templates(templateAddress);
+    return {
+      owner: template[0],
+      totalRaised: template[1],
+      timesUsed: template[2],
+      expires: template[3],
     };
   }
 }

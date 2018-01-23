@@ -10,6 +10,7 @@ import type {
   EventCallback,
   IndexedFilterValues,
   Log,
+  SecurityTokenData,
 } from '../types';
 
 /**
@@ -104,7 +105,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @param tokenAddress
    * @return The security token data
    */
-  async getSecurityTokenData(tokenAddress: string): Promise<Array<mixed>> {
+  async getSecurityTokenData(tokenAddress: string): Promise<SecurityTokenData> {
     const tokenData = await this._contract.getSecurityTokenData.call(
       tokenAddress,
     );
@@ -117,7 +118,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
 
   /**
    * Getter function for ST addresses by passing the ticker/symbol as the variable.
-   * @param ticker
+   * @param ticker The security token ticker
    * @return The security token address
    */
   async getSecurityTokenAddress(ticker: string): Promise<string> {
@@ -146,5 +147,14 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    */
   async getComplianceAddress(): Promise<string> {
     return this._contract.polyComplianceAddress.call();
+  }
+
+  /**
+   * Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times.
+   * @param polyOwnerAddress The owner who wants to withdraw their poly
+   * @param ticker The security token ticker
+   */
+  async withdrawPolyFunds(polyOwnerAddress: string, ticker: string) {
+    await this._contract.withdrawFunds(ticker, { from: polyOwnerAddress });
   }
 }

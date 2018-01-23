@@ -127,6 +127,9 @@ export type CustomersEventArgs = LogNewProviderArgs | LogCustomerVerifiedArgs;
 
 // Compliance
 
+/**
+ * STOProposal struct from Compliance.sol
+ */
 export type STOProposal = {
   stoContractAddress: string,
   auditorAddress: string,
@@ -135,24 +138,46 @@ export type STOProposal = {
   fee: BigNumber,
 };
 
+/**
+ * TemplateReputation struct from Compliance.sol
+ */
+export type TemplateReputation = {
+  owner: string,
+  totalRaised: BigNumber,
+  timesUsed: BigNumber,
+  expires: BigNumber,
+};
+
+/**
+ * Arguments for the Compliance.sol LogTemplateCreated event
+ */
 export type LogTemplateCreated = {
   creator: string,
   _template: string,
   _offeringType: string,
 };
 
+/**
+ * Arguments for the Compliance.sol LogNewTemplateProposal event
+ */
 export type LogNewTemplateProposal = {
   _securityToken: string,
   _template: string,
   _delegate: string,
 };
 
+/**
+ * Arguments for the Compliance.sol LogNewContractProposal event
+ */
 export type LogNewContractProposal = {
   _securityToken: string,
   _offeringContract: string,
   _delegate: string,
 };
 
+/**
+ * Arguments for the Compliance events
+ */
 export type ComplianceEventArgs =
   | LogTemplateCreated
   | LogNewTemplateProposal
@@ -160,17 +185,58 @@ export type ComplianceEventArgs =
 
 // SecurityToken types
 
+/**
+ * Token details gathered from SecurityToken.sol
+ */
+export type TokenDetails = {
+  templateAddress: string,
+  delegateAddress: string,
+  merkleRoot: string,
+  STO: string,
+  KYC: string,
+};
+
+/**
+ * PolyAllocation struct from SecurityToken.sol
+ */
+export type PolyAllocation = {
+  amount: BigNumber,
+  vestingPeriod: BigNumber,
+  quorum: number,
+  yayVotes: BigNumber,
+  yayPercent: BigNumber,
+  frozen: boolean,
+};
+
+/**
+ * Shareholder struct from SecurityToken.sol
+ */
+export type Shareholder = {
+  verifier: string,
+  allowed: boolean,
+  role: number,
+};
+
+/**
+ * Arguments for the SecurityToken.sol LogTemplateSet event
+ */
 export type LogTemplateSet = {
   _delegateAddress: string,
   _template: string,
   _KYC: string,
 };
 
+/**
+ * Arguments for the SecurityToken.sol LogUpdatedComplianceProof event
+ */
 export type LogUpdatedComplianceProof = {
   merkleRoot: string,
   _complianceProofHash: string,
 };
 
+/**
+ * Arguments for the SecurityToken.sol LogSetSTOContract event
+ */
 export type LogSetSTOContract = {
   _STO: string,
   _STOtemplate: string,
@@ -179,12 +245,18 @@ export type LogSetSTOContract = {
   _endTime: BigNumber,
 };
 
+/**
+ * Arguments for the SecurityToken.sol LogNewWhitelistedAddress event
+ */
 export type LogNewWhitelistedAddress = {
   _KYC: string,
   _shareholder: string,
   _role: CustomerRole,
 };
 
+/**
+ * Arguments for the SecurityToken.sol LogVoteToFreeze event
+ */
 export type LogVoteToFreeze = {
   _recipient: string,
   _yayPercent: BigNumber,
@@ -192,6 +264,9 @@ export type LogVoteToFreeze = {
   _frozen: boolean,
 };
 
+/**
+ * Arguments for the SecurityToken.sol LogTokenIssued event
+ */
 export type LogTokenIssued = {
   _contributor: string,
   _stAmount: BigNumber,
@@ -199,6 +274,9 @@ export type LogTokenIssued = {
   _timestamp: BigNumber,
 };
 
+/**
+ * Arguments for the SecurityToken events
+ */
 export type SecurityTokenEventArgs =
   | LogTemplateSet
   | LogUpdatedComplianceProof
@@ -209,16 +287,21 @@ export type SecurityTokenEventArgs =
 
 // SecurityTokenRegistrar types
 
-export type TokenDetails = {
-  templateAddress: string,
-  delegateAddress: string,
-  merkleRoot: string,
-  STO: string,
-  KYC: string,
+/**
+ * SecurityTokenData struct from SecurityTokenRegistrar.sol
+ */
+export type SecurityTokenData = {
+  totalSupply: BigNumber,
+  owner: string,
+  ticker: string,
+  securityType: number,
 };
 
 // SecurityTokenRegistrarEvents
 
+/**
+ * Arguments for the SecurityTokenRegistrar.sol LogNewSecurityToken event
+ */
 export type LogNewSecurityToken = {
   ticker: string,
   securityTokenAddress: string,

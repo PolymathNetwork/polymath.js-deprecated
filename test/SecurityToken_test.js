@@ -68,8 +68,10 @@ describe('SecurityToken wrapper', () => {
     );
   });
 
-  it('getName', async () => {
+  it('getName, getDecimals', async () => {
     assert.equal(await securityToken._contract.name.call(), 'Token Name');
+    assert.equal(await securityToken._contract.decimals.call(), 0);
+
   });
 
   // it('updateComplianceProof, getTokenDetails', async () => {
@@ -84,7 +86,7 @@ describe('SecurityToken wrapper', () => {
   //   assert.equal(details.merkleRoot, fakeBytes32);
   // });
 
-  it('selectTemplate, addToWhiteList', async () => {
+  it('selectTemplate, addToWhiteList, getShareholderDetails, getPolyAllocationDetails', async () => {
     const owner = accounts[0];
     const kycProvider = accounts[1];
     const legalDelegate = accounts[2];
@@ -122,5 +124,31 @@ describe('SecurityToken wrapper', () => {
     );
 
     await securityToken.addToWhitelist(kycProvider, investor);
+
+    let checkShareholderDetails = await securityToken.getShareholderDetails(investor);
+    assert.equal(checkShareholderDetails[1], true, "Should read true, investor has been whitelisted");
+
+    let checkPolyAllocationDetails = await securityToken.getPolyAllocationDetails(legalDelegate);
+    assert.equal(checkPolyAllocationDetails[1], 9888888, "Should equal 9888888 from make_examples value used");
   });
+
+
+  it('getRegistrarAddress, isSTOProposed', async () => {
+    let registrarAddress = await securityToken.getRegistrarAddress();
+    assert.equal(registrarAddress, 0, "Registrar address should read zero in this test case");
+
+    let isSTOProposed = await securityToken.isSTOProposed();
+    assert.equal(isSTOProposed, false, "Should read false as no STO has been proposed");
+
+    let tokensIssuedBySTO = await securityToken.tokensIssuedBySTO();
+    assert.equal(tokensIssuedBySTO, 0, "Should read zero we havent issued tokens yet");
+  });
+
+  it('getVoted, getContributedToSTO', async () => {
+    let hasVoted = await securityToken.getVoted(accounts[8], accounts[7]); //random accounts
+    assert.equal(hasVoted, false, "Should read false no one has voted");
+    let getContributedToSTO = await securityToken.getContributedToSTO(accounts[1])
+    assert.equal(getContributedToSTO, false, "Should read 0 no one has contributed yet");
+  });
+
 });
