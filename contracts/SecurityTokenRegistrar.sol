@@ -34,7 +34,7 @@ contract SecurityTokenRegistrar is ISTRegistrar {
     mapping(string => address) tickers;                             // Mapping of ticker name to Security Token
 
     event LogNewSecurityToken(string ticker, address securityTokenAddress, address owner, address host, uint256 fee, uint8 _type);
-
+    event LogSecurityToken(address securityToken);
     /**
      * @dev Constructor use to set the essentials addresses to facilitate
      * the creation of the security token
@@ -56,10 +56,10 @@ contract SecurityTokenRegistrar is ISTRegistrar {
      * @param _ticker Ticker name of the security
      * @param _totalSupply Total amount of tokens being created
      * @param _owner Ethereum public key address of the security token owner
+     * @param _maxPoly Amount of maximum poly issuer want to raise
      * @param _host The host of the security token wizard
      * @param _fee Fee being requested by the wizard host
      * @param _type Type of security being tokenized
-     * @param _maxPoly Amount of POLY being raised
      * @param _lockupPeriod Length of time raised POLY will be locked up for dispute
      * @param _quorum Percent of initial investors required to freeze POLY raise 
      */
@@ -68,10 +68,10 @@ contract SecurityTokenRegistrar is ISTRegistrar {
       string _ticker,
       uint256 _totalSupply,
       address _owner,
+      uint256 _maxPoly,
       address _host,
       uint256 _fee,
       uint8 _type,
-      uint256 _maxPoly,
       uint256 _lockupPeriod,
       uint8 _quorum
     ) external
