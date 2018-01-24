@@ -1,1 +1,1 @@
-cp -r ../polymath-core/contracts .
+cp -r ../polymath-core/contracts . && rm -rf build
