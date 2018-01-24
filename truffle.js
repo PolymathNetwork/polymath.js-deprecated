@@ -16,9 +16,15 @@ module.exports = {
       from: '0xb571be0e1876dc43345cfb08e1ad2792f678aefd',
     },
     testrpc: {
-      host: "localhost",
+      host: 'localhost',
       port: 8545,
-      network_id: "50",
+      network_id: '50',
+    },
+  },
+  solc: {
+    optimizer: {
+      enabled: true,
+      runs: 200,
     },
   },
 };
