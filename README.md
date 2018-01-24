@@ -28,6 +28,18 @@ In a new terminal
 
 Note: If make changes to source files being compiled by babel, run `yarn clean` to remove the old compiled babel files, and then run `yarn start` to get an updated version with the new code.
 
+## Updating the contracts
+
+In polymath-js
+- `npm run contract`
+
+Note: Ensure you have the following file structure
+```
+- polymath (root dir name doesn't matter)
+|-- polymath-js
+|-- polymath-core
+```
+
 ## Serving and building documentation
 
 To serve the docs locally, run:

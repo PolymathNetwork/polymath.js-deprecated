@@ -21,6 +21,8 @@ contract Compliance is ICompliance {
 
     string public VERSION = "1";
 
+    ITemplate template;
+
     struct TemplateReputation {                                         // Structure contains the compliance template details
         address owner;                                                  // Address of the template owner
         uint256 totalRaised;                                            // Total amount raised by the issuers that used the template
@@ -115,8 +117,16 @@ contract Compliance is ICompliance {
         address _template
     ) public returns (bool success)
     {
+        // Require that template has not expired, that the caller is the
+        // owner of the template and that the template has been finalized
         require(templates[_template].expires > now);
         require(templates[_template].owner == msg.sender);
+        // Creating the instance of template to avail the function calling 
+        template = Template(_template);
+        var (,finalized) = template.getTemplateDetails();
+        require(finalized);
+
+        //Get a reference of the template contract and add it to the templateProposals array
         templateProposals[_securityToken].push(_template);
         LogNewTemplateProposal(_securityToken, _template, msg.sender);
         return true;
@@ -238,7 +248,7 @@ contract Compliance is ICompliance {
      * @return Template struct
      */
     function getTemplateByProposal(address _securityTokenAddress, uint8 _templateIndex) view public returns (
-        address template
+        address _template
     ){
         return templateProposals[_securityTokenAddress][_templateIndex];
     }

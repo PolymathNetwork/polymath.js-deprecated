@@ -27,7 +27,8 @@
     "test": "mocha lib/test/**/*_test.js --timeout 10000 --bail --exit",
     "testrpc": "ganache-cli -p 8545 --networkId 50 --gasLimit 15000000 -m \"${npm_package_config_mnemonic}\"",
     "truffle:compile": "truffle compile",
-    "watch-lint": "esw -w --fix src test"
+    "watch-lint": "esw -w --fix src test",
+    "contract": "bash updateContracts.sh"
   },
   "repository": {
     "type": "git",
