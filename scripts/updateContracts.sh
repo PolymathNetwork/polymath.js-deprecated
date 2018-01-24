@@ -1,10 +1,5 @@
-cd ../polymath-core/scripts &&
-echo "Now in" $PWD
-
-bash autoPull.sh &&
-
-cd ../../polymath.js &&
-echo "Now in" $PWD
+bash scripts/autoPull.sh &&
+echo "Currently in " $PWD
 
 cp -r ../polymath-core/contracts . &&
 echo "Copied polymath-core contracts into polymath.js"
