@@ -75,10 +75,10 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
     ticker: string,
     totalSupply: BigNumber,
     owner: string,
+    maxPoly: BigNumber,
     host: string,
     fee: BigNumber,
     type: number,
-    maxPoly: BigNumber,
     lockupPeriod: BigNumber,
     quorum: number,
   ) {
@@ -87,10 +87,10 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
       ticker,
       totalSupply,
       owner,
+      maxPoly,
       host,
       fee,
       type,
-      maxPoly,
       lockupPeriod,
       quorum,
       {

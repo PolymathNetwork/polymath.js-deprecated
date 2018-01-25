@@ -107,8 +107,6 @@ export const makeKYCProvider = async (
   ownerAddress: string,
   kycProviderAddress: string,
 ) => {
-  const fee = await customers.getNewKYCProviderFee();
-  await polyToken.approve(kycProviderAddress, customers.address, fee);
 
   await customers.newKYCProvider(
     kycProviderAddress,
@@ -117,7 +115,6 @@ export const makeKYCProvider = async (
     new BigNumber(100),
   );
 
-  await customers.changeStatusOfKYC(ownerAddress, [kycProviderAddress], [true]);
 };
 
 export const makeLegalDelegate = async (
@@ -160,6 +157,34 @@ export const makeTemplate = async (
 
   await template.addJurisdiction(legalDelegate, ['US-CA'], [true]);
   await template.addRoles(legalDelegate, ['investor'], [true]);
+
+  return templateAddress;
+};
+
+export const makeTemplateWithFinalized = async (
+  compliance: Compliance,
+  kycProvider: string,
+  legalDelegate: string,
+): Promise<string> => {
+  const templateAddress = await compliance.createTemplate(
+    legalDelegate,
+    'offeringtype',
+    'US-CA',
+    false,
+    kycProvider,
+    '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+    new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+    new BigNumber(1000),
+    new BigNumber(10),
+    new BigNumber(9888888),
+  );
+
+  const template = new Template(compliance._web3Wrapper, templateAddress);
+  await template.initialize();
+
+  await template.addJurisdiction(legalDelegate, ['US-CA'], [true]);
+  await template.addRoles(legalDelegate, ['investor'], [true]);
+  await template.finalizeTemplate(legalDelegate);
 
   return templateAddress;
 };
@@ -215,7 +240,7 @@ export async function makeSecurityTokenRegistrar(
     customers.address,
     compliance.address,
     {
-      gas: 6700000,
+      gas: 15000000,
       from: account,
     },
   );

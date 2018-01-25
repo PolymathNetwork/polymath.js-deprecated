@@ -18,6 +18,7 @@ import {
   makeLegalDelegate,
   makeSecurityToken,
   makeTemplate,
+  makeTemplateWithFinalized,
 } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
 import { fakeBytes32 } from './util/fake';
@@ -95,12 +96,11 @@ describe('SecurityToken wrapper', () => {
     await makeKYCProvider(polyToken, customers, owner, kycProvider);
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
-    const templateAddress = await makeTemplate(
+    const templateAddress = await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
     );
-
     await compliance.proposeTemplate(
       legalDelegate,
       securityToken.address,
@@ -135,7 +135,7 @@ describe('SecurityToken wrapper', () => {
 
   it('getRegistrarAddress, isSTOProposed', async () => {
     let registrarAddress = await securityToken.getRegistrarAddress();
-    assert.equal(registrarAddress, 0, "Registrar address should read zero in this test case");
+    assert.equal(registrarAddress, accounts[0], "Registrar address should read account[0] account, beacuse this was the 'from' value passed into makeSecurityToken");
 
     let isSTOProposed = await securityToken.isSTOProposed();
     assert.equal(isSTOProposed, false, "Should read false as no STO has been proposed");

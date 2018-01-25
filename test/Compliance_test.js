@@ -9,6 +9,7 @@ import {
   makeKYCProvider,
   makeLegalDelegate,
   makeTemplate,
+  makeTemplateWithFinalized,
 } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
 import { fakeAddress } from './util/fake';
@@ -67,7 +68,7 @@ describe('Compliance wrapper', () => {
   it('proposeTemplate, getTemplateProposalsBySecurityToken, getTemplateAddressByProposal', async () => {
     await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
-    const templateAddress = await makeTemplate(
+    const templateAddress = await makeTemplateWithFinalized(
       compliance,
       accounts[1],
       accounts[2],
@@ -80,7 +81,7 @@ describe('Compliance wrapper', () => {
     );
 
     let templateReputation = await compliance.getTemplateReputation(templateAddress);
-    assert.equal(templateReputation.owner, accounts[2], "TemplateReputation not stored or read properly")
+    assert.equal(templateReputation.owner, accounts[2], "TemplateReputation not stored or read properly");
   });
 
   it('setSTO', async () => {

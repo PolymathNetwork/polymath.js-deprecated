@@ -29,7 +29,10 @@ describe('Registrar wrapper', () => {
     // parameters for Template constructor
     polyToken = await makePolyToken(web3Wrapper, accounts[0]);
     customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
+
     compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
+
+    //breaking here
     registrar = await makeSecurityTokenRegistrar(
       web3Wrapper,
       polyToken,

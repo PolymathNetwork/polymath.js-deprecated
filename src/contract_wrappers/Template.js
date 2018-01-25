@@ -90,6 +90,7 @@ export default class Template extends ContractWrapper {
     const owner = (await this.getTemplateUsageDetails())[3];
     if (legalDelegateAddress === owner) {
       await this._contract.finalizeTemplate({
+        gas: 1000000,
         from: legalDelegateAddress,
       });
       return true;

@@ -121,13 +121,6 @@ export default class Customers extends ContractWrapper {
     return super._getLogs(eventName, indexedFilterValues, blockRange);
   }
 
-  /**
-   * Gets the fee payable when becoming a new KYC provider.
-   * @return The fee in base units
-   */
-  async getNewKYCProviderFee(): Promise<BigNumber> {
-    return this._contract.NEW_PROVIDER_FEE.call();
-  }
 
   /**
    * Retrieve a KYC provider by their Ethereum address
@@ -164,18 +157,7 @@ export default class Customers extends ContractWrapper {
     detailsHash: string,
     verificationFee: BigNumber,
   ) {
-    const [allowance, balance, fee] = await Promise.all([
-      this.polyToken.getAllowance(providerAddress, this._contract.address),
-      this.polyToken.getBalanceOf(providerAddress),
-      this.getNewKYCProviderFee(),
-    ]);
 
-    // TODO: Set up a way to do this on all functions that require fees.
-    if (balance.lessThan(fee)) {
-      throw new InsufficientBalanceError('newKYCProvider', fee);
-    } else if (allowance.lessThan(fee)) {
-      throw new InsufficientAllowanceError('newKYCProvider', fee);
-    }
 
     await this._contract.newProvider(
       providerAddress,
@@ -253,21 +235,6 @@ export default class Customers extends ContractWrapper {
     });
   }
 
-  /**
-   * Owner can call to change the status of a KYC to be active or not
-   * @param  ownerAddress The address of the owner
-   * @param  providerList An array of providers to pass in
-   * @param  providerStatus The status of each provider, in the same order as providerList
-   */
-  async changeStatusOfKYC(
-    ownerAddress: string,
-    providerList: Array<string>,
-    providerStatus: Array<boolean>,
-  ) {
-    await this._contract.changeStatus(providerList, providerStatus, {
-      from: ownerAddress,
-    });
-  }
 
   /**
    * Retrieve a Polymath user by their associated KYC provider and their Ethereum address. Users can be associated with multiple KYC providers.

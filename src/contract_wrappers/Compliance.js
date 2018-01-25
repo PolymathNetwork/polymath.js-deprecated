@@ -108,7 +108,7 @@ export default class Compliance extends ContractWrapper {
       vestingPeriod,
       {
         from: legalDelegateAddress,
-        gas: 3000000,
+        gas: 4000000,
       },
     );
 
@@ -137,7 +137,10 @@ export default class Compliance extends ContractWrapper {
     await this._contract.proposeTemplate(
       securityTokenAddress,
       templateAddress,
-      { from: legalDelegateAddress },
+      {
+        gas: 1000000,
+        from: legalDelegateAddress,
+      },
     );
   }
 
