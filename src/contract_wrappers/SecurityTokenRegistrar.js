@@ -4,6 +4,7 @@ import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import { BigNumber } from 'bignumber.js';
 import ContractWrapper from './ContractWrapper';
 import securityTokenRegistrarArtifact from '../artifacts/SecurityTokenRegistrar.json';
+import SecurityToken from './SecurityToken';
 import type {
   BlockRange,
   LogNewSecurityToken,
@@ -20,8 +21,11 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
   /**
    * @hideconstructor
    */
-  constructor(web3Wrapper: Web3Wrapper, deployedAddress?: string) {
+  constructor(web3Wrapper: Web3Wrapper, securityToken: SecurityToken, deployedAddress?: string) {
     super(web3Wrapper, securityTokenRegistrarArtifact, deployedAddress);
+
+    this.securityToken = securityToken;
+
   }
 
   /**

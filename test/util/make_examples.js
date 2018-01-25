@@ -231,10 +231,12 @@ export async function makeSecurityTokenRegistrar(
   polyToken: PolyToken,
   customers: Customers,
   compliance: Compliance,
+  securityToken: SecurityToken,
   account: string,
 ) {
   const contractTemplate = contract(securityTokenRegistrarArtifact);
   contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+
   const instance = await contractTemplate.new(
     polyToken.address,
     customers.address,
@@ -244,7 +246,7 @@ export async function makeSecurityTokenRegistrar(
       from: account,
     },
   );
-  const registrar = new SecurityTokenRegistrar(web3Wrapper, instance.address);
+  const registrar = new SecurityTokenRegistrar(web3Wrapper, securityToken, instance.address);
 
   await registrar.initialize();
   return registrar;

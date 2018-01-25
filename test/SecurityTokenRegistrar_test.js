@@ -6,9 +6,11 @@ import {
   makePolyToken,
   makeCompliance,
   makeCustomers,
+  makeSecurityToken,
   makeSecurityTokenRegistrar,
 } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
+import SecurityToken from '../src/contract_wrappers/SecurityToken';
 
 const { assert } = chai;
 
@@ -20,6 +22,7 @@ describe('Registrar wrapper', () => {
   let compliance;
   let customers;
   let registrar;
+  let securityToken;
 
   before(async () => {
     accounts = await web3Wrapper.getAvailableAddressesAsync();
@@ -32,12 +35,21 @@ describe('Registrar wrapper', () => {
 
     compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
 
+    securityToken = await makeSecurityToken(
+      web3Wrapper,
+      polyToken,
+      customers,
+      compliance,
+      accounts[0],
+    );
+
     //breaking here
     registrar = await makeSecurityTokenRegistrar(
       web3Wrapper,
       polyToken,
       customers,
       compliance,
+      securityToken,
       accounts[0],
     );
 
@@ -72,10 +84,10 @@ describe('Registrar wrapper', () => {
       ticker,
       totalSupply,
       owner,
+      maxPoly,
       host,
       fee,
       type,
-      maxPoly,
       lockupPeriod,
       quorum,
     );
