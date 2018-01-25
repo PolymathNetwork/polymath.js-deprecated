@@ -195,14 +195,16 @@ export default class Customers extends ContractWrapper {
     // ownerAddress: string,
     kycProviderAddress: string,
     customerAddress: string,
-    jurisdiction: string,
+    countryJurisdiction: string,
+    divisionJurisdiction: string,
     role: CustomerRole,
     accredited: boolean,
     expires: BigNumber,
   ) {
     await this._contract.verifyCustomer(
       customerAddress,
-      Web3.prototype.fromAscii(jurisdiction),
+      Web3.prototype.fromAscii(countryJurisdiction),
+      Web3.prototype.fromAscii(divisionJurisdiction),
       new BigNumber(roleToNumber(role)),
       accredited,
       expires,

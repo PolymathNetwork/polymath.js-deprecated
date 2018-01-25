@@ -9,6 +9,8 @@ import {
   makeKYCProvider,
   makeLegalDelegate,
   makeTemplate,
+  makeSecurityToken,
+  makeSecurityTokenRegistrar,
   makeTemplateWithFinalized,
 } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
@@ -23,6 +25,8 @@ describe('Compliance wrapper', () => {
   let polyToken;
   let compliance;
   let customers;
+  let securityToken;
+  let registrar;
 
   before(async () => {
     //accounts[0] = owner
@@ -36,6 +40,24 @@ describe('Compliance wrapper', () => {
     polyToken = await makePolyToken(web3Wrapper, accounts[0]);
     customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
     compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
+
+    securityToken = await makeSecurityToken(
+      web3Wrapper,
+      polyToken,
+      customers,
+      compliance,
+      accounts[0],
+    );
+
+    registrar = await makeSecurityTokenRegistrar(
+      web3Wrapper,
+      polyToken,
+      customers,
+      compliance,
+      securityToken,
+      accounts[0],
+    );
+
 
     // Fund three accounts.
     await polyToken.generateNewTokens(
@@ -55,7 +77,6 @@ describe('Compliance wrapper', () => {
   it('createTemplate', async () => {
     await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
-
     const templateAddress = await makeTemplate(
       compliance,
       accounts[1],
@@ -68,19 +89,29 @@ describe('Compliance wrapper', () => {
   it('proposeTemplate, getTemplateProposalsBySecurityToken, getTemplateAddressByProposal', async () => {
     await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
+    console.log("hi");
+
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
       accounts[1],
       accounts[2],
     );
-    await compliance.proposeTemplate(accounts[2], fakeAddress, templateAddress);
+    console.log(registrar);
+    await compliance.setRegsitrarAddress(accounts[0], registrar.address)
+    console.log("hi");
+
+    await compliance.proposeTemplate(accounts[2], securityToken, templateAddress);
+    console.log("hi");
 
     assert.equal(
       await compliance.getTemplateAddressByProposal(fakeAddress, 0),
       templateAddress,
     );
+    console.log("hi");
 
     let templateReputation = await compliance.getTemplateReputation(templateAddress);
+    console.log("hi");
+
     assert.equal(templateReputation.owner, accounts[2], "TemplateReputation not stored or read properly");
   });
 
@@ -96,9 +127,9 @@ describe('Compliance wrapper', () => {
     );
   });
 
-  it('getMinimumVestingPeriod', async() => {
+  it('getMinimumVestingPeriod', async () => {
     let minimum = await compliance.getMinimumVestingPeriod();
-    assert.equal(minimum, 60*60*24*100, "Does not equal 100 days, when it should")
+    assert.equal(minimum, 60 * 60 * 24 * 100, "Does not equal 100 days, when it should")
   })
 
   // it('getTemplateReputation', async() => {

@@ -6,15 +6,17 @@ import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 import ContractWrapper from './ContractWrapper';
 import Customers from './Customers';
+import SecurityTokenRegistrar from './SecurityTokenRegistrar';
+
 import complianceArtifact from '../artifacts/Compliance.json';
 import type {
   BlockRange,
-  ComplianceEventArgs,
-  EventCallback,
-  IndexedFilterValues,
-  Log,
-  STOProposal,
-  TemplateReputation,
+    ComplianceEventArgs,
+    EventCallback,
+    IndexedFilterValues,
+    Log,
+    STOProposal,
+    TemplateReputation,
 } from '../types';
 
 /**
@@ -27,11 +29,13 @@ export default class Compliance extends ContractWrapper {
   constructor(
     web3Wrapper: Web3Wrapper,
     customers: Customers,
+    //   securityTokenRegistrar: SecurityTokenRegistrar,
     deployedAddress?: string,
   ) {
     super(web3Wrapper, complianceArtifact, deployedAddress);
 
     this.customers = customers;
+    this.securityTokenRegistrar = SecurityTokenRegistrar;
   }
 
   /**
@@ -283,4 +287,20 @@ export default class Compliance extends ContractWrapper {
       expires: template[3],
     };
   }
+
+
+  /**
+   * Set the registrar address for Compliance to connect to
+   * @param _STRegistrar It is the `this` reference of STR contract
+   * @return bool
+   */
+  async setRegsitrarAddress(complianceContractOwner: string, registrarAddress: string) {
+    await this._contract.setRegsitrarAddress(registrarAddress, {
+      from: complianceContractOwner,
+    });
+    console.log("GF");
+  }
+
+
+
 }

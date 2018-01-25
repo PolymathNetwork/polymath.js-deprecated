@@ -43,7 +43,6 @@ describe('Registrar wrapper', () => {
       accounts[0],
     );
 
-    //breaking here
     registrar = await makeSecurityTokenRegistrar(
       web3Wrapper,
       polyToken,

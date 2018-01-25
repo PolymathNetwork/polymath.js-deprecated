@@ -9,6 +9,7 @@ pragma solidity ^0.4.18;
 import './interfaces/ISTRegistrar.sol';
 import './PolyToken.sol';
 import './SecurityToken.sol';
+import './Compliance.sol';
 
 /**
  * @title SecurityTokenRegistrar
@@ -27,6 +28,7 @@ contract SecurityTokenRegistrar is ISTRegistrar {
     struct SecurityTokenData {                                      // A structure that contains the specific info of each ST
       uint256 totalSupply;                                          // created ever using the Polymath platform
       address owner;
+      uint8 decimals;
       string ticker;
       uint8 securityType;
     }
@@ -48,6 +50,10 @@ contract SecurityTokenRegistrar is ISTRegistrar {
       polyTokenAddress = _polyTokenAddress;
       polyCustomersAddress = _polyCustomersAddress;
       polyComplianceAddress = _polyComplianceAddress;
+      // Creating the instance of the compliance contract and assign the STR contract 
+      // address (this) into the compliance contract
+      Compliance PolyCompliance = Compliance(polyComplianceAddress);
+      require(PolyCompliance.setRegsitrarAddress(this));
     }
 
     /**
@@ -55,6 +61,7 @@ contract SecurityTokenRegistrar is ISTRegistrar {
      * @param _name Name of the security token
      * @param _ticker Ticker name of the security
      * @param _totalSupply Total amount of tokens being created
+     * @param _decimals Decimals value for token
      * @param _owner Ethereum public key address of the security token owner
      * @param _maxPoly Amount of maximum poly issuer want to raise
      * @param _host The host of the security token wizard
@@ -67,6 +74,7 @@ contract SecurityTokenRegistrar is ISTRegistrar {
       string _name,
       string _ticker,
       uint256 _totalSupply,
+      uint8 _decimals,
       address _owner,
       uint256 _maxPoly,
       address _host,
@@ -83,10 +91,27 @@ contract SecurityTokenRegistrar is ISTRegistrar {
       require(bytes(_name).length > 0 && bytes(_ticker).length > 0);
       PolyToken POLY = PolyToken(polyTokenAddress);
       POLY.transferFrom(msg.sender, _host, _fee);
+      address newSecurityTokenAddress = initialiseSecurityToken(_name, _ticker, _totalSupply, _decimals, _owner, _maxPoly, _type, _lockupPeriod, _quorum);
+      LogNewSecurityToken(_ticker, newSecurityTokenAddress, _owner, _host, _fee, _type);
+    }
+
+    function initialiseSecurityToken(
+      string _name,
+      string _ticker,
+      uint256 _totalSupply,
+      uint8 _decimals,
+      address _owner,
+      uint256 _maxPoly,
+      uint8 _type,
+      uint256 _lockupPeriod,
+      uint8 _quorum
+    ) internal returns (address)
+    {
       address newSecurityTokenAddress = new SecurityToken(
         _name,
         _ticker,
         _totalSupply,
+        _decimals,
         _owner,
         _maxPoly,
         _lockupPeriod,
@@ -99,21 +124,11 @@ contract SecurityTokenRegistrar is ISTRegistrar {
       securityTokens[newSecurityTokenAddress] = SecurityTokenData(
         _totalSupply,
         _owner,
+        _decimals,
         _ticker,
         _type
       );
-      LogNewSecurityToken(_ticker, newSecurityTokenAddress, _owner, _host, _fee, _type);
-    }
-
-    /**
-     * @dev Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times
-     * @param _ticker Symbol of the security token
-     * @return bool success
-     */
-    function withdrawFunds(string _ticker) public returns (bool success) {
-      securityToken = SecurityToken(getSecurityTokenAddress(_ticker));
-      require(securityToken.withdrawPoly(msg.sender));
-      return true;
+      return newSecurityTokenAddress;
     }
 
     //////////////////////////////
@@ -135,12 +150,14 @@ contract SecurityTokenRegistrar is ISTRegistrar {
     function getSecurityTokenData(address _STAddress) public constant returns (
       uint256 totalSupply,
       address owner,
+      uint8 decimals,
       string ticker,
       uint8 securityType
     ) {
       return (
         securityTokens[_STAddress].totalSupply,
         securityTokens[_STAddress].owner,
+        securityTokens[_STAddress].decimals,
         securityTokens[_STAddress].ticker,
         securityTokens[_STAddress].securityType
       );

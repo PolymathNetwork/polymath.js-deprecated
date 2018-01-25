@@ -49,6 +49,7 @@ export async function makeCustomers(
 export async function makeCompliance(
   web3Wrapper: Web3Wrapper,
   customers: Customers,
+//  securityTokenRegistrar: SecurityTokenRegistrar,
   account: string,
 ) {
   const contractTemplate = contract(complianceArtifact);
@@ -58,7 +59,8 @@ export async function makeCompliance(
     gas: 6000000,
   });
 
-  const compliance = new Compliance(web3Wrapper, customers, instance.address);
+ // const securityTokenRegistrar = SecurityTokenRegistrar;
+  const compliance = new Compliance(web3Wrapper, customers, /*securityTokenRegistrar,*/ instance.address);
   await compliance.initialize();
   return compliance;
 }
@@ -127,7 +129,8 @@ export const makeLegalDelegate = async (
   await customers.verifyCustomer(
     kycProvider,
     legalDelegate,
-    'US-CA',
+    'US',
+    'CA',
     'delegate',
     true,
     new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
