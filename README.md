@@ -30,8 +30,14 @@ Note: If make changes to source files being compiled by babel, run `yarn clean` 
 
 ## Updating the contracts
 
+The following occurs:
+- Checks that polymath-core is on the master branch
+- Executes git pull on the polymath-core
+- Copies the polymath-core/contract directory into polymath-js directory
+- Removes the polymath-js/build directory
+
 In polymath-js
-- `npm run contract`
+- `yarn contracts`
 
 Note: Ensure you have the following file structure
 ```
