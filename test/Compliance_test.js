@@ -12,7 +12,7 @@ import {
   makeSecurityToken,
   makeSecurityTokenRegistrar,
   makeTemplateWithFinalized,
-  makeSecurityTokenRegistrar,
+  makeSecurityTokenThroughRegistrar,
 } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
 import { fakeAddress } from './util/fake';
