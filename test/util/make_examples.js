@@ -78,6 +78,7 @@ export async function makeSecurityToken(
     'Token Name',
     'TONA',
     new BigNumber(1000),
+    new BigNumber(10),
     account,
     new BigNumber(1000),
     new BigNumber(9888888),
@@ -249,8 +250,94 @@ export async function makeSecurityTokenRegistrar(
       from: account,
     },
   );
-  const registrar = new SecurityTokenRegistrar(web3Wrapper, securityToken, instance.address);
+  const registrar = new SecurityTokenRegistrar(web3Wrapper, securityToken, compliance, instance.address);
 
   await registrar.initialize();
   return registrar;
+}
+
+export async function makeSecurityTokenThroughRegistrar(
+  web3Wrapper: Web3Wrapper,
+  polyToken: PolyToken,
+  customers: Customers,
+  compliance: Compliance,
+  securityToken: SecurityToken,
+  account: string,
+  hostAccount: string,
+) {
+  const contractTemplate = contract(securityTokenRegistrarArtifact);
+  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+
+  const instance = await contractTemplate.new(
+    polyToken.address,
+    customers.address,
+    compliance.address,
+    {
+      gas: 15000000,
+      from: account,
+    },
+  );
+  const registrar = new SecurityTokenRegistrar(web3Wrapper, securityToken, compliance, instance.address);
+
+  await registrar.initialize();
+
+  //start creating security token
+  const creator = account
+  const name = 'FUNTOKEN';
+  const ticker = 'FUNT';
+  const totalSupply = 1234567;
+  const decimals = 8;
+  const owner = account
+  const host = hostAccount
+  const fee = 1000;
+  const type = 1;
+  const maxPoly = 100000;
+  const lockupPeriod = 1516397507 + 31557600; // one year from jan 19 2017
+  const quorum = 75;
+
+  // Fund two accounts.
+  await polyToken.generateNewTokens(
+    new BigNumber(10).toPower(18).times(100000),
+    account,
+  );
+  await polyToken.generateNewTokens(
+    new BigNumber(10).toPower(18).times(100000),
+    hostAccount,
+  );
+
+  await polyToken.approve(owner, registrar.address, fee);
+  await registrar.createSecurityToken(
+    creator,
+    name,
+    ticker,
+    totalSupply,
+    decimals,
+    owner,
+    maxPoly,
+    host,
+    fee,
+    type,
+    lockupPeriod,
+    quorum,
+  );
+
+  const logs = await registrar.getLogs(
+    'LogNewSecurityToken',
+    {},
+    { fromBlock: 1 },
+  );
+  let tickerLog =   logs[0].args.ticker;
+  let securityTokenAddress = await registrar.getSecurityTokenAddress(ticker);
+
+  const securityTokenThroughRegistrar = new SecurityToken(
+    web3Wrapper,
+    polyToken,
+    customers,
+    compliance,
+    securityTokenAddress,
+    { from: account },
+  );
+
+  await securityTokenThroughRegistrar.initialize();
+  return securityTokenThroughRegistrar;
 }

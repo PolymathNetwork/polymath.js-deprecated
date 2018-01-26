@@ -5,6 +5,7 @@ import { BigNumber } from 'bignumber.js';
 import ContractWrapper from './ContractWrapper';
 import securityTokenRegistrarArtifact from '../artifacts/SecurityTokenRegistrar.json';
 import SecurityToken from './SecurityToken';
+import Compliance from './Compliance';
 import type {
   BlockRange,
   LogNewSecurityToken,
@@ -21,11 +22,16 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
   /**
    * @hideconstructor
    */
-  constructor(web3Wrapper: Web3Wrapper, securityToken: SecurityToken, deployedAddress?: string) {
+  constructor(
+    web3Wrapper: Web3Wrapper,
+    securityToken: SecurityToken,
+    compliance: Compliance,
+    deployedAddress?: string,
+  ) {
     super(web3Wrapper, securityTokenRegistrarArtifact, deployedAddress);
 
     this.securityToken = securityToken;
-
+    this.compliance = compliance;
   }
 
   /**
@@ -78,6 +84,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
     name: string,
     ticker: string,
     totalSupply: BigNumber,
+    decimals: number,
     owner: string,
     maxPoly: BigNumber,
     host: string,
@@ -90,6 +97,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
       name,
       ticker,
       totalSupply,
+      decimals,
       owner,
       maxPoly,
       host,

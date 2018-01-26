@@ -121,7 +121,6 @@ export default class Customers extends ContractWrapper {
     return super._getLogs(eventName, indexedFilterValues, blockRange);
   }
 
-
   /**
    * Retrieve a KYC provider by their Ethereum address
    * @param  address    The Ethereum address of the KYC provider
@@ -157,8 +156,6 @@ export default class Customers extends ContractWrapper {
     detailsHash: string,
     verificationFee: BigNumber,
   ) {
-
-
     await this._contract.newProvider(
       providerAddress,
       name,
@@ -237,7 +234,6 @@ export default class Customers extends ContractWrapper {
     });
   }
 
-
   /**
    * Retrieve a Polymath user by their associated KYC provider and their Ethereum address. Users can be associated with multiple KYC providers.
    * @param  kycProviderAddress The Ethereum address of the associated KYC provider
@@ -254,22 +250,27 @@ export default class Customers extends ContractWrapper {
     );
 
     // Check if the role is 0. If so, the customer didn't exist.
-    if (customer[2].equals(0)) {
+    if (customer[3].equals(0)) {
       return null;
     }
 
-    const role = numberToRole(customer[2].toNumber());
+    const role = numberToRole(customer[3].toNumber());
 
     if (role == null) {
       throw new Error('Unrecognized customer role.');
     }
 
     return {
-      jurisdiction: Web3.prototype.toAscii(customer[0]).replace(/\u0000/g, ''),
-      accredited: customer[1],
+      countryJurisdiction: Web3.prototype
+        .toAscii(customer[0])
+        .replace(/\u0000/g, ''),
+      divisionJurisdiction: Web3.prototype
+        .toAscii(customer[1])
+        .replace(/\u0000/g, ''),
+      accredited: customer[2],
       role,
-      verified: customer[3],
-      expires: customer[4],
+      verified: customer[4],
+      expires: customer[5],
     };
   }
 }

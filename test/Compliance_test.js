@@ -12,6 +12,7 @@ import {
   makeSecurityToken,
   makeSecurityTokenRegistrar,
   makeTemplateWithFinalized,
+  makeSecurityTokenRegistrar,
 } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
 import { fakeAddress } from './util/fake';
@@ -41,21 +42,15 @@ describe('Compliance wrapper', () => {
     customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
     compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
 
-    securityToken = await makeSecurityToken(
-      web3Wrapper,
-      polyToken,
-      customers,
-      compliance,
-      accounts[0],
-    );
 
-    registrar = await makeSecurityTokenRegistrar(
+    securityToken = await makeSecurityTokenThroughRegistrar(
       web3Wrapper,
       polyToken,
       customers,
       compliance,
       securityToken,
       accounts[0],
+      accounts[1],
     );
 
 
@@ -96,8 +91,7 @@ describe('Compliance wrapper', () => {
       accounts[1],
       accounts[2],
     );
-    console.log(registrar);
-    await compliance.setRegsitrarAddress(accounts[0], registrar.address)
+
     console.log("hi");
 
     await compliance.proposeTemplate(accounts[2], securityToken, templateAddress);

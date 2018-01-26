@@ -50,9 +50,9 @@ describe('Template wrapper', () => {
     const usa = 'USA-DW';
     const india = 'INDIA';
 
-    const beforeCanada = await template.checkIfJurisdictionIsAllowed(canada);
-    const beforeUsa = await template.checkIfJurisdictionIsAllowed(usa);
-    const beforeIndia = await template.checkIfJurisdictionIsAllowed(india);
+    const beforeCanada = await template.checkIfCountryJurisdictionIsAllowed(canada);
+    const beforeUsa = await template.checkIfCountryJurisdictionIsAllowed(usa);
+    const beforeIndia = await template.checkIfCountryJurisdictionIsAllowed(india);
     assert.equal(beforeCanada, false, 'canada status was not read properly');
     assert.equal(beforeUsa, false, 'usa status was not read properly');
     assert.equal(beforeIndia, false, 'india status was not read properly');
@@ -65,11 +65,11 @@ describe('Template wrapper', () => {
 
     const canadaShouldBeUpperCase = 'CAN-ON';
 
-    const afterCanada = await template.checkIfJurisdictionIsAllowed(
+    const afterCanada = await template.checkIfCountryJurisdictionIsAllowed(
       canadaShouldBeUpperCase,
     );
-    const afterUsa = await template.checkIfJurisdictionIsAllowed(usa);
-    const afterIndia = await template.checkIfJurisdictionIsAllowed(india);
+    const afterUsa = await template.checkIfCountryJurisdictionIsAllowed(usa);
+    const afterIndia = await template.checkIfCountryJurisdictionIsAllowed(india);
     assert.equal(afterCanada, true, 'canada status was not read properly');
     assert.equal(afterUsa, true, 'usa status was not read properly');
     assert.equal(afterIndia, true, 'india status was not read properly');
@@ -161,14 +161,18 @@ describe('Template wrapper', () => {
   });
 
   it('checkTemplateRequirements should return true when the requirements given are all met', async () => {
-    const jurisdiction = 'CAN-ON';
+    const jurisdictionCountry = 'CAN';
+    const jurisdictionDivision = 'ON';
     const accredited = false;
     const role = 'investor';
+    await template.addJurisdiction(accounts[0], [jurisdictionCountry], [true]);
+    await template.addDivisionJurisdiction(accounts[0], [jurisdictionDivision], [true]);
 
-    await template.addJurisdiction(accounts[0], [jurisdiction], [true]);
+
     await template.addRoles(accounts[0], [role]);
     const areRequirementsMet = await template.checkTemplateRequirements(
-      jurisdiction,
+      jurisdictionCountry,
+      jurisdictionDivision,
       accredited,
       role,
     );
@@ -181,15 +185,18 @@ describe('Template wrapper', () => {
   });
 
   it('checkTemplateRequirements should return false when a requirement is not met', async () => {
-    const jurisdiction = 'CAN-ON';
+    const jurisdictionCountry = 'CAN';
+    const jurisdictionDivision = 'ON';
     const accredited = false;
     const role = 'investor';
     const roleNotAdded = 'delegate'; // testing the failure
 
-    await template.addJurisdiction(accounts[0], [jurisdiction], [true]);
+    await template.addJurisdiction(accounts[0], [jurisdictionCountry], [true]);
+    await template.addDivisionJurisdiction(accounts[0], [jurisdictionDivision], [true]);
     await template.addRoles(accounts[0], [role]);
     const areRequirementsMet = await template.checkTemplateRequirements(
-      jurisdiction,
+      jurisdictionCountry,
+      jurisdictionDivision,
       accredited,
       roleNotAdded,
     );

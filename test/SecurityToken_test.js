@@ -9,6 +9,7 @@ import {
   Compliance,
   Customers,
   SecurityToken,
+  SecurityTokenRegistrar,
 } from '../src/contract_wrappers';
 import {
   makePolyToken,
@@ -17,8 +18,10 @@ import {
   makeKYCProvider,
   makeLegalDelegate,
   makeSecurityToken,
+  makeSecurityTokenRegistrar,
   makeTemplate,
   makeTemplateWithFinalized,
+  makeSecurityTokenThroughRegistrar,
 } from './util/make_examples';
 import { makeWeb3Wrapper } from './util/web3';
 import { fakeBytes32 } from './util/fake';
@@ -33,6 +36,8 @@ describe('SecurityToken wrapper', () => {
   let customers: Customers;
   let compliance: Compliance;
   let securityToken: SecurityToken;
+  let registrar: SecurityTokenRegistrar;
+  let securityTokenAddress;
 
   before(async () => {
     accounts = await web3Wrapper.getAvailableAddressesAsync();
@@ -42,12 +47,15 @@ describe('SecurityToken wrapper', () => {
     polyToken = await makePolyToken(web3Wrapper, accounts[0]);
     customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
     compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
-    securityToken = await makeSecurityToken(
+
+    securityToken = await makeSecurityTokenThroughRegistrar(
       web3Wrapper,
       polyToken,
       customers,
       compliance,
+      securityToken,
       accounts[0],
+      accounts[1],
     );
 
     // Fund four accounts.
@@ -70,29 +78,27 @@ describe('SecurityToken wrapper', () => {
   });
 
   it('getName, getDecimals', async () => {
-    assert.equal(await securityToken._contract.name.call(), 'Token Name');
-    assert.equal(await securityToken._contract.decimals.call(), 0);
+    assert.equal(await securityToken._contract.name.call(), 'FUNTOKEN');
+    assert.equal(await securityToken._contract.decimals.call(), 8);
 
   });
 
-  // it('updateComplianceProof, getTokenDetails', async () => {
-  //   await securityToken.updateComplianceProof(
-  //     accounts[0],
-  //     fakeBytes32,
-  //     fakeBytes32,
-  //   );
+  it('updateComplianceProof, getTokenDetails', async () => {
+    await securityToken.updateComplianceProof(
+      accounts[0],
+      fakeBytes32,
+      fakeBytes32,
+    );
 
-  //   const details = await securityToken.getTokenDetails();
-  //   console.log(details);
-  //   assert.equal(details.merkleRoot, fakeBytes32);
-  // });
+    const details = await securityToken.getTokenDetails();
+    assert.equal(details.merkleRoot, fakeBytes32);
+  });
 
   it('selectTemplate, addToWhiteList, getShareholderDetails, getPolyAllocationDetails', async () => {
     const owner = accounts[0];
     const kycProvider = accounts[1];
     const legalDelegate = accounts[2];
     const investor = accounts[3];
-
     await makeKYCProvider(polyToken, customers, owner, kycProvider);
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
@@ -101,6 +107,7 @@ describe('SecurityToken wrapper', () => {
       kycProvider,
       legalDelegate,
     );
+
     await compliance.proposeTemplate(
       legalDelegate,
       securityToken.address,
@@ -117,13 +124,14 @@ describe('SecurityToken wrapper', () => {
     await customers.verifyCustomer(
       kycProvider,
       investor,
-      'US-CA',
+      'US',
+      'CA',
       'investor',
       true,
       new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
     );
 
-    await securityToken.addToWhitelist(kycProvider, investor);
+    await securityToken.addToWhitelist(owner, investor);
 
     let checkShareholderDetails = await securityToken.getShareholderDetails(investor);
     assert.equal(checkShareholderDetails[1], true, "Should read true, investor has been whitelisted");
@@ -133,9 +141,7 @@ describe('SecurityToken wrapper', () => {
   });
 
 
-  it('getRegistrarAddress, isSTOProposed', async () => {
-    let registrarAddress = await securityToken.getRegistrarAddress();
-    assert.equal(registrarAddress, accounts[0], "Registrar address should read account[0] account, beacuse this was the 'from' value passed into makeSecurityToken");
+  it('tokensIssuedBySTO, isSTOProposed', async () => {
 
     let isSTOProposed = await securityToken.isSTOProposed();
     assert.equal(isSTOProposed, false, "Should read false as no STO has been proposed");
