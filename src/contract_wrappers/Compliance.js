@@ -239,6 +239,22 @@ export default class Compliance extends ContractWrapper {
     );
   }
 
+    /**
+   * Get the STO address for a security token by passing its proposal index.
+   * @param   securityTokenAddress  Ethereum address of the security token the STO is created for
+   * @param   proposalIndex         The STO proposal array index
+   * @return  The template address
+   */
+  async getSTOAddressByProposal(
+    securityTokenAddress: string,
+    proposalIndex: number,
+  ): Promise<string> {
+    return this._contract.offeringProposals.call(
+      securityTokenAddress,
+      proposalIndex,
+    );
+  }
+
   /**
    * Get an STO that has been proposed for a security token by passing its offering index.
    * @param   securityTokenAddress  Ethereum address of the security token the STO is created for

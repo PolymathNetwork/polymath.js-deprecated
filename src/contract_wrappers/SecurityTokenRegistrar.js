@@ -161,12 +161,4 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
     return this._contract.polyComplianceAddress.call();
   }
 
-  /**
-   * Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times.
-   * @param polyOwnerAddress The owner who wants to withdraw their poly
-   * @param ticker The security token ticker
-   */
-  async withdrawPolyFunds(polyOwnerAddress: string, ticker: string) {
-    await this._contract.withdrawFunds(ticker, { from: polyOwnerAddress });
-  }
 }

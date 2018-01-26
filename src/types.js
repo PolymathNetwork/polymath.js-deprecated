@@ -60,9 +60,9 @@ export type TransferEventArgs = {
 };
 
 /**
- * Arguments for the PolyToken Allowance event
+ * Arguments for the PolyToken Approval event
  */
-export type AllowanceEventArgs = {
+export type ApprovalEventArgs = {
   _owner: string,
   _spender: string,
   _value: BigNumber,
@@ -255,6 +255,14 @@ export type LogNewWhitelistedAddress = {
 };
 
 /**
+ * Arguments for the SecurityToken.sol LogNewBlacklistedAddress event
+ */
+export type LogNewBlacklistedAddress = {
+  _KYC: string,
+  _shareholder: string,
+};
+
+/**
  * Arguments for the SecurityToken.sol LogVoteToFreeze event
  */
 export type LogVoteToFreeze = {
@@ -310,6 +318,25 @@ export type LogNewSecurityToken = {
   fee: BigNumber,
   _type: Number,
 };
+
+/**
+ * Arguments for the SecurityTokenRegistrar.sol LogSecurityToken event
+ */
+export type LogSecurityToken = {
+  securityTokenAddress: string,
+};
+
+// Template Events
+
+/**
+ * Arguments for the Template.sol DetailsUpdated event
+ */
+export type DetailsUpdated = {
+  previousDetails: string,
+  newDetails: string,
+  updateDate: BigNumber,
+}
+
 
 export class PolymathError extends Error {}
 
