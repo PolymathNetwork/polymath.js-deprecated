@@ -43,7 +43,6 @@ describe('Registrar wrapper', () => {
       accounts[0],
     );
 
-    //breaking here
     registrar = await makeSecurityTokenRegistrar(
       web3Wrapper,
       polyToken,
@@ -69,6 +68,7 @@ describe('Registrar wrapper', () => {
     const name = 'FUNTOKEN';
     const ticker = 'FUNT';
     const totalSupply = 1234567;
+    const decimals = 8;
     const owner = accounts[0];
     const host = accounts[1];
     const fee = 1000;
@@ -83,6 +83,7 @@ describe('Registrar wrapper', () => {
       name,
       ticker,
       totalSupply,
+      decimals,
       owner,
       maxPoly,
       host,

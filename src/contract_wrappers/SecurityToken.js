@@ -410,14 +410,6 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /**
-   * Gets the address of the Security Token Registrar.
-   * @return The registrar address
-   */
-  async getRegistrarAddress(): Promise<BigNumber> {
-    return this._contract.registrarAddress.call();
-  }
-
-  /**
    * Returns if the STO is propsed or not
    * @return Returns true if it has been proposed.
    */

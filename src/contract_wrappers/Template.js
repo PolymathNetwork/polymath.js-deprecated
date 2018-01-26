@@ -43,6 +43,33 @@ export default class Template extends ContractWrapper {
   }
 
   /**
+   * Add a jurisdiction division to the Security token that indicates investors in that division are allowed to purchase this security token.
+   * @param  legalDelegateAddress The Ethereum address of the legal delegate who made the template
+   * @param  allowedDivisionJurisdictions An array of strings (solidity type bytes32) that represent the jurisdiction divisiom
+   * @param  allowed An array of whether the division is allowed to purchase the security or not
+   */
+  async addDivisionJurisdiction(
+    legalDelegateAddress: string,
+    allowedDivisionJurisdictions: Array<string>,
+    allowed: Array<boolean>,
+  ) {
+    const uppercaseJurisdictions = allowedDivisionJurisdictions.map(i =>
+      i.toUpperCase(),
+    );
+    const jurisdictionsToBytes32 = uppercaseJurisdictions.map(j =>
+      Web3.prototype.fromAscii(j),
+    );
+
+    await this._contract.addDivisionJurisdiction(
+      jurisdictionsToBytes32,
+      allowed,
+      {
+        from: legalDelegateAddress,
+      },
+    );
+  }
+
+  /**
    * Allows the adding of new roles to be added to whitelist
    * @param legalDelegateAddress The Ethereum address of the legal delegate who made the template
    * @param allowedRoles An array of strings  that adds new roles to the whitelist
@@ -106,30 +133,42 @@ export default class Template extends ContractWrapper {
    * @return True if it all template requirements are met
    */
   async checkTemplateRequirements(
-    jurisdiction: string,
+    countryJurisdiction: string,
+    divisionJurisdiction: string,
     accredited: boolean,
     role: string,
   ): Promise<boolean> {
-    const uppercaseJurisdiction = jurisdiction.toUpperCase();
+    const uppercaseJurisdiction = countryJurisdiction.toUpperCase();
     const jurisdictionsToBytes32 = Web3.prototype.fromAscii(
       uppercaseJurisdiction,
+    );
+
+    const uppercaseJurisdictionDivision = divisionJurisdiction.toUpperCase();
+    const jurisdictionDivisionsToBytes32 = Web3.prototype.fromAscii(
+      uppercaseJurisdictionDivision,
     );
     const numericalRole = roleToNumber(role);
 
     // we want to return false in polymath.js when conditions are not met, instead of the revert failure that solidity gives. So we check
     // them individually, and if all conditions are met, we let a call go to checkTemplateRequirements. If not, just return false
-    const checkJurisdiction = await this.checkIfJurisdictionIsAllowed(
+    const checkJurisdiction = await this.checkIfCountryJurisdictionIsAllowed(
       jurisdictionsToBytes32,
     );
+    const checkJurisdictionDivision = await this.checkIfDivisionJurisdictionIsAllowed(
+      jurisdictionDivisionsToBytes32,
+    );
+
     const checkAccreditation = await this.checkIfAccreditationIsRequired();
     const checkRole = await this.checkIfRoleIsAllowed(numericalRole);
     if (
       checkJurisdiction === true &&
+      checkJurisdictionDivision === true &&
       checkRole === true &&
       (checkAccreditation === false || checkAccreditation === checkRole)
     )
       return this._contract.checkTemplateRequirements.call(
         jurisdictionsToBytes32,
+        jurisdictionDivisionsToBytes32,
         accredited,
         numericalRole,
       );
@@ -182,8 +221,20 @@ export default class Template extends ContractWrapper {
    * Checks if the jurisdiction is allowed for this template
    * @return True if the jurisdiction is allowed
    */
-  async checkIfJurisdictionIsAllowed(jurisdiction: string): Promise<boolean> {
+  async checkIfCountryJurisdictionIsAllowed(
+    jurisdiction: string,
+  ): Promise<boolean> {
     return this._contract.allowedJurisdictions.call(jurisdiction);
+  }
+
+  /**
+   * Checks if the jurisdiction division is allowed for this template
+   * @return True if the division is allowed
+   */
+  async checkIfDivisionJurisdictionIsAllowed(
+    jurisdiction: string,
+  ): Promise<boolean> {
+    return this._contract.blockedDivisionJurisdictions.call(jurisdiction);
   }
 
   /**

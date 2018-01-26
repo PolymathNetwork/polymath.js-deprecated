@@ -70,16 +70,17 @@ describe('Customers wrapper', () => {
     await customers.verifyCustomer(
       kycProvider,
       investor,
-      'US-CA',
+      'US',
+      'CA',
       'investor',
       false,
       new BigNumber(15163975079),
     );
+
     const customer = await customers.getCustomer(kycProvider, investor);
 
     assert.equal(customer.verified, true);
-    assert.equal(customer.jurisdiction, 'US-CA');
-
+    assert.equal(customer.countryJurisdiction, 'US');
     const logs = await customers.getLogs(
       'LogCustomerVerified',
       {},

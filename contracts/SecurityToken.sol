@@ -49,7 +49,7 @@ contract SecurityToken is IERC20 {
         bool allowed;                                                 // allowed - whether the shareholder is allowed to transfer or recieve the security token
         uint8 role;                                                   // role - role of the shareholder {1,2,3,4}
     }
-    address public registrarAddress;                                  // SecurityTokenRegistrar contract address
+
     mapping(address => Shareholder) public shareholders;              // Mapping that holds the data of the shareholder corresponding to investor address
 
     // STO
@@ -73,15 +73,16 @@ contract SecurityToken is IERC20 {
     mapping(address => mapping(address => bool)) public voted;               // Voting mapping
     mapping(address => Allocation) public allocations;                       // Mapping that contains the data of allocation corresponding to stakeholder address
 
-	// Security Token Offering statistics
+	   // Security Token Offering statistics
     mapping(address => uint256) public contributedToSTO;                     // Mapping for tracking the POLY contribution by the contributor
-	uint256 public tokensIssuedBySTO = 0;                             // Flag variable to track the security token issued by the offering contract
+    uint256 public tokensIssuedBySTO = 0;                             // Flag variable to track the security token issued by the offering contract
 
     // Notifications
     event LogTemplateSet(address indexed _delegateAddress, address _template, address indexed _KYC);
     event LogUpdatedComplianceProof(bytes32 _merkleRoot, bytes32 _complianceProofHash);
     event LogSetSTOContract(address _STO, address indexed _STOtemplate, address indexed _auditor, uint256 _startTime, uint256 _endTime);
     event LogNewWhitelistedAddress(address _KYC, address _shareholder, uint8 _role);
+    event LogNewBlacklistedAddress(address _KYC, address _shareholder);
     event LogVoteToFreeze(address _recipient, uint256 _yayPercent, uint8 _quorum, bool _frozen);
     event LogTokenIssued(address indexed _contributor, uint256 _stAmount, uint256 _polyContributed, uint256 _timestamp);
 
@@ -128,6 +129,7 @@ contract SecurityToken is IERC20 {
         string _name,
         string _ticker,
         uint256 _totalSupply,
+        uint8 _decimals,
         address _owner,
         uint256 _maxPoly,
         uint256 _lockupPeriod,
@@ -137,7 +139,7 @@ contract SecurityToken is IERC20 {
         address _polyComplianceAddress
     ) public
     {
-        decimals = 0;
+        decimals = _decimals;
         name = _name;
         symbol = _ticker;
         owner = _owner;
@@ -148,9 +150,10 @@ contract SecurityToken is IERC20 {
         PolyCustomers = ICustomers(_polyCustomersAddress);
         PolyCompliance = ICompliance(_polyComplianceAddress);
         allocations[owner] = Allocation(0, _lockupPeriod, _quorum, 0, 0, false);
-        registrarAddress = msg.sender;
         Transfer(0x0, _owner, _totalSupply);
     }
+
+    /* function initialiseBalances(uint256) */
 
     /**
      * @dev `selectTemplate` Select a proposed template for the issuance
@@ -223,7 +226,7 @@ contract SecurityToken is IERC20 {
         require(tokenAmount == totalSupply);
         balances[STO] = balances[STO].add(tokenAmount);
         balances[msg.sender] = balances[msg.sender].sub(tokenAmount);
-        hasOfferingStarted = !hasOfferingStarted;
+        hasOfferingStarted = true;
         Transfer(owner, STO, tokenAmount);
         return true;
     }
@@ -236,32 +239,40 @@ contract SecurityToken is IERC20 {
      * @param _whitelistAddress Address attempting to join ST whitelist
      * @return bool success
      */
-    function addToWhitelist(address _whitelistAddress) public returns (bool success) {
-        require(KYC == msg.sender || owner == msg.sender);
-        var (jurisdiction, accredited, role, verified, expires) = PolyCustomers.getCustomer(KYC, _whitelistAddress);
+    function addToWhitelist(address _whitelistAddress) onlyOwner public returns (bool success) {
+        var (countryJurisdiction, divisionJurisdiction, accredited, role, verified, expires) = PolyCustomers.getCustomer(KYC, _whitelistAddress);
         require(verified && expires > now);
-        require(Template.checkTemplateRequirements(jurisdiction, accredited, role));
+        require(Template.checkTemplateRequirements(countryJurisdiction, divisionJurisdiction, accredited, role));
         shareholders[_whitelistAddress] = Shareholder(msg.sender, true, role);
         LogNewWhitelistedAddress(msg.sender, _whitelistAddress, role);
         return true;
     }
 
     /**
-     * @dev Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times
-     * @param _to Address of the recipient
+     * @dev Add a verified address to the Security Token blacklist
+     * @param _blacklistAddress Address being added to the blacklist
      * @return bool success
      */
-    function withdrawPoly(address _to) public returns (bool success) {
-        require(msg.sender == registrarAddress);
-        require(_to != address(0));
+    function addToBlacklist(address _blacklistAddress) onlyOwner public returns (bool success) {
+        require(shareholders[_blacklistAddress].allowed);
+        shareholders[_blacklistAddress].allowed = false;
+        LogNewBlacklistedAddress(msg.sender, _blacklistAddress);
+        return true;
+    }
+
+    /**
+     * @dev Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times
+     * @return bool success
+     */
+    function withdrawPoly() public returns (bool success) {
   	    if (delegate == address(0)) {
           return POLY.transfer(owner, POLY.balanceOf(this));
         }
-        require(now > endSTO + allocations[_to].vestingPeriod);
-        require(!allocations[_to].frozen);
-        require(allocations[_to].amount > 0);
-        require(POLY.transfer(_to, allocations[_to].amount));
-        allocations[_to].amount = 0;
+        require(now > endSTO + allocations[msg.sender].vestingPeriod);
+        require(!allocations[msg.sender].frozen);
+        require(allocations[msg.sender].amount > 0);
+        require(POLY.transfer(msg.sender, allocations[msg.sender].amount));
+        allocations[msg.sender].amount = 0;
         return true;
     }
 
@@ -332,7 +343,7 @@ contract SecurityToken is IERC20 {
      * @return bool success
      */
     function transfer(address _to, uint256 _value) public returns (bool success) {
-        if (shareholders[_to].allowed && balances[msg.sender] >= _value && _value > 0) {
+        if (shareholders[_to].allowed && shareholders[msg.sender].allowed && balances[msg.sender] >= _value && _value > 0) {
             balances[msg.sender] = balances[msg.sender].sub(_value);
             balances[_to] = balances[_to].add(_value);
             Transfer(msg.sender, _to, _value);
@@ -350,7 +361,7 @@ contract SecurityToken is IERC20 {
      * @return bool success
      */
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
-        if (shareholders[_to].allowed && balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0) {
+        if (shareholders[_to].allowed && shareholders[_from].allowed && balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0) {
             uint256 _allowance = allowed[_from][msg.sender];
             balances[_from] = balances[_from].sub(_value);
             allowed[_from][msg.sender] = _allowance.sub(_value);
