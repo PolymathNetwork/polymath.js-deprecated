@@ -13,13 +13,13 @@ import bytes32Zero from '../bytes32Zero';
 import { numberToRole } from '../roles';
 import type {
   BlockRange,
-  EventCallback,
-  IndexedFilterValues,
-  Log,
-  SecurityTokenEventArgs,
-  TokenDetails,
-  PolyAllocation,
-  Shareholder,
+    EventCallback,
+    IndexedFilterValues,
+    Log,
+    SecurityTokenEventArgs,
+    TokenDetails,
+    PolyAllocation,
+    Shareholder,
 } from '../types';
 
 export type LogNewWhitelistedAddress = {
@@ -459,4 +459,25 @@ export default class SecurityToken extends ContractWrapper {
   ): Promise<boolean> {
     return this._contract.voted.call(userAddress, addressBeingVotedOn);
   }
+
+  /**
+   * Call to start the security token offering contract.
+   * @param ownerAddress The owner of the SecurityToken contract is the only one who can start the offering
+   */
+  async startOffering(ownerAddress: string) {
+    await this._contract.startOffering({
+      from: ownerAddress,
+    });
+  }
+
+  /**
+   * Add a verified address to the Security Token blacklist
+   * @param blacklistAddress The address being added to the blacklist
+   */
+  async addToBlacklist(ownerAddress: string, blacklistAddress: string) {
+    await this._contract.addToBlacklist(blacklistAddress, {
+      from: ownerAddress,
+    });
+  }
+
 }

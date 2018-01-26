@@ -20,6 +20,36 @@ export default class Template extends ContractWrapper {
   }
 
   /**
+   * Subscribes to events emitted by the contract.
+   * @param   eventName           The name of the event to subscribe to
+   * @param   indexedFilterValues Event argument values with which to filter logs
+   * @param   callback            Callback to receive event logs
+   * @return  An identifier used to unsubscribe
+   */
+  subscribe(
+    eventName: 'DetailsUpdated',
+    indexedFilterValues: IndexedFilterValues,
+    callback: EventCallback<DetailsUpdated>,
+  ): string {
+    return super._subscribe(eventName, indexedFilterValues, callback);
+  }
+
+  /**
+   * Retrieves events emitted by this contract in an arbitrary block range.
+   * @param   eventName           The name of the event to look for
+   * @param   indexedFilterValues Event argument values with which to filter logs
+   * @param   blockRange          A range of blocks to look in. By default starts and ends at 'latest' block.
+   * @return  An array of logs
+   */
+  async getLogs(
+    eventName: 'DetailsUpdated',
+    indexedFilterValues: IndexedFilterValues,
+    blockRange?: BlockRange,
+  ): Promise<Array<Log<DetailsUpdated>>> {
+    return super._getLogs(eventName, indexedFilterValues, blockRange);
+  }
+
+  /**
    * Add a jurisdiction to the Security token that indicates investors in that jurisdiction are allowed to purchase this security token.
    * @param  legalDelegateAddress The Ethereum address of the legal delegate who made the template
    * @param  allowedJurisdictions An array of strings (solidity type bytes32) that represent the jurisdiction

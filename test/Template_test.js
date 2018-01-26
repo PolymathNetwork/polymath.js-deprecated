@@ -45,7 +45,7 @@ describe('Template wrapper', () => {
     );
   });
 
-  it('addJurisdiction, checkIfJurisdictionIsAllowed', async () => {
+  it('addJurisdiction, checkIfCountryJurisdictionIsAllowed', async () => {
     const canada = 'can-on';
     const usa = 'USA-DW';
     const india = 'INDIA';
