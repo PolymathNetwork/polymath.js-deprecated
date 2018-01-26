@@ -289,18 +289,5 @@ export default class Compliance extends ContractWrapper {
   }
 
 
-  /**
-   * Set the registrar address for Compliance to connect to
-   * @param _STRegistrar It is the `this` reference of STR contract
-   * @return bool
-   */
-  async setRegsitrarAddress(complianceContractOwner: string, registrarAddress: string) {
-    await this._contract.setRegsitrarAddress(registrarAddress, {
-      from: complianceContractOwner,
-    });
-    console.log("GF");
-  }
-
-
 
 }
