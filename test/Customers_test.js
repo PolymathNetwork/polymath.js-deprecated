@@ -38,8 +38,6 @@ describe('Customers wrapper', () => {
     );
   });
 
-
-
   describe('getKYCProviderByAddress', () => {
     it('should return created provider', async () => {
       await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
@@ -52,12 +50,35 @@ describe('Customers wrapper', () => {
       );
     });
 
+    it('should emit LogNewProvider event', async () => {
+      await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+      const logs = await customers.getLogs(
+        'LogNewProvider',
+        {},
+        { fromBlock: 1 },
+      );
+      assert.isAbove(logs.length, 0, 'Got a log');
+      assert.equal(logs[0].args.providerAddress, accounts[1]);
+      assert.equal(logs[0].args.name, 'Provider');
+    });
+
     it('should return null for nonexistent provider', async () => {
       const nullProvider = await customers.getKYCProviderByAddress(fakeAddress);
       assert.equal(nullProvider, null);
     });
-  });
 
+    it('should change verification fee', async () => {
+      await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+      const provider = await customers.getKYCProviderByAddress(accounts[1]);
+      assert.equal(provider.name, 'Provider');
+
+      await customers.changeVerificationFee(accounts[1], new BigNumber(200));
+      assert(
+        provider.verificationFee.equals(200),
+        'Verification fee correectly changed',
+      );
+    });
+  });
 
   it('verifyCustomer, getCustomer, getLogs', async () => {
     const owner = accounts[0]
@@ -100,4 +121,5 @@ describe('Customers wrapper', () => {
       'getCustomer returns null for nonexistent customer',
     );
   });
+
 });
