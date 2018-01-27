@@ -106,5 +106,18 @@ describe('PolyToken wrapper', () => {
         'balance after transferFrom',
       );
     });
+
+    it('should emit approve event', async () => {
+      await polyToken.approve(accounts[0], accounts[1], new BigNumber(10));
+      const logs = await polyToken.getLogs(
+        'Approval',
+        {},
+        { fromBlock: 1 },
+      );
+      assert.isAbove(logs.length, 0, 'Got a log');
+      assert.equal(logs[0].args._owner, accounts[0], 'Correct owner');
+      assert.equal(logs[0].args._spender, accounts[1], 'Correct spender');
+      assert.equal(logs[0].args._value, 10, 'Correct value');
+    });
   });
 });
