@@ -32,7 +32,7 @@ export default class PolyToken extends ContractWrapper {
    * @return  An identifier used to unsubscribe
    */
   subscribe(
-    eventName: 'Transfer' | 'Allowance',
+    eventName: 'Transfer' | 'Approval',
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<PolyTokenEventArgs>,
   ): string {
