@@ -110,7 +110,6 @@ export const makeKYCProvider = async (
   ownerAddress: string,
   kycProviderAddress: string,
 ) => {
-
   await customers.newKYCProvider(
     kycProviderAddress,
     'Provider',
