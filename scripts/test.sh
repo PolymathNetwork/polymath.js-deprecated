@@ -56,4 +56,4 @@ fi
 
 run-s truffle:compile copy-artifacts
 truffle migrate --network=testrpc
-run-p babel:watchsrc babel:watchtest
+#run-p babel:watchsrc babel:watchtest
