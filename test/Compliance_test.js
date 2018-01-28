@@ -109,6 +109,24 @@ describe('Compliance wrapper', () => {
   //   assert.equal(templateReputation.owner, accounts[2], "TemplateReputation not stored or read properly");
   // });
 
+
+  it('cancelTemplateProposal', async () => {
+    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
+
+    const templateAddress = await makeTemplate(
+      compliance,
+      accounts[1],
+      accounts[2],
+    );
+
+    console.log('cancelTemplateProposal started...');
+
+
+
+  });
+
+
   it('setSTO', async () => {
     await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
 
