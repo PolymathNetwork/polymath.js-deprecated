@@ -38,11 +38,11 @@ start_testrpc() {
     --account="0x2bdd21761a483f71054e14f5b827213567971c676928d9a1808cbfa4b7501209,1000000000000000000000000"
   )
 
-  if [ "$SOLIDITY_COVERAGE" = true ]; then
-    node_modules/.bin/testrpc-sc --gasLimit 0xfffffffffff --port "$testrpc_port" "${accounts[@]}" > /dev/null &
-  else
-    node_modules/.bin/testrpc --gasLimit 0xfffffffffff "${accounts[@]}" > /dev/null &
-  fi
+#  if [ "$SOLIDITY_COVERAGE" = true ]; then
+#    node_modules/.bin/testrpc-sc --gasLimit 0xfffffffffff --port "$testrpc_port" "${accounts[@]}" > /dev/null &
+#  else
+#    node_modules/.bin/testrpc --gasLimit 0xfffffffffff "${accounts[@]}" > /dev/null &
+#  fi
 
   testrpc_pid=$!
 }
@@ -54,12 +54,16 @@ else
   start_testrpc
 fi
 
-if [ "$SOLIDITY_COVERAGE" = true ]; then
-  node_modules/.bin/solidity-coverage
+run-s truffle:compile copy-artifacts
+truffle migrate --network=testrpc
+run-p babel:watchsrc babel:watchtest
 
-  if [ "$CONTINUOUS_INTEGRATION" = true ]; then
-    cat coverage/lcov.info | node_modules/.bin/coveralls
-  fi
-else
-  node_modules/.bin/truffle test "$@"
-fi
+#if [ "$SOLIDITY_COVERAGE" = true ]; then
+#  node_modules/.bin/solidity-coverage
+#
+#  if [ "$CONTINUOUS_INTEGRATION" = true ]; then
+#    cat coverage/lcov.info | node_modules/.bin/coveralls
+#  fi
+#else
+#  node_modules/.bin/truffle test "$@"
+#fi
