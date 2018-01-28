@@ -13,11 +13,6 @@ cleanup() {
   fi
 }
 
-if [ "$SOLIDITY_COVERAGE" = true ]; then
-  testrpc_port=8545
-else
-  testrpc_port=8545
-fi
 
 testrpc_running() {
   nc -z localhost "$testrpc_port"
@@ -44,8 +39,10 @@ if testrpc_running; then
 else
   echo "Starting our own testrpc instance"
   start_testrpc
+
+  yarn run-s truffle:compile copy-artifacts
+  yarn truffle migrate --network=testrpc
 fi
 
-run-s truffle:compile copy-artifacts
-truffle migrate --network=testrpc
+
 #run-p babel:watchsrc babel:watchtest
