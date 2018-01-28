@@ -67,17 +67,17 @@ describe('Customers wrapper', () => {
       assert.equal(nullProvider, null);
     });
 
-    it('should change verification fee', async () => {
-      await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
-      const provider = await customers.getKYCProviderByAddress(accounts[1]);
-      assert.equal(provider.name, 'Provider');
-
-      await customers.changeVerificationFee(accounts[1], new BigNumber(200));
-      assert(
-        provider.verificationFee.equals(200),
-        'Verification fee correectly changed',
-      );
-    });
+    // it('should change verification fee', async () => {
+    //   await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    //   const provider = await customers.getKYCProviderByAddress(accounts[1]);
+    //   assert.equal(provider.name, 'Provider');
+    //
+    //   await customers.changeVerificationFee(accounts[1], new BigNumber(200));
+    //   assert(
+    //     provider.verificationFee.equals(200),
+    //     'Verification fee correectly changed',
+    //   );
+    // });
   });
 
   it('verifyCustomer, getCustomer, getLogs', async () => {
