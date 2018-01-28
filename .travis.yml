@@ -9,7 +9,7 @@ cache:
   directories:
     - "node_modules"
 script:
-- npm test
+- npm run ci
 notifications:
   slack:
     template:
