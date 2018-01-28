@@ -32,7 +32,7 @@ export default class PolyToken extends ContractWrapper {
    * @return  An identifier used to unsubscribe
    */
   subscribe(
-    eventName: 'Transfer' | 'Allowance',
+    eventName: 'Transfer' | 'Approval',
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<PolyTokenEventArgs>,
   ): string {
@@ -47,7 +47,7 @@ export default class PolyToken extends ContractWrapper {
    * @return  An array of logs
    */
   async getLogs(
-    eventName: 'Transfer' | 'Allowance',
+    eventName: 'Transfer' | 'Approval',
     indexedFilterValues: IndexedFilterValues,
     blockRange?: BlockRange,
   ): Promise<Array<Log<PolyTokenEventArgs>>> {

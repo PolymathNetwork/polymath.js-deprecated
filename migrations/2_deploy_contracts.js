@@ -2,7 +2,7 @@ const PolyToken = artifacts.require('./PolyToken.sol');
 const Compliance = artifacts.require('./Compliance.sol');
 const Customers = artifacts.require('./Customers.sol');
 const SecurityTokenRegistrar = artifacts.require(
-  './SecurityTokenRegistrar.sol',
+  './SecurityTokenRegistrar.sol'
 );
 
 module.exports = (deployer, network) => {
@@ -20,7 +20,7 @@ module.exports = (deployer, network) => {
       SecurityTokenRegistrar,
       PolyToken.address,
       Customers.address,
-      Compliance.address,
+      Compliance.address
     );
   });
 
