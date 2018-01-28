@@ -48,6 +48,7 @@
     "mnemonic": "age drama cover door helmet mechanic wine lesson vote inflict will keep"
   },
   "dependencies": {
+    "ethereumjs-testrpc": "^6.0.3",
     "truffle-contract": "3.0.1",
     "uuid": "3.1.0",
     "web3": "0.20.1"
