@@ -75,6 +75,36 @@ describe('Template wrapper', () => {
     assert.equal(afterIndia, true, 'india status was not read properly');
   });
 
+  it('addDivisionJurisdiction, checkIfDivisionJurisdictionIsAllowed', async () => {
+    const ontario = 'ONTARIO-CANADA';
+    const california = 'CALIFORNIA-USA';
+    const dhaka = 'DHAKA-BANGLADESH';
+
+    const beforeOntario = await template.checkIfDivisionJurisdictionIsAllowed(ontario);
+    const beforeCalifornia = await template.checkIfDivisionJurisdictionIsAllowed(california);
+    const beforeDhaka = await template.checkIfDivisionJurisdictionIsAllowed(dhaka);
+    assert.equal(beforeOntario, false, 'ontario status was not read properly');
+    assert.equal(beforeCalifornia, false, 'california status was not read properly');
+    assert.equal(beforeDhaka, false, 'dhaka status was not read properly');
+
+    await template.addDivisionJurisdiction(
+      accounts[0],
+      [ontario, california, dhaka],
+      [true, true, true],
+    );
+
+    const ontarioShouldBeUpperCase = 'ONTARIO-CANADA';
+
+    const afterOntario = await template.checkIfDivisionJurisdictionIsAllowed(
+      ontarioShouldBeUpperCase,
+    );
+    const afterCalifornia = await template.checkIfDivisionJurisdictionIsAllowed(california);
+    const afterDhaka = await template.checkIfDivisionJurisdictionIsAllowed(dhaka);
+    assert.equal(afterOntario, true, 'ontario status was not read properly');
+    assert.equal(afterCalifornia, true, 'california status was not read properly');
+    assert.equal(afterDhaka, true, 'dhaka status was not read properly');
+  });
+
   it('addRoles, checkIfRoleIsAllowed', async () => {
     const investor = 1;
     const delegate = 2;
@@ -282,4 +312,8 @@ describe('Template wrapper', () => {
       'Expiry was not correctly checked and compared',
     );
   });
+
+  // it('getLogs', async () => {
+  //
+  // })
 });

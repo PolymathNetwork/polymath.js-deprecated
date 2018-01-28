@@ -90,10 +90,7 @@ export default class Template extends ContractWrapper {
       Web3.prototype.fromAscii(j),
     );
 
-    await this._contract.addDivisionJurisdiction(
-      jurisdictionsToBytes32,
-      allowed,
-      {
+    await this._contract.addDivisionJurisdiction(jurisdictionsToBytes32, allowed, {
         from: legalDelegateAddress,
       },
     );
