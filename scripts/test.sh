@@ -40,8 +40,10 @@ if testrpc_running; then
 else
   echo "Starting our own testrpc instance"
   ./node_modules/.bin/ganache-cli start_testrpc
+
+  run-s truffle:compile copy-artifacts
+  truffle migrate --network=testrpc
+  mocha lib/test/**/*_test.js --timeout 10000 --bail --exit
 fi
 
-run-s truffle:compile copy-artifacts
-truffle migrate --network=testrpc
-mocha lib/test/**/*_test.js --timeout 10000 --bail --exit
+
