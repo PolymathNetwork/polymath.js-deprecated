@@ -28,7 +28,7 @@
     "testrpc": "ganache-cli -p 8545 --networkId 50 --gasLimit 15000000 -m \"${npm_package_config_mnemonic}\"",
     "truffle:compile": "truffle compile",
     "watch-lint": "esw -w --fix src test",
-    "ci": "testrpc && scripts/test.sh",
+    "ci": "scripts/test.sh",
     "contracts": "bash scripts/updateContracts.sh"
   },
   "repository": {
