@@ -36,5 +36,10 @@ node_js:
 cache:
   directories:
     - "node_modules"
+
+before_script:
+- yarn testrpc &
+- sleep 1
+
 script:
 - yarn ci
