@@ -20,6 +20,7 @@ testrpc_running() {
 
 start_testrpc() {
   # We define 10 accounts with balance 1M ether, needed for high-value tests.
+
   local accounts=(
     --account="0x2bdd21761a483f71054e14f5b827213567971c676928d9a1808cbfa4b7501200,1000000000000000000000000"
     --account="0x2bdd21761a483f71054e14f5b827213567971c676928d9a1808cbfa4b7501201,1000000000000000000000000"
@@ -40,8 +41,9 @@ else
   echo "Starting our own testrpc instance"
   start_testrpc
 
-  yarn run-s truffle:compile copy-artifacts
-  yarn truffle migrate --network=testrpc
+  run-s truffle:compile copy-artifacts
+  truffle migrate --network=testrpc
+  mocha lib/test/**/*_test.js --timeout 10000 --bail --exit
 fi
 
 
