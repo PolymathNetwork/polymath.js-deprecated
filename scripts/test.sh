@@ -39,12 +39,9 @@ if testrpc_running; then
   echo "Using existing testrpc instance"
 else
   echo "Starting our own testrpc instance"
-  start_testrpc
-
-  run-s truffle:compile copy-artifacts
-  truffle migrate --network=testrpc
-  mocha lib/test/**/*_test.js --timeout 10000 --bail --exit
+  ./node_modules/.bin/ganache-cli start_testrpc
 fi
 
-
-#run-p babel:watchsrc babel:watchtest
+run-s truffle:compile copy-artifacts
+truffle migrate --network=testrpc
+mocha lib/test/**/*_test.js --timeout 10000 --bail --exit

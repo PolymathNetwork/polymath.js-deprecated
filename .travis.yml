@@ -37,8 +37,5 @@ cache:
   directories:
     - "node_modules"
 
-before_script:
-- ganache-cli -p 8545 --networkId 50 --gasLimit 15000000 -m \"${npm_package_config_mnemonic}\"
-
 script:
 - yarn ci
