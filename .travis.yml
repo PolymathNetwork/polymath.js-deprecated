@@ -37,5 +37,9 @@ cache:
   directories:
     - "node_modules"
 
+before_script:
+- ./node_modules/.bin/ganache-cli &
+- sleep 1
+
 script:
 - yarn ci
