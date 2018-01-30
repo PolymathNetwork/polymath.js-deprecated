@@ -13,11 +13,6 @@ cleanup() {
   fi
 }
 
-if [ "$SOLIDITY_COVERAGE" = true ]; then
-  testrpc_port=8545
-else
-  testrpc_port=8545
-fi
 
 testrpc_running() {
   nc -z localhost "$testrpc_port"
@@ -25,6 +20,7 @@ testrpc_running() {
 
 start_testrpc() {
   # We define 10 accounts with balance 1M ether, needed for high-value tests.
+
   local accounts=(
     --account="0x2bdd21761a483f71054e14f5b827213567971c676928d9a1808cbfa4b7501200,1000000000000000000000000"
     --account="0x2bdd21761a483f71054e14f5b827213567971c676928d9a1808cbfa4b7501201,1000000000000000000000000"
@@ -37,14 +33,6 @@ start_testrpc() {
     --account="0x2bdd21761a483f71054e14f5b827213567971c676928d9a1808cbfa4b7501208,1000000000000000000000000"
     --account="0x2bdd21761a483f71054e14f5b827213567971c676928d9a1808cbfa4b7501209,1000000000000000000000000"
   )
-
-#  if [ "$SOLIDITY_COVERAGE" = true ]; then
-#    node_modules/.bin/testrpc-sc --gasLimit 0xfffffffffff --port "$testrpc_port" "${accounts[@]}" > /dev/null &
-#  else
-#    node_modules/.bin/testrpc --gasLimit 0xfffffffffff "${accounts[@]}" > /dev/null &
-#  fi
-
-  testrpc_pid=$!
 }
 
 if testrpc_running; then
@@ -52,8 +40,10 @@ if testrpc_running; then
 else
   echo "Starting our own testrpc instance"
   start_testrpc
+
+  run-s truffle:compile copy-artifacts
+  truffle migrate --network=testrpc
+  mocha lib/test/**/*_test.js --timeout 10000 --bail --exit
 fi
 
-run-s truffle:compile copy-artifacts
-truffle migrate --network=testrpc
-#run-p babel:watchsrc babel:watchtest
+

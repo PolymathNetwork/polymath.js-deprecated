@@ -1,28 +1,3 @@
-##language: node_js
-##node_js:
-##  - '8'
-#install:
-#  - npm install
-#env:
-#  - CI="true"
-#cache:
-#  directories:
-#    - "node_modules"
-#script:
-#- npm run ci
-#notifications:
-#  slack:
-#    template:
-#      - "%{repository} (%{commit}) : %{message}"
-#      - "Build details: %{build_url}"
-#    secure: fbW2WBx95rA3G/gubh4olbaCMcvK0YNnp3cSbLOAuvrdAt710jvPGLrLFmBphAuzKgkvl5hfpid/iUgpXGt494+VHx6oDHMMN6WX7BfQm0hI2x4hyzsFd0FXCfk1valXjNgkEC6+cbhbEPYPMVqaiPEpowbq96pjUoj+6y/gGEY/kh/kEfnMxgQLzI+ExQifx8j1EFtlIjoODS7N8qx5+N4XqHzuQy9QJ0xwFrcg4MLukZcaTkGM2B+XSMCl22qh5PId9TJVWN5rpKZpmOEVdEOOqVigp0/oYdrBCeM/qXtCIryFLWJcQBKJfWRJAAWBPt3iR6RX14DJJACDG/dI2Jc4GLUfVgLPwn1lBMwXuas9GzlPYd1WkCRjnilYzRmNmxa2yYylJvfZBQ7c6b/J2UbRZIAZxLd8+LEqqu0PkAq/HYowFUvxG5yaTlOgMDC/pKNcKHtRAFb35AYjtSJ/1T9ktRtuf2fckR4c2usXeDNxMDp0yhCTjgmS1axxCyOTBELM4qJEYQYyOKt4Sd8TB1AH+2if9XRgvpwZU6BnWhI6LME/m9ci6Yf49QBCIts51kYejyGizUylFBkGDSEjuj3tt16a6QIU/l90DOIlQxYKI58uf5d2OnP8t695fO0clSd+DLGJRXInD2d3Ir0jge69br/njql4NUvFPK6kVBs=
-#  email: false
-#  on_success: always
-#branches:
-#  only:
-#  - master
-
-
 install:
   - yarn install
 env:
@@ -36,5 +11,12 @@ node_js:
 cache:
   directories:
     - "node_modules"
+
+before_script:
+- yarn testrpc &
+- sleep 1
+
 script:
+- yarn compile
+- yarn migrate-testrpc
 - yarn ci

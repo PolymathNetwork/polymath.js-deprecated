@@ -1,9 +1,8 @@
-const PolyToken = artifacts.require('./PolyToken.sol');
 const Compliance = artifacts.require('./Compliance.sol');
 const Customers = artifacts.require('./Customers.sol');
-const SecurityTokenRegistrar = artifacts.require(
-  './SecurityTokenRegistrar.sol'
-);
+const SecurityTokenRegistrar = artifacts.require('./SecurityTokenRegistrar.sol');
+
+const PolyToken = artifacts.require('./PolyTokenMock.sol');;
 
 module.exports = (deployer, network) => {
   console.log(`Deploying Polymath Network Smart contracts to ${network}...`);

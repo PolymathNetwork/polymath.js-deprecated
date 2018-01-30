@@ -81,51 +81,32 @@ describe('Compliance wrapper', () => {
     assert.isAbove(templateAddress.length, 0);
   });
 
-  // it('proposeTemplate, getTemplateReputation, getTemplateAddressByProposal', async () => {
-  //   await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
-  //   await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
-  //   console.log("hi");
-
-  //   const templateAddress = await makeTemplateWithFinalized(
-  //     compliance,
-  //     accounts[1],
-  //     accounts[2],
-  //   );
-
-  //   console.log("hi");
-
-  //   await compliance.proposeTemplate(accounts[2], securityToken, templateAddress);
-  //   console.log("hi");
-
-  //   assert.equal(
-  //     await compliance.getTemplateAddressByProposal(fakeAddress, 0),
-  //     templateAddress,
-  //   );
-  //   console.log("hi");
-
-  //   let templateReputation = await compliance.getTemplateReputation(templateAddress);
-  //   console.log("hi");
-
-  //   assert.equal(templateReputation.owner, accounts[2], "TemplateReputation not stored or read properly");
-  // });
-
-
-  it('cancelTemplateProposal', async () => {
+  it('proposeTemplate, templateReputation, getTemplateAddressByProposal, cancelTemplateProposal', async () => {
     await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
-
-    const templateAddress = await makeTemplate(
+    const templateAddress = await makeTemplateWithFinalized(
       compliance,
       accounts[1],
       accounts[2],
     );
 
-    console.log('cancelTemplateProposal started...');
+    // Propose Template
+    await compliance.proposeTemplate(accounts[2], securityToken.address, templateAddress);
+    const logs = await compliance.getLogs('LogNewTemplateProposal', {}, { fromBlock: 1 });
+    assert.equal(logs[0].args._template, templateAddress, 'Template address does not match the logged version');
 
+    // Reputation
+    let templateReputation = await compliance.getTemplateReputation(templateAddress);
+    assert.equal(templateReputation.owner, accounts[2], "TemplateReputation not stored or read properly");
 
+    // Get Template Address By Proposal
+    // const address = compliance.getTemplateAddressByProposal(securityToken.address, )
+    // assert.equal(address, templateAddress, 'Proposal returned the wrong template address');
+
+    // Cancel Proposal
+    // templateAddress.cancelTemplateProposal(accounts[2],securityToken.address, );
 
   });
-
 
   it('setSTO', async () => {
     await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
@@ -149,4 +130,3 @@ describe('Compliance wrapper', () => {
   // })
 
 });
-
