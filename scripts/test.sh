@@ -56,14 +56,4 @@ fi
 
 run-s truffle:compile copy-artifacts
 truffle migrate --network=testrpc
-run-p babel:watchsrc babel:watchtest
-
-#if [ "$SOLIDITY_COVERAGE" = true ]; then
-#  node_modules/.bin/solidity-coverage
-#
-#  if [ "$CONTINUOUS_INTEGRATION" = true ]; then
-#    cat coverage/lcov.info | node_modules/.bin/coveralls
-#  fi
-#else
-#  node_modules/.bin/truffle test "$@"
-#fi
+#run-p babel:watchsrc babel:watchtest
