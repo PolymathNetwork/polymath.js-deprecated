@@ -8,7 +8,7 @@ import SecurityToken from './SecurityToken';
 import Compliance from './Compliance';
 import type {
   BlockRange,
-  LogNewSecurityToken,
+  SecurityTokenRegistrarEventArgs,
   EventCallback,
   IndexedFilterValues,
   Log,
@@ -42,9 +42,10 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @return  An identifier used to unsubscribe
    */
   subscribe(
-    eventName: 'LogNewSecurityToken',
+    eventName:
+    | 'LogNewSecurityToken',
     indexedFilterValues: IndexedFilterValues,
-    callback: EventCallback<LogNewSecurityToken>,
+    callback: EventCallback<SecurityTokenRegistrarEventArgs>,
   ): string {
     return super._subscribe(eventName, indexedFilterValues, callback);
   }
@@ -57,10 +58,11 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @return  An array of logs
    */
   async getLogs(
-    eventName: 'LogNewSecurityToken',
+    eventName:
+    | 'LogNewSecurityToken',
     indexedFilterValues: IndexedFilterValues,
     blockRange?: BlockRange,
-  ): Promise<Array<Log<LogNewSecurityToken>>> {
+  ): Promise<Array<Log<SecurityTokenRegistrarEventArgs>>> {
     return super._getLogs(eventName, indexedFilterValues, blockRange);
   }
 

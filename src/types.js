@@ -320,11 +320,10 @@ export type LogNewSecurityToken = {
 };
 
 /**
- * Arguments for the SecurityTokenRegistrar.sol LogSecurityToken event
+ * Arguments for the SecurityTokenRegistrar events
  */
-export type LogSecurityToken = {
-  securityTokenAddress: string,
-};
+export type SecurityTokenRegistrarEventArgs =
+  | LogNewSecurityToken
 
 // Template Events
 

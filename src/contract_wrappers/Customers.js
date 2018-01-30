@@ -59,21 +59,24 @@ export default class Customers extends ContractWrapper {
   ): string {
     let wrappedCallback = callback;
 
-    if (eventName === 'LogCustomerVerified') {
-      // Convert from number roles to string enum roles.
-      wrappedCallback = (args: any) => {
-        const role = numberToRole(args.role.toNumber());
+    //**temporarily green this out, it isnt working, might not need */
 
-        if (role === null) {
-          return;
-        }
+    // if (eventName === 'LogCustomerVerified') {
+    //   // Convert from number roles to string enum roles.
+    //   wrappedCallback = (args: any) => {
+    //     // console.log(args)
+    //     const role = numberToRole(args.role.toNumber());
 
-        callback({
-          ...args,
-          role,
-        });
-      };
-    }
+    //     if (role === null) {
+    //       return;
+    //     }
+
+    //     callback({
+    //       ...args,
+    //       role,
+    //     });
+    //   };
+    // }
 
     return super._subscribe(eventName, indexedFilterValues, wrappedCallback);
   }
