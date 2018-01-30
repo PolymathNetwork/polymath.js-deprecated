@@ -14,7 +14,7 @@ import {
 } from '../../src/contract_wrappers';
 import complianceArtifact from '../../src/artifacts/Compliance.json';
 import customersArtifact from '../../src/artifacts/Customers.json';
-import polyTokenArtifact from '../../src/artifacts/PolyToken.json';
+import polyTokenArtifact from '../../src/artifacts/PolyTokenMock.json';
 import securityTokenArtifact from '../../src/artifacts/SecurityToken.json';
 import securityTokenRegistrarArtifact from '../../src/artifacts/SecurityTokenRegistrar.json';
 import TemplateArtifact from '../../src/artifacts/Template.json';

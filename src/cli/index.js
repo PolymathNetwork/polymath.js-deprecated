@@ -60,7 +60,7 @@ async function copyArtifact(filePath) {
 
 async function copyArtifacts(/* argv */) {
   const toCopy = [
-    'PolyToken',
+    'PolyTokenMock',
     'Customers',
     'Compliance',
     'SecurityToken',

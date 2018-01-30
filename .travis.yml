@@ -17,4 +17,6 @@ before_script:
 - sleep 1
 
 script:
+- yarn compile
+- yarn migrate-testrpc
 - yarn ci
