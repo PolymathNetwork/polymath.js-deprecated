@@ -19,7 +19,6 @@
     "documentation-serve": "documentation serve --watch src/contract_wrappers --config documentation.yml --theme lib/src/theme_polymath",
     "install": "run-s build",
     "lint": "eslint --fix src test",
-    "migrate-ropsten": "truffle migrate --network=ropsten",
     "migrate-testrpc": "truffle migrate --network=testrpc",
     "precommit": "lint-staged && flow",
     "serve-poly-docs": "run-s documentation-copy-babel-ignored documentation-serve",
