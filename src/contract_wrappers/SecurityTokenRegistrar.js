@@ -43,7 +43,6 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    */
   subscribe(
     eventName: 'LogNewSecurityToken',
-
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<SecurityTokenRegistrarEventArgs>,
   ): string {

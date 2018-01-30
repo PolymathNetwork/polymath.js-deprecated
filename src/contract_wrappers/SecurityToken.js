@@ -13,13 +13,13 @@ import bytes32Zero from '../bytes32Zero';
 import { numberToRole } from '../roles';
 import type {
   BlockRange,
-    EventCallback,
-    IndexedFilterValues,
-    Log,
-    SecurityTokenEventArgs,
-    TokenDetails,
-    PolyAllocation,
-    Shareholder,
+  EventCallback,
+  IndexedFilterValues,
+  Log,
+  SecurityTokenEventArgs,
+  TokenDetails,
+  PolyAllocation,
+  Shareholder,
 } from '../types';
 
 export type LogNewWhitelistedAddress = {
@@ -71,9 +71,9 @@ export default class SecurityToken extends ContractWrapper {
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<SecurityTokenEventArgs>,
   ): string {
-    let wrappedCallback = callback;
+    const wrappedCallback = callback;
 
-    //Temporary comment out, dont know if we need
+    // Temporary comment out, dont know if we need
     // if (eventName === 'LogNewWhitelistedAddress') {
     //   // Convert from number roles to string enum roles.
     //   wrappedCallback = (args: any) => {
@@ -480,5 +480,4 @@ export default class SecurityToken extends ContractWrapper {
       from: ownerAddress,
     });
   }
-
 }
