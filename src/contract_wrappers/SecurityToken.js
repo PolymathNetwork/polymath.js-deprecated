@@ -13,13 +13,13 @@ import bytes32Zero from '../bytes32Zero';
 import { numberToRole } from '../roles';
 import type {
   BlockRange,
-    EventCallback,
-    IndexedFilterValues,
-    Log,
-    SecurityTokenEventArgs,
-    TokenDetails,
-    PolyAllocation,
-    Shareholder,
+  EventCallback,
+  IndexedFilterValues,
+  Log,
+  SecurityTokenEventArgs,
+  TokenDetails,
+  PolyAllocation,
+  Shareholder,
 } from '../types';
 
 export type LogNewWhitelistedAddress = {
@@ -233,6 +233,14 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /**
+   * Gets the boolean value of the hasOfferingStarted.
+   * @return The bool value
+   */
+  async getOfferingStatus(): Promise<string> {
+    return this._contract.hasOfferingStarted.call();
+  }
+
+  /**
    * Update compliance proof hash for the issuance
    * @param ownerOrLegalDelegateAddress Owner or legal delegate address which have access to update the contract
    * @param newMerkleRoot               New merkle root hash of the compliance Proofs
@@ -262,35 +270,35 @@ export default class SecurityToken extends ContractWrapper {
 
   /**
    * Select an security token offering proposal for the issuance
-   * @param ownerAddress           Owner address who can select the template
-   * @param offeringProposalIndex  Array index of the STO proposal
-   * @param startTime              Start of issuance period
-   * @param endTime                End of issuance period
+   * @param delegateAddress           Delegate address of the choosen template
+   * @param offeringProposalIndex     Array index of the STO proposal
    */
-  async selectSTOProposal(
-    ownerAddress: string,
-    proposalIndex: number,
-    startTime: BigNumber,
-    endTime: BigNumber,
-  ) {
-    await this._contract.selectOfferingProposal(
-      proposalIndex,
-      startTime,
-      endTime,
-      {
-        from: ownerAddress,
-      },
-    );
+  async selectSTOProposal(delegateAddress: string, proposalIndex: number) {
+    await this._contract.selectOfferingProposal(proposalIndex, {
+      from: delegateAddress,
+      gas: 5000000,
+    });
+  }
+
+  /**
+   * Start the Offering after the template and STO selection
+   * @param owner                     Address of the Owner of a Security Token
+   */
+  async startSecurityTokenOffering(owner: string) {
+    await this._contract.startOffering({
+      from: owner,
+      gas: 500000,
+    });
   }
 
   /**
    * Add a verified address to the Security Token whitelist
-   * @param kycProviderAddress     KYC address who can add to the whitelist
+   * @param owner                  Owner of the security token contract
    * @param investorAddress        Investor address to whitelist
    */
-  async addToWhitelist(kycProviderAddress: string, investorAddress: string) {
+  async addToWhitelist(owner: string, investorAddress: string) {
     await this._contract.addToWhitelist(investorAddress, {
-      from: kycProviderAddress,
+      from: owner,
       gas: 1000000,
     });
   }
@@ -479,5 +487,4 @@ export default class SecurityToken extends ContractWrapper {
       from: ownerAddress,
     });
   }
-
 }
