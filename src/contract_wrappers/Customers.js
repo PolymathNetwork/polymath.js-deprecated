@@ -57,9 +57,9 @@ export default class Customers extends ContractWrapper {
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<CustomersEventArgs>,
   ): string {
-    let wrappedCallback = callback;
+    const wrappedCallback = callback;
 
-    //**temporarily green this out, it isnt working, might not need */
+    //* *temporarily green this out, it isnt working, might not need */
 
     // if (eventName === 'LogCustomerVerified') {
     //   // Convert from number roles to string enum roles.
@@ -213,7 +213,6 @@ export default class Customers extends ContractWrapper {
       },
     );
   }
-
 
   /**
    * Retrieve a Polymath user by their associated KYC provider and their Ethereum address. Users can be associated with multiple KYC providers.

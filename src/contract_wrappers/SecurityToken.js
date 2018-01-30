@@ -73,21 +73,22 @@ export default class SecurityToken extends ContractWrapper {
   ): string {
     let wrappedCallback = callback;
 
-    if (eventName === 'LogNewWhitelistedAddress') {
-      // Convert from number roles to string enum roles.
-      wrappedCallback = (args: any) => {
-        const role = numberToRole(args._role.toNumber());
+    //Temporary comment out, dont know if we need
+    // if (eventName === 'LogNewWhitelistedAddress') {
+    //   // Convert from number roles to string enum roles.
+    //   wrappedCallback = (args: any) => {
+    //     const role = numberToRole(args._role.toNumber());
 
-        if (role === null) {
-          return;
-        }
+    //     if (role === null) {
+    //       return;
+    //     }
 
-        callback({
-          ...args,
-          _role: role,
-        });
-      };
-    }
+    //     callback({
+    //       ...args,
+    //       _role: role,
+    //     });
+    //   };
+    // }
 
     return super._subscribe(eventName, indexedFilterValues, wrappedCallback);
   }

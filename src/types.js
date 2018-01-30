@@ -322,8 +322,7 @@ export type LogNewSecurityToken = {
 /**
  * Arguments for the SecurityTokenRegistrar events
  */
-export type SecurityTokenRegistrarEventArgs =
-  | LogNewSecurityToken
+export type SecurityTokenRegistrarEventArgs = LogNewSecurityToken;
 
 // Template Events
 
@@ -334,8 +333,7 @@ export type DetailsUpdated = {
   previousDetails: string,
   newDetails: string,
   updateDate: BigNumber,
-}
-
+};
 
 export class PolymathError extends Error {}
 

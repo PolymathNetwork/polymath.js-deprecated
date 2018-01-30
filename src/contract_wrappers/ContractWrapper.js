@@ -95,10 +95,10 @@ export default class ContractWrapper {
    * Unsubscribes from all events subscribed to on the contract.
    */
   unsubscribeAll() {
-    //get an array of keys from the this._filters object, and then map the subscriptionIDs into unsubscribe
+    // get an array of keys from the this._filters object, and then map the subscriptionIDs into unsubscribe
     Object.keys(this._filters).map((subscriptionIDKey, index) => {
-      this.unsubscribe(subscriptionIDKey)
-    })
+      this.unsubscribe(subscriptionIDKey);
+    });
   }
 
   async _getLogs<LogArgs>(

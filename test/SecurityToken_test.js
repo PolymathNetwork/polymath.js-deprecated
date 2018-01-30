@@ -157,4 +157,137 @@ describe('SecurityToken wrapper', () => {
     assert.equal(getContributedToSTO, false, "Should read 0 no one has contributed yet");
   });
 
+
+
+  it('subscribe, unsubscribe, unsubscribeAll, getLogs', async () => {
+
+    //subscribtion setup
+    let subscriptionID1 = null;
+    const eventName1 = 'LogTemplateSet';
+    const indexedFilterValues1 = ['_delegateAddress', '_KYC'];
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logTemplateSetArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID1 = securityToken.subscribe(eventName1, indexedFilterValues1, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        resolve(log.args);
+      });
+    });
+
+    //subscribtion setup
+    let subscriptionID2 = null;
+    const eventName2 = 'LogUpdatedComplianceProof';
+    const indexedFilterValues2 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logUpdatedComplianceProofArgsPromise = new Promise((resolve, reject) => {
+
+      subscriptionID2 = securityToken.subscribe(eventName2, indexedFilterValues2, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        resolve(log.args);
+      });
+    });
+
+    //subscribtion setup
+    let subscriptionID3 = null;
+    const eventName3 = 'LogNewWhitelistedAddress';
+    const indexedFilterValues3 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logNewWhitelistedAddressArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID3 = securityToken.subscribe(eventName3, indexedFilterValues3, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        resolve(log.args);
+      });
+    });
+
+    await securityToken.updateComplianceProof(
+      accounts[0],
+      fakeBytes32,
+      fakeBytes32,
+    );
+
+    const owner = accounts[0];
+    const kycProvider = accounts[1];
+    const legalDelegate = accounts[2];
+    const investor = accounts[3];
+    await makeKYCProvider(polyToken, customers, owner, kycProvider);
+
+    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+    const templateAddress = await makeTemplateWithFinalized(
+      compliance,
+      kycProvider,
+      legalDelegate,
+    );
+
+    await compliance.proposeTemplate(
+      legalDelegate,
+      securityToken.address,
+      templateAddress,
+    );
+
+    // Security token must have the template's fee before applying the template.
+    await polyToken.transfer(kycProvider, securityToken.address, 1000);
+
+    await securityToken.selectTemplate(owner, 0);
+
+    await polyToken.approve(investor, customers.address, 100);
+
+    await customers.verifyCustomer(
+      kycProvider,
+      investor,
+      'US',
+      'CA',
+      'investor',
+      true,
+      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+    );
+
+    await securityToken.addToWhitelist(owner, investor);
+
+
+    const logUpdateCompliance = await logUpdatedComplianceProofArgsPromise;
+    assert.equal(logUpdateCompliance._merkleRoot, fakeBytes32, 'merkle root  wasnt found in event subscription');
+    assert.equal(logUpdateCompliance._complianceProofHash, fakeBytes32, 'compliance hash wasnt found in event subscription');
+    await securityToken.unsubscribe(subscriptionID2);
+
+    const logTemplateSet = await logTemplateSetArgsPromise;
+    assert.equal(logTemplateSet._delegateAddress, legalDelegate, 'Legal delegate address wasnt found in event subscription');
+    assert.isAbove(logTemplateSet._template.length, 20, 'Template wasnt found in event subscription');
+    assert.equal(logTemplateSet._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
+
+
+
+    const logWhitelistAddress = await logNewWhitelistedAddressArgsPromise;
+    // assert.equal(logWhitelistAddress._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
+    assert.equal(logWhitelistAddress._shareholder, investor, 'Investor/sharholder wasnt found in event subscription');
+    assert.equal(logWhitelistAddress._role, 1, 'Role wasnt found in event subscription');
+    await securityToken.unsubscribeAll();
+
+
+  })
+
+
+
+
+
+  //LogTempalteSet = selectTemplate
+  //updateComplianceProof = LogUpdatedComplianceProof
+  //LogNewWhitelist = addToWhiteList
+
+  //LogNewBlackList = addToBlackList
+
+  //cant do sleectOfferingProposal - LogSetSTOContract -satyam done
+  //LogVoteToFreeze - wait until this is done
+  //LogTokensIssued - cant test until STO is worked out
+
+
 });

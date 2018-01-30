@@ -42,8 +42,8 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @return  An identifier used to unsubscribe
    */
   subscribe(
-    eventName:
-    | 'LogNewSecurityToken',
+    eventName: 'LogNewSecurityToken',
+
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<SecurityTokenRegistrarEventArgs>,
   ): string {
@@ -58,8 +58,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @return  An array of logs
    */
   async getLogs(
-    eventName:
-    | 'LogNewSecurityToken',
+    eventName: 'LogNewSecurityToken',
     indexedFilterValues: IndexedFilterValues,
     blockRange?: BlockRange,
   ): Promise<Array<Log<SecurityTokenRegistrarEventArgs>>> {
@@ -162,5 +161,4 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
   async getComplianceAddress(): Promise<string> {
     return this._contract.polyComplianceAddress.call();
   }
-
 }
