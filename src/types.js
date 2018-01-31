@@ -71,7 +71,7 @@ export type ApprovalEventArgs = {
 /**
  * Arguments for the PolyToken events
  */
-export type PolyTokenEventArgs = TransferEventArgs | AllowanceEventArgs;
+export type PolyTokenEventArgs = TransferEventArgs | ApprovalEventArgs;
 
 // Customers types
 
@@ -326,6 +326,19 @@ export type LogSecurityToken = {
   securityTokenAddress: string,
 };
 
+// STOContract Events
+
+/**
+ * Arguments for the STOContract.sol LogBoughtSecurityToken event
+ */
+export type LogBoughtSecurityToken = {
+  _contributor: string,
+  _ployContribution: BigNumber,
+  _timestamp: BigNumber,
+};
+
+export type STOContractEventArgs = LogBoughtSecurityToken;
+
 // Template Events
 
 /**
@@ -335,8 +348,7 @@ export type DetailsUpdated = {
   previousDetails: string,
   newDetails: string,
   updateDate: BigNumber,
-}
-
+};
 
 export class PolymathError extends Error {}
 
