@@ -163,7 +163,7 @@ describe('Customers wrapper', () => {
     const kycProvider = accounts[1];
     const investor = accounts[2];
 
-    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    await makeKYCProvider(customers, accounts[1]);
 
     const logNewProvider = await logNewProviderArgsPromise;
     assert.equal(logNewProvider.providerAddress, kycProvider, 'kycProvider address wasnt found in event subscription');

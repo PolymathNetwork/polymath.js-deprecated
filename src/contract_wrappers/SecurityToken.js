@@ -66,6 +66,7 @@ export default class SecurityToken extends ContractWrapper {
       | 'LogUpdatedComplianceProof'
       | 'LogSetSTOContract'
       | 'LogNewWhitelistedAddress'
+      | 'LogNewBlacklistedAddress'
       | 'LogVoteToFreeze'
       | 'LogTokenIssued',
     indexedFilterValues: IndexedFilterValues,
@@ -481,11 +482,14 @@ export default class SecurityToken extends ContractWrapper {
 
   /**
    * Add a verified address to the Security Token blacklist
+   * @param owner Owner of the security token contract
    * @param blacklistAddress The address being added to the blacklist
    */
   async addToBlacklist(ownerAddress: string, blacklistAddress: string) {
     await this._contract.addToBlacklist(blacklistAddress, {
       from: ownerAddress,
+      gas: 1000000,
     });
   }
+
 }

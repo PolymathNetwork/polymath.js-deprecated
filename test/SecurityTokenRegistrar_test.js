@@ -200,45 +200,6 @@ describe('Registrar wrapper', () => {
 
     //note: if unsubscribe does not work, the test in the terminal will be stuck running a process
     //and you can see the process is running by looking at testrpc and seeing 'eth_getFilterChanges' constantly repeated
-    await registrar.unsubscribe(subscriptionID);
-
-
-    //testing two to see that we get 2 logs in the getLogs function
-    let subscriptionID2 = null;
-    const logNewSecurityTokenArgsPromise2 = new Promise((resolve, reject) => {
-      subscriptionID2 = registrar.subscribe(eventName1, indexedFilterValues1, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
-        resolve(log.args);
-      });
-    });
-
-    let secondTestTicker = 'STT';
-    await polyToken.approve(owner, registrar.address, fee);
-    await registrar.createSecurityToken(
-      creator,
-      name,
-      secondTestTicker,
-      totalSupply,
-      decimals,
-      owner,
-      maxPoly,
-      host,
-      fee,
-      type,
-      lockupPeriod,
-      quorum,
-    );
-
-    const logNewSecurityToken2 = await logNewSecurityTokenArgsPromise2;
-    assert.equal(logNewSecurityToken2.ticker, secondTestTicker, 'Ticker wasnt found in event subscription');
-    assert.isAbove(logNewSecurityToken2.securityTokenAddress.length, 20, 'Address wasnt found in event subscription');
-    assert.equal(logNewSecurityToken2.owner, owner, 'Owner wasnt found in event subscription');
-    assert.equal(logNewSecurityToken2.host, host, 'Host wasnt found in event subscription');
-    assert.equal(logNewSecurityToken2.fee, fee, 'Fee wasnt found in event subscription');
-    assert.equal(logNewSecurityToken2._type, type, 'Type wasnt found in event subscription');
     await registrar.unsubscribeAll();
 
     const logs = await registrar.getLogs(
@@ -246,7 +207,7 @@ describe('Registrar wrapper', () => {
       { owner: accounts[0] },
       { fromBlock: 1, toBlock: 'latest' },
     );
-    assert.equal(logs.length, 2, 'Two logs should appear in the array since we made 2 security tokens');
+    assert.equal(logs.length, 1, 'One log should appear in the array since we made 1 security tokens');
     assert(logs[0].args.fee.equals(fee), 'Retrieved first Transfer log');
   })
 

@@ -290,6 +290,7 @@ export type SecurityTokenEventArgs =
   | LogUpdatedComplianceProof
   | LogSetSTOContract
   | LogNewWhitelistedAddress
+  | LogNewBlacklistedAddress
   | LogVoteToFreeze
   | LogTokenIssued;
 

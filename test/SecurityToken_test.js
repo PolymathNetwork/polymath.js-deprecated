@@ -31,6 +31,7 @@ import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
 import { fakeBytes32 } from './util/fake';
 import { increaseTime } from './util/time';
 import { strictEqual } from 'assert';
+import { log } from 'util';
 
 const { assert } = chai;
 
@@ -278,141 +279,6 @@ describe('SecurityToken wrapper', () => {
     );
   });
 
-<<<<<<< HEAD
-
-
-  it('subscribe, unsubscribe, unsubscribeAll, getLogs', async () => {
-
-    //subscribtion setup
-    let subscriptionID1 = null;
-    const eventName1 = 'LogTemplateSet';
-    const indexedFilterValues1 = ['_delegateAddress', '_KYC'];
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
-    const logTemplateSetArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID1 = securityToken.subscribe(eventName1, indexedFilterValues1, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
-        resolve(log.args);
-      });
-    });
-
-    //subscribtion setup
-    let subscriptionID2 = null;
-    const eventName2 = 'LogUpdatedComplianceProof';
-    const indexedFilterValues2 = null;
-
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
-    const logUpdatedComplianceProofArgsPromise = new Promise((resolve, reject) => {
-
-      subscriptionID2 = securityToken.subscribe(eventName2, indexedFilterValues2, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
-        resolve(log.args);
-      });
-    });
-
-    //subscribtion setup
-    let subscriptionID3 = null;
-    const eventName3 = 'LogNewWhitelistedAddress';
-    const indexedFilterValues3 = null;
-
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
-    const logNewWhitelistedAddressArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID3 = securityToken.subscribe(eventName3, indexedFilterValues3, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
-        resolve(log.args);
-      });
-    });
-
-    await securityToken.updateComplianceProof(
-      accounts[0],
-      fakeBytes32,
-      fakeBytes32,
-    );
-
-    const owner = accounts[0];
-    const kycProvider = accounts[1];
-    const legalDelegate = accounts[2];
-    const investor = accounts[3];
-    await makeKYCProvider(polyToken, customers, owner, kycProvider);
-
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
-    const templateAddress = await makeTemplateWithFinalized(
-      compliance,
-      kycProvider,
-      legalDelegate,
-    );
-
-    await compliance.proposeTemplate(
-      legalDelegate,
-      securityToken.address,
-      templateAddress,
-    );
-
-    // Security token must have the template's fee before applying the template.
-    await polyToken.transfer(kycProvider, securityToken.address, 1000);
-
-    await securityToken.selectTemplate(owner, 0);
-
-    await polyToken.approve(investor, customers.address, 100);
-
-    await customers.verifyCustomer(
-      kycProvider,
-      investor,
-      'US',
-      'CA',
-      'investor',
-      true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
-    );
-
-    await securityToken.addToWhitelist(owner, investor);
-
-
-    const logUpdateCompliance = await logUpdatedComplianceProofArgsPromise;
-    assert.equal(logUpdateCompliance._merkleRoot, fakeBytes32, 'merkle root  wasnt found in event subscription');
-    assert.equal(logUpdateCompliance._complianceProofHash, fakeBytes32, 'compliance hash wasnt found in event subscription');
-    await securityToken.unsubscribe(subscriptionID2);
-
-    const logTemplateSet = await logTemplateSetArgsPromise;
-    assert.equal(logTemplateSet._delegateAddress, legalDelegate, 'Legal delegate address wasnt found in event subscription');
-    assert.isAbove(logTemplateSet._template.length, 20, 'Template wasnt found in event subscription');
-    assert.equal(logTemplateSet._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
-
-
-
-    const logWhitelistAddress = await logNewWhitelistedAddressArgsPromise;
-    // assert.equal(logWhitelistAddress._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
-    assert.equal(logWhitelistAddress._shareholder, investor, 'Investor/sharholder wasnt found in event subscription');
-    assert.equal(logWhitelistAddress._role, 1, 'Role wasnt found in event subscription');
-    await securityToken.unsubscribeAll();
-
-
-  })
-
-
-
-
-
-  //LogTempalteSet = selectTemplate
-  //updateComplianceProof = LogUpdatedComplianceProof
-  //LogNewWhitelist = addToWhiteList
-
-  //LogNewBlackList = addToBlackList
-
-  //cant do sleectOfferingProposal - LogSetSTOContract -satyam done
-  //LogVoteToFreeze - wait until this is done
-  //LogTokensIssued - cant test until STO is worked out
-
-
-=======
   it('getMaximumPOLYContribution', async () => {
     assert.equal(await securityToken.getMaximumPOLYContribution(), 100000); // 100000 value from make_examples.js
   });
@@ -481,6 +347,7 @@ describe('SecurityToken wrapper', () => {
         startTime,
         endTime,
       );
+
 
       await securityToken.selectSTOProposal(legalDelegate, 0);
 
@@ -553,5 +420,272 @@ describe('SecurityToken wrapper', () => {
       assert.equal((await securityToken.getBalanceOf(investor)).toNumber(), 85);
     });
   });
->>>>>>> origin/master
+
+
+  it('subscribe, unsubscribe, unsubscribeAll, getLogs', async () => {
+
+    //subscribtion setup
+    let subscriptionID1 = null;
+    const eventName1 = 'LogTemplateSet';
+    const indexedFilterValues1 = ['_delegateAddress', '_KYC'];
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logTemplateSetArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID1 = securityToken.subscribe(eventName1, indexedFilterValues1, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        resolve(log.args);
+      });
+    });
+
+    //subscribtion setup
+    let subscriptionID2 = null;
+    const eventName2 = 'LogUpdatedComplianceProof';
+    const indexedFilterValues2 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logUpdatedComplianceProofArgsPromise = new Promise((resolve, reject) => {
+
+      subscriptionID2 = securityToken.subscribe(eventName2, indexedFilterValues2, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+
+        resolve(log.args);
+      });
+    });
+
+
+
+
+
+    //subscribtion setup
+    let subscriptionID4 = null;
+    const eventName4 = 'LogNewWhitelistedAddress';
+    const indexedFilterValues4 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logNewWhitelistedAddressArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID4 = securityToken.subscribe(eventName4, indexedFilterValues4, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+
+        resolve(log.args);
+      });
+    });
+
+    //subscribtion setup
+    let subscriptionID5 = null;
+    const eventName5 = 'LogNewBlacklistedAddress';
+    const indexedFilterValues5 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logNewBlacklistedAddressArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID5 = securityToken.subscribe(eventName5, indexedFilterValues5, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+
+        resolve(log.args);
+      });
+    });
+
+    //subscribtion setup
+    let subscriptionID6 = null;
+    const eventName6 = 'LogVoteToFreeze';
+    const indexedFilterValues6 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logVoteToFreezeArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID6 = securityToken.subscribe(eventName6, indexedFilterValues6, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+
+        resolve(log.args);
+      });
+    });
+
+    //subscribtion setup
+    let subscriptionID7 = null;
+    const eventName7 = 'LogTokenIssued';
+    const indexedFilterValues7 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logTokenIssuedArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID6 = securityToken.subscribe(eventName7, indexedFilterValues7, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+
+        resolve(log.args);
+      });
+    });
+
+
+    await securityToken.updateComplianceProof(
+      accounts[0],
+      fakeBytes32,
+      fakeBytes32,
+    );
+
+    const owner = accounts[0];
+    const kycProvider = accounts[1];
+    const legalDelegate = accounts[2];
+    const investor = accounts[3];
+    await makeKYCProvider(customers, kycProvider);
+
+    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+    const templateAddress = await makeTemplateWithFinalized(
+      compliance,
+      kycProvider,
+      legalDelegate,
+    );
+
+    await compliance.proposeTemplate(
+      legalDelegate,
+      securityToken.address,
+      templateAddress,
+    );
+
+    // Security token must have the template's fee before applying the template.
+    await polyToken.transfer(kycProvider, securityToken.address, 1000);
+
+    await securityToken.selectTemplate(owner, 0);
+
+    await polyToken.approve(investor, customers.address, 100);
+
+    await customers.verifyCustomer(
+      kycProvider,
+      investor,
+      'US',
+      'CA',
+      'investor',
+      true,
+      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+    );
+
+    await securityToken.addToWhitelist(owner, investor);
+    await securityToken.addToBlacklist(owner, investor);
+
+
+    const logUpdateCompliance = await logUpdatedComplianceProofArgsPromise;
+    assert.equal(logUpdateCompliance._merkleRoot, fakeBytes32, 'merkle root  wasnt found in event subscription');
+    assert.equal(logUpdateCompliance._complianceProofHash, fakeBytes32, 'compliance hash wasnt found in event subscription');
+    await securityToken.unsubscribe(subscriptionID2);
+
+    const logTemplateSet = await logTemplateSetArgsPromise;
+
+    assert.equal(logTemplateSet._delegateAddress, legalDelegate, 'Legal delegate address wasnt found in event subscription');
+    assert.isAbove(logTemplateSet._template.length, 20, 'Template wasnt found in event subscription');
+    assert.equal(logTemplateSet._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
+
+    const logBlacklistAddress = await logNewBlacklistedAddressArgsPromise;
+    //needs to be fixed in core. owner is getting emmited instaed of KYC
+    // assert.equal(logBlacklistAddress._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
+    assert.equal(logBlacklistAddress._shareholder, investor, 'Investor/sharholder wasnt found in event subscription');
+
+    const logWhitelistAddress = await logNewWhitelistedAddressArgsPromise;
+    //needs to be fixed in core. owner is getting emmited instaed of KYC
+    // assert.equal(logWhitelistAddress._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
+    assert.equal(logWhitelistAddress._shareholder, investor, 'Investor/sharholder wasnt found in event subscription');
+    assert.equal(logWhitelistAddress._role, 1, 'Role wasnt found in event subscription');
+    await securityToken.unsubscribeAll();
+
+
+  })
+
+  it('test LogNewSTO', async()=>{
+
+    let subscriptionID3 = null;
+    const eventName3 = 'LogSetSTOContract';
+    const indexedFilterValues3 = ['_STOTemplate', '_auditor'];
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logSetSTOContractArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID3 = securityToken.subscribe(eventName3, indexedFilterValues3, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        // console.log
+        resolve(log.args);
+      });
+    });
+
+    const owner = accounts[0];
+    const legalDelegate = accounts[2];
+    const kycProvider = accounts[1];
+
+    // STO variables
+    const auditor = accounts[4];
+    const startTime = new BigNumber(
+      Math.floor(new Date().getTime() / 1000)
+    ).plus(200);
+
+    const endTime = new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(
+      2592000,
+    ); // 1 Month duration
+
+    await makeKYCProvider(customers, kycProvider);
+
+    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+
+    const templateAddress = await makeTemplateWithFinalized(
+      compliance,
+      kycProvider,
+      legalDelegate,
+    );
+    await makeSelectedTemplateForSecurityToken(
+      securityToken,
+      compliance,
+      polyToken,
+      owner,
+      legalDelegate,
+      kycProvider,
+      fakeBytes32,
+      templateAddress,
+    );
+
+    await polyToken.approve(auditor, customers.address, 100);
+
+    await customers.verifyCustomer(
+      kycProvider,
+      auditor,
+      'US',
+      'CA',
+      'investor',
+      true,
+      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
+    );
+
+
+    const offering = await makeSecurityTokenOffering(
+      web3Wrapper,
+      polyToken,
+      securityToken,
+      compliance,
+      auditor,
+      startTime,
+      endTime,
+    );
+
+    await securityToken.selectSTOProposal(legalDelegate, 0);
+
+    const logSetSTO = await logSetSTOContractArgsPromise;
+    assert.isAbove(logSetSTO._STO.length, 20, 'STO address not created');
+    assert.isAbove(logSetSTO._STOtemplate.length, 20, 'STO address not created');
+    assert.equal(logSetSTO._auditor, accounts[4], 'Auditor address wasnt found');
+    assert.isAbove (logSetSTO._endTime.toNumber(), logSetSTO._startTime.toNumber() + 259200, 'start time and end time didnt work correctly');
+    await securityToken.unsubscribeAll();
+
+
+  })
 });

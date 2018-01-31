@@ -181,7 +181,7 @@ describe('Compliance wrapper', () => {
       });
     });
 
-    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    await makeKYCProvider(customers, accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
     const templateAddress = await makeTemplate(
       compliance,
@@ -191,7 +191,6 @@ describe('Compliance wrapper', () => {
 
 
     const logTemplateCreated = await logTemplateCreatedArgsPromise;
-    console.log(logTemplateCreated);
     assert.equal(logTemplateCreated._creator, accounts[2], 'legal delegate creator address wasnt found in event subscription'); //'offeringtype' from make_examples.js
     assert.isAbove(logTemplateCreated._template.length, 20, 'template address wasnt found in event subscription');
     assert.equal(logTemplateCreated._offeringType, "offeringtype", 'offering type wasnt found in event subscription'); //'offeringtype' from make_examples.js
