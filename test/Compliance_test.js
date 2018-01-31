@@ -70,7 +70,7 @@ describe('Compliance wrapper', () => {
   });
 
   it('createTemplate', async () => {
-    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    await makeKYCProvider(customers, accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
     const templateAddress = await makeTemplate(
       compliance,
@@ -82,7 +82,7 @@ describe('Compliance wrapper', () => {
   });
 
   it('proposeTemplate, templateReputation, getTemplateAddressByProposal, cancelTemplateProposal', async () => {
-    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    await makeKYCProvider(customers, accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
@@ -109,7 +109,7 @@ describe('Compliance wrapper', () => {
   });
 
   it('setSTO', async () => {
-    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    await makeKYCProvider(customers, accounts[1]);
 
     await compliance.setSTO(
       accounts[0],
