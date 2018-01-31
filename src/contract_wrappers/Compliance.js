@@ -49,7 +49,9 @@ export default class Compliance extends ContractWrapper {
     eventName:
       | 'LogTemplateCreated'
       | 'LogNewTemplateProposal'
-      | 'LogNewContractProposal',
+      | 'LogCancelTemplateProposal'
+      | 'LogNewContractProposal'
+      | 'LogCancelContractProposal',
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<ComplianceEventArgs>,
   ): string {
@@ -168,21 +170,21 @@ export default class Compliance extends ContractWrapper {
 
   /**
    * Set an STO contract to be stored in the offerings mapping in Compliance.sol
-   * @param issuerAddress  Address of the offering contract owner or auditor
+   * @param stoDeveloperAddress  Address of the creator of the STO
    * @param stoAddress     Address of the STO contract deployed over the network
    * @param fee            Fee to be paid in poly to use that contract
    * @param vestingPeriod  Number of days investor binded to hold the Security token
    * @param quorum         Minimum percent of shareholders which need to vote to freeze
    */
   async setSTO(
-    issuerAddress: string,
+    stoDeveloperAddress: string,
     stoAddress: string,
     fee: BigNumber,
     vestingPeriod: BigNumber,
     quorum: BigNumber,
   ) {
     await this._contract.setSTO(stoAddress, fee, vestingPeriod, quorum, {
-      from: issuerAddress,
+      from: stoDeveloperAddress,
       gas: 200000,
     });
   }
@@ -236,7 +238,7 @@ export default class Compliance extends ContractWrapper {
     securityTokenAddress: string,
     proposalIndex: number,
   ): Promise<string> {
-    return this._contract.templateProposals.call(
+    return this._contract.getTemplateByProposal.call(
       securityTokenAddress,
       proposalIndex,
     );
@@ -298,12 +300,36 @@ export default class Compliance extends ContractWrapper {
   async getTemplateReputation(
     templateAddress: string,
   ): Promise<TemplateReputation> {
-    const template = await this._contract.templates(templateAddress);
+    const template = await this._contract.templates.call(templateAddress);
     return {
       owner: template[0],
       totalRaised: template[1],
       timesUsed: template[2],
       expires: template[3],
     };
+  }
+
+  /**
+   * Returns all Template proposals
+   * @return An array of addresses
+   */
+  async getAllTemplateProposals(
+    securityTokenAddress: string,
+  ): Promise<Array<string>> {
+    return await this._contract.getAllTemplateProposals.call(
+      securityTokenAddress,
+    );
+  }
+
+  /**
+   * Returns all STO proposal addresses
+   * @return An array of addresses
+   */
+  async getAllOfferingProposals(
+    securityTokenAddress: string,
+  ): Promise<Array<string>> {
+    return await this._contract.getAllOfferingProposals.call(
+      securityTokenAddress,
+    );
   }
 }
