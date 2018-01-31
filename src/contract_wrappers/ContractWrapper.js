@@ -95,8 +95,9 @@ export default class ContractWrapper {
    * Unsubscribes from all events subscribed to on the contract.
    */
   unsubscribeAll() {
-    this._filters.forEach(filter => {
-      this.unsubscribe(filter);
+    // get an array of keys from the this._filters object, and then map the subscriptionIDs into unsubscribe
+    Object.keys(this._filters).map((subscriptionIDKey, index) => {
+      this.unsubscribe(subscriptionIDKey);
     });
   }
 

@@ -19,7 +19,6 @@
     "documentation-serve": "documentation serve --watch src/contract_wrappers --config documentation.yml --theme lib/src/theme_polymath",
     "install": "run-s build",
     "lint": "eslint --fix src test",
-    "migrate-ropsten": "truffle migrate --network=ropsten",
     "migrate-testrpc": "truffle migrate --network=testrpc",
     "precommit": "lint-staged && flow",
     "serve-poly-docs": "run-s documentation-copy-babel-ignored documentation-serve",
@@ -29,7 +28,7 @@
     "truffle:compile": "truffle compile",
     "watch-lint": "esw -w --fix src test",
     "ci": "scripts/test.sh",
-    "contracts": "bash scripts/updateContracts.sh"
+    "contracts": "scripts/updateContracts.sh"
   },
   "repository": {
     "type": "git",
@@ -48,7 +47,6 @@
     "mnemonic": "age drama cover door helmet mechanic wine lesson vote inflict will keep"
   },
   "dependencies": {
-    "ethereumjs-testrpc": "^6.0.3",
     "truffle-contract": "3.0.1",
     "uuid": "3.1.0",
     "web3": "0.20.1"
@@ -86,7 +84,6 @@
     "prettier": "1.8.2",
     "remark": "^8.0.0",
     "remark-html": "^7.0.0",
-    "testrpc": "0.0.1",
     "truffle": "4.0.4",
     "uglifyjs-webpack-plugin": "1.1.5",
     "unist-builder": "^1.0.2",
@@ -94,7 +91,8 @@
     "vinyl-fs": "^3.0.1",
     "webpack": "3.10.0",
     "webpack-node-externals": "1.6.0",
-    "yargs": "^10.0.3"
+    "yargs": "^10.0.3",
+    "ganache-cli": "^6.0.3"
   },
   "lint-staged": {
     "src/**/*.js": [
