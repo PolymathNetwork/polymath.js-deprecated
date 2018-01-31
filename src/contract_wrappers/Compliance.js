@@ -11,12 +11,12 @@ import SecurityTokenRegistrar from './SecurityTokenRegistrar';
 import complianceArtifact from '../artifacts/Compliance.json';
 import type {
   BlockRange,
-    ComplianceEventArgs,
-    EventCallback,
-    IndexedFilterValues,
-    Log,
-    STOProposal,
-    TemplateReputation,
+  ComplianceEventArgs,
+  EventCallback,
+  IndexedFilterValues,
+  Log,
+  STOProposal,
+  TemplateReputation,
 } from '../types';
 
 /**
@@ -168,7 +168,7 @@ export default class Compliance extends ContractWrapper {
 
   /**
    * Set an STO contract to be stored in the offerings mapping in Compliance.sol
-   * @param issuerAddress  Address of the STO contract deployed over the network
+   * @param issuerAddress  Address of the offering contract owner or auditor
    * @param stoAddress     Address of the STO contract deployed over the network
    * @param fee            Fee to be paid in poly to use that contract
    * @param vestingPeriod  Number of days investor binded to hold the Security token
@@ -201,7 +201,10 @@ export default class Compliance extends ContractWrapper {
     await this._contract.proposeOfferingContract(
       securityTokenAddress,
       stoContractAddress,
-      { from: stoCreatorAddress },
+      {
+        from: stoCreatorAddress,
+        gas: 3000000,
+      },
     );
   }
 
@@ -239,7 +242,7 @@ export default class Compliance extends ContractWrapper {
     );
   }
 
-    /**
+  /**
    * Get the STO address for a security token by passing its proposal index.
    * @param   securityTokenAddress  Ethereum address of the security token the STO is created for
    * @param   proposalIndex         The STO proposal array index
@@ -303,7 +306,4 @@ export default class Compliance extends ContractWrapper {
       expires: template[3],
     };
   }
-
-
-
 }

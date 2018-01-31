@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 import ContractWrapper from './ContractWrapper';
-import polyTokenArtifact from '../artifacts/PolyToken.json';
+import polyTokenArtifact from '../artifacts/PolyTokenMock.json';
 import type {
   BlockRange,
   EventCallback,

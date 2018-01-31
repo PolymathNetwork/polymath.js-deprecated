@@ -40,7 +40,7 @@ describe('Customers wrapper', () => {
 
   describe('getKYCProviderByAddress', () => {
     it('should return created provider', async () => {
-      await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+      await makeKYCProvider(customers, accounts[1]);
 
       const provider = await customers.getKYCProviderByAddress(accounts[1]);
       assert.equal(provider.name, 'Provider');
@@ -51,7 +51,7 @@ describe('Customers wrapper', () => {
     });
 
     it('should emit LogNewProvider event', async () => {
-      await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+      await makeKYCProvider(customers, accounts[1]);
       const logs = await customers.getLogs(
         'LogNewProvider',
         {},
@@ -67,17 +67,18 @@ describe('Customers wrapper', () => {
       assert.equal(nullProvider, null);
     });
 
-    // it('should change verification fee', async () => {
-    //   await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
-    //   const provider = await customers.getKYCProviderByAddress(accounts[1]);
-    //   assert.equal(provider.name, 'Provider');
-    //
-    //   await customers.changeVerificationFee(accounts[1], new BigNumber(200));
-    //   assert(
-    //     provider.verificationFee.equals(200),
-    //     'Verification fee correectly changed',
-    //   );
-    // });
+    it('should change verification fee', async () => {
+      await makeKYCProvider(customers, accounts[1]);
+      const provider = await customers.getKYCProviderByAddress(accounts[1]);
+      assert.equal(provider.name, 'Provider');
+
+      await customers.changeVerificationFee(accounts[1], new BigNumber(200));
+      const updatedProvider = await customers.getKYCProviderByAddress(accounts[1]);
+      assert(
+        updatedProvider.verificationFee.equals(200),
+        'Verification fee correectly changed',
+      );
+    });
   });
 
   it('verifyCustomer, getCustomer, getLogs', async () => {
@@ -85,8 +86,7 @@ describe('Customers wrapper', () => {
     const kycProvider = accounts[1];
     const investor = accounts[2];
 
-    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
-
+    await makeKYCProvider(customers, accounts[1]);
     await polyToken.approve(investor, customers.address, new BigNumber(100));
     await customers.verifyCustomer(
       kycProvider,
@@ -113,7 +113,7 @@ describe('Customers wrapper', () => {
   });
 
   it('getCustomer should return null for nonexistent customer', async () => {
-    await makeKYCProvider(polyToken, customers, accounts[0], accounts[1]);
+    await makeKYCProvider(customers, accounts[1]);
 
     assert.equal(
       await customers.getCustomer(accounts[0], fakeAddress),

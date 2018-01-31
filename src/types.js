@@ -71,7 +71,7 @@ export type ApprovalEventArgs = {
 /**
  * Arguments for the PolyToken events
  */
-export type PolyTokenEventArgs = TransferEventArgs | AllowanceEventArgs;
+export type PolyTokenEventArgs = TransferEventArgs | ApprovalEventArgs;
 
 // Customers types
 
@@ -323,6 +323,19 @@ export type LogNewSecurityToken = {
  * Arguments for the SecurityTokenRegistrar events
  */
 export type SecurityTokenRegistrarEventArgs = LogNewSecurityToken;
+
+// STOContract Events
+
+/**
+ * Arguments for the STOContract.sol LogBoughtSecurityToken event
+ */
+export type LogBoughtSecurityToken = {
+  _contributor: string,
+  _ployContribution: BigNumber,
+  _timestamp: BigNumber,
+};
+
+export type STOContractEventArgs = LogBoughtSecurityToken;
 
 // Template Events
 

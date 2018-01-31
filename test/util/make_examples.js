@@ -11,13 +11,15 @@ import {
   SecurityToken,
   Template,
   SecurityTokenRegistrar,
+  STOContract,
 } from '../../src/contract_wrappers';
 import complianceArtifact from '../../src/artifacts/Compliance.json';
 import customersArtifact from '../../src/artifacts/Customers.json';
-import polyTokenArtifact from '../../src/artifacts/PolyToken.json';
+import polyTokenArtifact from '../../src/artifacts/PolyTokenMock.json';
 import securityTokenArtifact from '../../src/artifacts/SecurityToken.json';
 import securityTokenRegistrarArtifact from '../../src/artifacts/SecurityTokenRegistrar.json';
 import TemplateArtifact from '../../src/artifacts/Template.json';
+import securityTokenOfferingArtifact from '../../src/artifacts/STOContract.json';
 
 export async function makePolyToken(web3Wrapper: Web3Wrapper, account: string) {
   const contractTemplate = contract(polyTokenArtifact);
@@ -105,12 +107,9 @@ export async function makeSecurityToken(
 }
 
 export const makeKYCProvider = async (
-  polyToken: PolyToken,
   customers: Customers,
-  ownerAddress: string,
   kycProviderAddress: string,
 ) => {
-
   await customers.newKYCProvider(
     kycProviderAddress,
     'Provider',
@@ -256,6 +255,57 @@ export async function makeSecurityTokenRegistrar(
   return registrar;
 }
 
+export async function makeSecurityTokenOffering(
+  web3Wrapper: Web3Wrapper,
+  polyToken: PolyToken,
+  securityToken: SecurityToken,
+  compliance: Compliance,
+  auditor: string,
+  startTime: BigNumber,
+  endTime: BigNumber,
+
+) {
+  const contractTemplate = contract(securityTokenOfferingArtifact);
+  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  const instance = await contractTemplate.new(polyToken.address,
+  {
+    gas: 15000000,
+    from: auditor,
+  },
+  );
+
+  const offering = new STOContract(
+    web3Wrapper,
+    polyToken,
+    auditor,
+    instance.address,
+  );
+
+  await offering.initialize();
+
+  const fee = new BigNumber(10).toPower(18).times(100);
+  const vestingPeriod = new BigNumber(8888888);
+  const quorum = new BigNumber(10);
+
+  await offering.securityTokenOffering(
+    auditor,
+    securityToken.address,
+    startTime,
+    endTime,
+  );
+
+  await compliance.setSTO(
+    auditor,
+    offering.address,
+    fee,
+    vestingPeriod,
+    quorum,
+  );
+
+  await compliance.proposeSTO(auditor, securityToken.address, offering.address);
+  return offering;
+}
+
 export async function makeSecurityTokenThroughRegistrar(
   web3Wrapper: Web3Wrapper,
   polyToken: PolyToken,
@@ -340,4 +390,33 @@ export async function makeSecurityTokenThroughRegistrar(
 
   await securityTokenThroughRegistrar.initialize();
   return securityTokenThroughRegistrar;
+}
+
+export async function makeSelectedTemplateForSecurityToken (
+  securityToken: SecurityToken,
+  compliance: Compliance,
+  polyToken: PolyToken,
+  owner: string,
+  legalDelegate: string,
+  kycProvider: string,
+  fakeBytes32: string,
+  templateAddress: string,
+) {
+
+  await compliance.proposeTemplate(
+    legalDelegate,
+    securityToken.address,
+    templateAddress,
+  );
+
+  // Security token must have the template's fee before applying the template.
+  await polyToken.transfer(
+    kycProvider,
+    securityToken.address,
+    new BigNumber(10).toPower(18).times(1000),
+  );
+
+  await securityToken.selectTemplate(owner, 0);
+
+  await securityToken.updateComplianceProof(owner, fakeBytes32, fakeBytes32);
 }
