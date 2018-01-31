@@ -49,7 +49,9 @@ export default class Compliance extends ContractWrapper {
     eventName:
       | 'LogTemplateCreated'
       | 'LogNewTemplateProposal'
-      | 'LogNewContractProposal',
+      | 'LogCancelTemplateProposal'
+      | 'LogNewContractProposal'
+      | 'LogCancelContractProposal',
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<ComplianceEventArgs>,
   ): string {
@@ -311,17 +313,23 @@ export default class Compliance extends ContractWrapper {
    * Returns all Template proposals
    * @return An array of addresses
    */
-  async getAllTemplateProposals(securityTokenAddress: string): Promise<Array<string>> {
-    return (await this._contract.getAllTemplateProposals.call(securityTokenAddress));
+  async getAllTemplateProposals(
+    securityTokenAddress: string,
+  ): Promise<Array<string>> {
+    return await this._contract.getAllTemplateProposals.call(
+      securityTokenAddress,
+    );
   }
 
-    /**
+  /**
    * Returns all STO proposal addresses
    * @return An array of addresses
    */
-  async getAllOfferingProposals(securityTokenAddress: string): Promise<Array<string>> {
-    return (await this._contract.getAllOfferingProposals.call(securityTokenAddress));
+  async getAllOfferingProposals(
+    securityTokenAddress: string,
+  ): Promise<Array<string>> {
+    return await this._contract.getAllOfferingProposals.call(
+      securityTokenAddress,
+    );
   }
-
-
 }

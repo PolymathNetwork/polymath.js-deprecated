@@ -164,6 +164,16 @@ export type LogNewTemplateProposal = {
   _securityToken: string,
   _template: string,
   _delegate: string,
+  _templateProposalIndex
+};
+
+/**
+ * Arguments for the Compliance.sol LogCancelTemplateProposal event
+ */
+export type LogCancelTemplateProposal = {
+  _securityToken: string,
+  _offeringContract: string,
+  _proposalIndex: number,
 };
 
 /**
@@ -172,7 +182,17 @@ export type LogNewTemplateProposal = {
 export type LogNewContractProposal = {
   _securityToken: string,
   _offeringContract: string,
-  _delegate: string,
+  _auditor: string,
+  _offeringProposalIndex: number
+};
+
+/**
+ * Arguments for the Compliance.sol LogCancelContractProposal event
+ */
+export type LogCancelContractProposal = {
+  _securityToken: string,
+  _offeringContract: string,
+  _proposalIndex: number,
 };
 
 /**
@@ -181,7 +201,9 @@ export type LogNewContractProposal = {
 export type ComplianceEventArgs =
   | LogTemplateCreated
   | LogNewTemplateProposal
-  | LogNewContractProposal;
+  | LogCancelTemplateProposal
+  | LogNewContractProposal
+  | LogCancelContractProposal;
 
 // SecurityToken types
 
