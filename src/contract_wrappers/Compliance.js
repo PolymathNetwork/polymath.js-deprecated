@@ -236,7 +236,7 @@ export default class Compliance extends ContractWrapper {
     securityTokenAddress: string,
     proposalIndex: number,
   ): Promise<string> {
-    return this._contract.templateProposals.call(
+    return this._contract.getTemplateByProposal.call(
       securityTokenAddress,
       proposalIndex,
     );
@@ -298,7 +298,7 @@ export default class Compliance extends ContractWrapper {
   async getTemplateReputation(
     templateAddress: string,
   ): Promise<TemplateReputation> {
-    const template = await this._contract.templates(templateAddress);
+    const template = await this._contract.templates.call(templateAddress);
     return {
       owner: template[0],
       totalRaised: template[1],

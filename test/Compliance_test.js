@@ -100,11 +100,16 @@ describe('Compliance wrapper', () => {
     assert.equal(templateReputation.owner, accounts[2], "TemplateReputation not stored or read properly");
 
     // Get Template Address By Proposal
-    // const address = compliance.getTemplateAddressByProposal(securityToken.address, )
-    // assert.equal(address, templateAddress, 'Proposal returned the wrong template address');
+    const address = await compliance.getTemplateAddressByProposal(securityToken.address, 0)
+    assert.equal(address, templateAddress, 'Proposal returned the wrong template address');
 
     // Cancel Proposal
-    // templateAddress.cancelTemplateProposal(accounts[2],securityToken.address, );
+    await compliance.cancelTemplateProposal(accounts[2],securityToken.address, 0);
+
+    const addressShouldBeZero = await compliance.getTemplateAddressByProposal(securityToken.address, 0)
+    assert.equal(addressShouldBeZero, 0, 'Proposal returned the wrong template address');
+
+
 
   });
 
