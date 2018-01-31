@@ -122,4 +122,73 @@ describe('Customers wrapper', () => {
     );
   });
 
+
+  it('subscribe, unsubscribe, unsubscribeAll', async () => {
+
+    //subscribtion setup
+    let subscriptionID1 = null;
+    const eventName1 = 'LogNewProvider';
+    const indexedFilterValues1 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logNewProviderArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID1 = customers.subscribe(eventName1, indexedFilterValues1, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        resolve(log.args);
+      });
+    });
+
+    //subscribtion setup
+    let subscriptionID2 = null;
+    const eventName2 = 'LogCustomerVerified';
+    const indexedFilterValues2 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logCustomerVerifiedArgsPromise = new Promise((resolve, reject) => {
+
+      subscriptionID2 = customers.subscribe(eventName2, indexedFilterValues2, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        resolve(log.args);
+      });
+    });
+
+
+    const owner = accounts[0]
+    const kycProvider = accounts[1];
+    const investor = accounts[2];
+
+    await makeKYCProvider(customers, accounts[1]);
+
+    const logNewProvider = await logNewProviderArgsPromise;
+    assert.equal(logNewProvider.providerAddress, kycProvider, 'kycProvider address wasnt found in event subscription');
+    assert.equal(logNewProvider.name, 'Provider', 'Name of kycProvider wasnt found in event subscription');
+    assert.equal(logNewProvider.details, '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Details wasnt found in event subscription'); //details hash from make_examples.js
+    await customers.unsubscribe(subscriptionID1);
+
+
+    await polyToken.approve(investor, customers.address, new BigNumber(100));
+    await customers.verifyCustomer(
+      kycProvider,
+      investor,
+      'US',
+      'CA',
+      'investor',
+      false,
+      new BigNumber(15163975079),
+    );
+
+    const logCustomerVerified = await logCustomerVerifiedArgsPromise;
+    assert.equal(logCustomerVerified.customer, investor, 'Customer address wasnt found in event subscription');
+    assert.equal(logCustomerVerified.provider, kycProvider, 'kyc provider address wasnt found in event subscription');
+    assert.equal(logCustomerVerified.role, 1, 'Role wasnt found in event subscription');
+    await customers.unsubscribeAll();
+
+  })
+
 });

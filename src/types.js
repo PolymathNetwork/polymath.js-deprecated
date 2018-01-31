@@ -290,6 +290,7 @@ export type SecurityTokenEventArgs =
   | LogUpdatedComplianceProof
   | LogSetSTOContract
   | LogNewWhitelistedAddress
+  | LogNewBlacklistedAddress
   | LogVoteToFreeze
   | LogTokenIssued;
 
@@ -320,11 +321,9 @@ export type LogNewSecurityToken = {
 };
 
 /**
- * Arguments for the SecurityTokenRegistrar.sol LogSecurityToken event
+ * Arguments for the SecurityTokenRegistrar events
  */
-export type LogSecurityToken = {
-  securityTokenAddress: string,
-};
+export type SecurityTokenRegistrarEventArgs = LogNewSecurityToken;
 
 // STOContract Events
 

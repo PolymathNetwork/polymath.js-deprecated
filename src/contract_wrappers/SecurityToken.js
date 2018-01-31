@@ -66,28 +66,30 @@ export default class SecurityToken extends ContractWrapper {
       | 'LogUpdatedComplianceProof'
       | 'LogSetSTOContract'
       | 'LogNewWhitelistedAddress'
+      | 'LogNewBlacklistedAddress'
       | 'LogVoteToFreeze'
       | 'LogTokenIssued',
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<SecurityTokenEventArgs>,
   ): string {
-    let wrappedCallback = callback;
+    const wrappedCallback = callback;
 
-    if (eventName === 'LogNewWhitelistedAddress') {
-      // Convert from number roles to string enum roles.
-      wrappedCallback = (args: any) => {
-        const role = numberToRole(args._role.toNumber());
+    // Temporary comment out, dont know if we need
+    // if (eventName === 'LogNewWhitelistedAddress') {
+    //   // Convert from number roles to string enum roles.
+    //   wrappedCallback = (args: any) => {
+    //     const role = numberToRole(args._role.toNumber());
 
-        if (role === null) {
-          return;
-        }
+    //     if (role === null) {
+    //       return;
+    //     }
 
-        callback({
-          ...args,
-          _role: role,
-        });
-      };
-    }
+    //     callback({
+    //       ...args,
+    //       _role: role,
+    //     });
+    //   };
+    // }
 
     return super._subscribe(eventName, indexedFilterValues, wrappedCallback);
   }
@@ -480,11 +482,14 @@ export default class SecurityToken extends ContractWrapper {
 
   /**
    * Add a verified address to the Security Token blacklist
+   * @param owner Owner of the security token contract
    * @param blacklistAddress The address being added to the blacklist
    */
   async addToBlacklist(ownerAddress: string, blacklistAddress: string) {
     await this._contract.addToBlacklist(blacklistAddress, {
       from: ownerAddress,
+      gas: 1000000,
     });
   }
+
 }
