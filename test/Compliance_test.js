@@ -1,3 +1,5 @@
+// @flow
+
 import BigNumber from 'bignumber.js';
 import chai from 'chai';
 import 'mocha';
@@ -22,6 +24,7 @@ const { assert } = chai;
 describe('Compliance wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
+  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
   let accounts;
   let polyToken;
@@ -71,26 +74,26 @@ describe('Compliance wrapper', () => {
   });
 
   it('createTemplate', async () => {
-    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
     await makeKYCProvider(customers, accounts[1], expiryTime);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
     const templateAddress = await makeTemplate(
       compliance,
       accounts[1],
       accounts[2],
+      expiryTime,
     );
 
     assert.isAbove(templateAddress.length, 0);
   });
 
   it('proposeTemplate, templateReputation, getTemplateAddressByProposal, cancelTemplateProposal', async () => {
-    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
     await makeKYCProvider(customers, accounts[1], expiryTime);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
       accounts[1],
       accounts[2],
+      expiryTime,
     );
 
     // Propose Template
@@ -112,7 +115,6 @@ describe('Compliance wrapper', () => {
   });
 
   it('setSTO', async () => {
-    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
     await makeKYCProvider(customers, accounts[1], expiryTime);
 
     await compliance.setSTO(
@@ -139,7 +141,7 @@ describe('Compliance wrapper', () => {
     let subscriptionID1 = null;
     const eventName1 = 'LogTemplateCreated';
     const indexedFilterValues1 = ["_creator"];
-
+    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
     //the callback is passed into the filter.watch function, and is operated on when a new event comes in
     const logTemplateCreatedArgsPromise = new Promise((resolve, reject) => {
       subscriptionID1 = compliance.subscribe(eventName1, indexedFilterValues1, (err, log) => {
@@ -191,6 +193,7 @@ describe('Compliance wrapper', () => {
       compliance,
       accounts[1],
       accounts[2],
+      expiryTime,
     );
 
 
