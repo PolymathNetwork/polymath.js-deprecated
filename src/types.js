@@ -164,7 +164,7 @@ export type LogNewTemplateProposal = {
   _securityToken: string,
   _template: string,
   _delegate: string,
-  _templateProposalIndex
+  _templateProposalIndex: number,
 };
 
 /**
@@ -183,7 +183,7 @@ export type LogNewContractProposal = {
   _securityToken: string,
   _offeringContract: string,
   _auditor: string,
-  _offeringProposalIndex: number
+  _offeringProposalIndex: number,
 };
 
 /**
