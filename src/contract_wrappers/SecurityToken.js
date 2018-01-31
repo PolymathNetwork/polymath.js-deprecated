@@ -315,13 +315,14 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /**
-   * Add a verified address to the Security Token whitelist
-   * @param investorAddress   Investor address to whitelist
+   * Voting to freeze the funds of the recipient address
+   * @param shareHolderAddress   shareholder of the security token
    * @param recipientAddress  User who is getting voted agaisnt to freeze their POLY
    */
-  async voteToFreeze(investorAddress: string, recipientAddress: string) {
+  async voteToFreeze(shareHolderAddress: string, recipientAddress: string) {
     await this._contract.voteToFreeze(recipientAddress, {
-      from: investorAddress,
+      from: shareHolderAddress,
+      gas : 300000,
     });
   }
 
