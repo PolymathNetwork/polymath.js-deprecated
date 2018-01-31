@@ -9,8 +9,6 @@ import {
   Compliance,
   Customers,
   SecurityToken,
-  STOContract,
-  SecurityTokenRegistrar,
 } from '../src/contract_wrappers';
 import {
   makePolyToken,
@@ -18,16 +16,12 @@ import {
   makeCustomers,
   makeKYCProvider,
   makeLegalDelegate,
-  makeSecurityToken,
   makeSelectedTemplateForSecurityToken,
   makeSecurityTokenOffering,
-  makeSecurityTokenRegistrar,
-  makeTemplate,
   makeTemplateWithFinalized,
   makeSecurityTokenThroughRegistrar,
-  makeSTOForSecurityToken,
 } from './util/make_examples';
-import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
+import { makeWeb3Wrapper } from './util/web3';
 import { fakeBytes32 } from './util/fake';
 import { increaseTime } from './util/time';
 import { strictEqual } from 'assert';
@@ -87,14 +81,34 @@ describe('SecurityToken wrapper', () => {
   });
 
   it('getName, getDecimals', async () => {
-    assert.equal(await securityToken.getName(), 'FUNTOKEN');
-    assert.equal(await securityToken.getDecimals(), 8);
+    assert.equal(
+      await securityToken.getName(),
+      'FUNTOKEN',
+      'It should match with the token name provided at the time of creation of securityToken',
+    );
+    assert.equal(
+      await securityToken.getDecimals(),
+      8,
+      'It should equals with the decimals value provided at the time of creation of securityToken',
+    );
   });
 
   it('getSymbol, getOwnerAddress, getTotalSupply', async () => {
-    assert.equal(await securityToken.getSymbol(), 'FUNT');
-    assert.equal(await securityToken.getOwnerAddress(), accounts[0]);
-    assert.equal(await securityToken.getTotalSupply(), 1234567);
+    assert.equal(
+      await securityToken.getSymbol(),
+      'FUNT',
+      'It should equals with the ticker string provided at the time of creation of securityToken',
+    );
+    assert.equal(
+      await securityToken.getOwnerAddress(),
+      accounts[0],
+      'It should equals with the Owner address provided at the time of creation of securityToken',
+    );
+    assert.equal(
+      await securityToken.getTotalSupply(),
+      1234567,
+      'It should equals with the totalSupply value provided at the time of creation of securityToken',
+    );
   });
 
   it('updateComplianceProof, getTokenDetails', async () => {
@@ -105,7 +119,11 @@ describe('SecurityToken wrapper', () => {
     );
 
     const details = await securityToken.getTokenDetails();
-    assert.equal(details.merkleRoot, fakeBytes32);
+    assert.equal(
+      details.merkleRoot,
+      fakeBytes32,
+      'Should validate the assigned merkle root',
+    );
   });
 
   it('getMerkleRoot', async () => {
@@ -114,7 +132,11 @@ describe('SecurityToken wrapper', () => {
       fakeBytes32,
       fakeBytes32,
     );
-    assert.equal(await securityToken.getMerkleRoot(), fakeBytes32);
+    assert.equal(
+      await securityToken.getMerkleRoot(),
+      fakeBytes32,
+      'Should validate the assigned merkle root',
+    );
   });
 
   it('selectTemplate, addToWhiteList, getShareholderDetails, getPolyAllocationDetails, getKYCProviderAddress, getDelegate', async () => {
@@ -160,21 +182,21 @@ describe('SecurityToken wrapper', () => {
     await securityToken.addToWhitelist(owner, investor);
 
     const checkShareholderDetails = await securityToken.getShareholderDetails(
-      investor
+      investor,
     );
     assert.equal(
       checkShareholderDetails[1],
       true,
-      'Should read true, investor has been whitelisted'
+      'Should read true, investor has been whitelisted',
     );
 
     const checkPolyAllocationDetails = await securityToken.getPolyAllocationDetails(
-      legalDelegate
+      legalDelegate,
     );
     assert.equal(
       checkPolyAllocationDetails[1],
       9888888,
-      'Should equal 9888888 from make_examples value used'
+      'Should equal 9888888 from make_examples value used',
     );
   });
 
@@ -183,28 +205,27 @@ describe('SecurityToken wrapper', () => {
     assert.equal(
       isSTOProposed,
       false,
-      'Should read false as no STO has been proposed'
+      'Should read false as no STO has been proposed',
     );
 
     const tokensIssuedBySTO = await securityToken.tokensIssuedBySTO();
     assert.equal(
       tokensIssuedBySTO,
       0,
-      'Should read zero we havent issued tokens yet'
+      'Should read zero we havent issued tokens yet',
     );
-
   });
 
   it('getVoted, getContributedToSTO', async () => {
     const hasVoted = await securityToken.getVoted(accounts[8], accounts[7]); //random accounts
     assert.equal(hasVoted, false, 'Should read false no one has voted');
     const getContributedToSTO = await securityToken.getContributedToSTO(
-      accounts[1]
+      accounts[1],
     );
     assert.equal(
       getContributedToSTO,
       false,
-      `Should read 0 no one has contributed yet`
+      `Should read 0 no one has contributed yet`,
     );
   });
 
@@ -255,7 +276,6 @@ describe('SecurityToken wrapper', () => {
       new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
     );
 
-
     const offering = await makeSecurityTokenOffering(
       web3Wrapper,
       polyToken,
@@ -269,13 +289,17 @@ describe('SecurityToken wrapper', () => {
     await securityToken.selectSTOProposal(legalDelegate, 0);
 
     assert.equal(await securityToken.getSTOContractAddress(), offering.address);
+    // getSTOEnd
     assert.equal(
       (await securityToken.getSTOEnd()).toNumber(),
       endTime.toNumber(),
+      'It should validates the end time STOContract with the endSTO present in the SecurityToken',
     );
+    // getSTOStart
     assert.equal(
       (await securityToken.getSTOStart()).toNumber(),
       startTime.toNumber(),
+      'It should validates the start time STOContract with the stratSTO present in the SecurityToken',
     );
   });
 
@@ -297,6 +321,7 @@ describe('SecurityToken wrapper', () => {
       kycProvider,
       legalDelegate,
     );
+    // Create the Selected Template for the SecurityToken
     await makeSelectedTemplateForSecurityToken(
       securityToken,
       compliance,
@@ -318,6 +343,7 @@ describe('SecurityToken wrapper', () => {
       new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(50000),
     );
 
+    // addToWhiteList
     await securityToken.addToWhitelist(owner, investor);
     let checkShareholderDetails = await securityToken.getShareholderDetails(
       investor,
@@ -325,8 +351,10 @@ describe('SecurityToken wrapper', () => {
     assert.equal(
       checkShareholderDetails[1],
       true,
-      'Should read true, investor has been whitelisted'
+      'Should read true, investor has been whitelisted',
     );
+
+    // addToBlackList
     await securityToken.addToBlacklist(owner, investor);
     checkShareholderDetails = await securityToken.getShareholderDetails(
       investor,
@@ -334,17 +362,21 @@ describe('SecurityToken wrapper', () => {
     assert.equal(
       checkShareholderDetails[1],
       false,
-      'Should read false, investor has been blacklisted'
+      'Should read false, investor has been blacklisted',
     );
   });
 
   describe('ERC20 Functions', async () => {
     it('getBalanceOf', async () => {
       const balance = await securityToken.getBalanceOf(accounts[0]);
-      assert.equal(balance.toNumber(), 1234567); // 1234567 data is taken from the make_examples.js
+      assert.equal(
+        balance.toNumber(),
+        1234567, // 1234567 data is taken from the make_examples.js
+        'It should equal to the totalSupply of the securityToken',
+      );
     });
 
-    it('transfer, getAllowance, approve, transferFrom, getOfferingStatus, getSTOContractAddress, getPolyAllocationDetails, withdrawPoly, voteTofreeze', async () => {
+    it('transfer, getAllowance, approve, transferFrom, getOfferingStatus, getSTOContractAddress, getPolyAllocationDetails, withdrawPoly, voteTofreeze, startSecurityTokenOffering', async () => {
       const owner = accounts[0];
       const legalDelegate = accounts[2];
       const kycProvider = accounts[1];
@@ -392,7 +424,7 @@ describe('SecurityToken wrapper', () => {
         new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
       );
 
-
+      // Create the offering Contract
       const offering = await makeSecurityTokenOffering(
         web3Wrapper,
         polyToken,
@@ -409,12 +441,20 @@ describe('SecurityToken wrapper', () => {
       assert.equal(
         await securityToken.getSTOContractAddress(),
         offering.address,
+        'It should equal to the Offering address that just created and select as the offering contract of securityToken',
       );
-
+      // Start the offering
       await securityToken.startSecurityTokenOffering(owner);
 
-      assert.equal(await securityToken.getBalanceOf(offering.address), 1234567);
-      assert.isTrue(await securityToken.getOfferingStatus());
+      assert.equal(
+        await securityToken.getBalanceOf(offering.address),
+        1234567,
+        'It Should equal to the totalsupply of the securityToken',
+      );
+      assert.isTrue(
+        await securityToken.getOfferingStatus(),
+       'Offering status should be true for the STO contract',
+      );
 
       await polyToken.approve(investor, customers.address, 100);
 
@@ -436,20 +476,28 @@ describe('SecurityToken wrapper', () => {
       assert.equal(
         checkShareholderDetails[1],
         true,
-        'Should read true, investor has been whitelisted'
+        'Should read true, investor has been whitelisted',
       );
 
       await polyToken.approve(investor, securityToken.address, 10000);
-      await increaseTime(1000);
+      await increaseTime(1000); // Time Jump of 1000 seconds to reach beyond the sto start date
+      // getSTOContractAddress
       const stoAddress = await securityToken.getSTOContractAddress();
-      assert.equal(stoAddress, offering.address);
+      assert.equal(
+        stoAddress,
+        offering.address,
+        'It should match with the desired offering address',
+      );
 
+      // Bought Security Token using POLY
       await offering.buySecurityTokenWithPoly(investor, new BigNumber(10000));
-
       assert.equal(
         (await securityToken.getBalanceOf(investor)).toNumber(),
         100,
+        'Balance of the investor should be eqaul to 100',
       );
+
+      // Whitelisting the address
       await securityToken.addToWhitelist(owner, auditor);
       checkShareholderDetails = await securityToken.getShareholderDetails(
         auditor,
@@ -457,13 +505,18 @@ describe('SecurityToken wrapper', () => {
       assert.equal(
         checkShareholderDetails[1],
         true,
-        'Should read true, investor has been whitelisted'
+        'Should read true, investor has been whitelisted',
       );
+
       // transfer
       await securityToken.transfer(investor, auditor, 20);
 
       // getBalanceOf
-      assert.equal((await securityToken.getBalanceOf(auditor)).toNumber(), 20);
+      assert.equal(
+        (await securityToken.getBalanceOf(auditor)).toNumber(),
+        20,
+        'Balance of the auditor should be eqaul to 20',
+      );
 
       // approve
       await securityToken.approve(auditor, accounts[5], 10);
@@ -472,11 +525,16 @@ describe('SecurityToken wrapper', () => {
       assert.equal(
         (await securityToken.getAllowance(auditor, accounts[5])).toNumber(),
         10,
+        'Allowance should be 10 security tokens',
       );
 
       // transferFrom
       await securityToken.transferFrom(auditor, investor, accounts[5], 5);
-      assert.equal((await securityToken.getBalanceOf(investor)).toNumber(), 85);
+      assert.equal(
+        (await securityToken.getBalanceOf(investor)).toNumber(),
+        85,
+        'Balance of investor should equal to 85',
+      );
 
       // voteToFreeze
       await increaseTime(2592000 + 100); // time jump to reach the endSTO timestamp
@@ -484,129 +542,147 @@ describe('SecurityToken wrapper', () => {
       const allocationDetailsOfAuditor = await securityToken.getPolyAllocationDetails(
         auditor,
       );
-      assert.isTrue(allocationDetailsOfAuditor[5]);
+      assert.isTrue(
+        allocationDetailsOfAuditor[5],
+        'Freeze variable of the Allocation array should be true after vote freeze',
+      );
 
       // withdrawPoly
       await increaseTime(9888888 + 1000); // time jump to reach the vesting period
       const status = await securityToken.withdrawPoly(legalDelegate);
-      assert.isTrue(status);
+      assert.isTrue(
+        status,
+        'Status should be true after successing the withdraw',
+      );
     });
   });
 
 
   it('subscribe, unsubscribe, unsubscribeAll, getLogs', async () => {
-
-    //subscribtion setup
+    // Subscribtion setup
     let subscriptionID1 = null;
     const eventName1 = 'LogTemplateSet';
     const indexedFilterValues1 = ['_delegateAddress', '_KYC'];
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
     const logTemplateSetArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID1 = securityToken.subscribe(eventName1, indexedFilterValues1, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
-        resolve(log.args);
-      });
+      subscriptionID1 = securityToken.subscribe(
+        eventName1,
+        indexedFilterValues1,
+        (err, log) => {
+          if (err !== null) {
+            reject(err);
+            return;
+          }
+          resolve(log.args);
+        },
+      );
     });
 
-    //subscribtion setup
+    // Subscribtion setup
     let subscriptionID2 = null;
     const eventName2 = 'LogUpdatedComplianceProof';
     const indexedFilterValues2 = null;
 
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
-    const logUpdatedComplianceProofArgsPromise = new Promise((resolve, reject) => {
+    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logUpdatedComplianceProofArgsPromise = new Promise(
+      (resolve, reject) => {
+        subscriptionID2 = securityToken.subscribe(
+          eventName2,
+          indexedFilterValues2,
+          (err, log) => {
+            if (err !== null) {
+              reject(err);
+              return;
+            }
+            resolve(log.args);
+          },
+        );
+      },
+    );
 
-      subscriptionID2 = securityToken.subscribe(eventName2, indexedFilterValues2, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
-
-        resolve(log.args);
-      });
-    });
-
-
-
-
-
-    //subscribtion setup
+    // Subscribtion setup
     let subscriptionID4 = null;
     const eventName4 = 'LogNewWhitelistedAddress';
     const indexedFilterValues4 = null;
 
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
-    const logNewWhitelistedAddressArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID4 = securityToken.subscribe(eventName4, indexedFilterValues4, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
+    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logNewWhitelistedAddressArgsPromise = new Promise(
+      (resolve, reject) => {
+        subscriptionID4 = securityToken.subscribe(
+          eventName4,
+          indexedFilterValues4,
+          (err, log) => {
+            if (err !== null) {
+              reject(err);
+              return;
+            }
+            resolve(log.args);
+          },
+        );
+      },
+    );
 
-        resolve(log.args);
-      });
-    });
-
-    //subscribtion setup
+    // Subscribtion setup
     let subscriptionID5 = null;
     const eventName5 = 'LogNewBlacklistedAddress';
     const indexedFilterValues5 = null;
 
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
-    const logNewBlacklistedAddressArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID5 = securityToken.subscribe(eventName5, indexedFilterValues5, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
+    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logNewBlacklistedAddressArgsPromise = new Promise(
+      (resolve, reject) => {
+        subscriptionID5 = securityToken.subscribe(
+          eventName5,
+          indexedFilterValues5,
+          (err, log) => {
+            if (err !== null) {
+              reject(err);
+              return;
+            }
+            resolve(log.args);
+          },
+        );
+      },
+    );
 
-        resolve(log.args);
-      });
-    });
-
-    //subscribtion setup
+    // Subscribtion setup
     let subscriptionID6 = null;
     const eventName6 = 'LogVoteToFreeze';
     const indexedFilterValues6 = null;
 
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
     const logVoteToFreezeArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID6 = securityToken.subscribe(eventName6, indexedFilterValues6, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
-
-        resolve(log.args);
-      });
+      subscriptionID6 = securityToken.subscribe(
+        eventName6,
+        indexedFilterValues6,
+        (err, log) => {
+          if (err !== null) {
+            reject(err);
+            return;
+          }
+          resolve(log.args);
+        },
+      );
     });
 
-    //subscribtion setup
+    // Subscribtion setup
     let subscriptionID7 = null;
     const eventName7 = 'LogTokenIssued';
     const indexedFilterValues7 = null;
 
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
     const logTokenIssuedArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID6 = securityToken.subscribe(eventName7, indexedFilterValues7, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
-
-        resolve(log.args);
-      });
+      subscriptionID6 = securityToken.subscribe(
+        eventName7,
+        indexedFilterValues7,
+        (err, log) => {
+          if (err !== null) {
+            reject(err);
+            return;
+          }
+          resolve(log.args);
+        },
+      );
     });
-
-
-    await securityToken.updateComplianceProof(
-      accounts[0],
-      fakeBytes32,
-      fakeBytes32,
-    );
 
     const owner = accounts[0];
     const kycProvider = accounts[1];
@@ -621,16 +697,16 @@ describe('SecurityToken wrapper', () => {
       legalDelegate,
     );
 
-    await compliance.proposeTemplate(
+    await makeSelectedTemplateForSecurityToken(
+      securityToken,
+      compliance,
+      polyToken,
+      owner,
       legalDelegate,
-      securityToken.address,
+      kycProvider,
+      fakeBytes32,
       templateAddress,
     );
-
-    // Security token must have the template's fee before applying the template.
-    await polyToken.transfer(kycProvider, securityToken.address, 1000);
-
-    await securityToken.selectTemplate(owner, 0);
 
     await polyToken.approve(investor, customers.address, 100);
 
@@ -649,47 +725,80 @@ describe('SecurityToken wrapper', () => {
 
 
     const logUpdateCompliance = await logUpdatedComplianceProofArgsPromise;
-    assert.equal(logUpdateCompliance._merkleRoot, fakeBytes32, 'merkle root  wasnt found in event subscription');
-    assert.equal(logUpdateCompliance._complianceProofHash, fakeBytes32, 'compliance hash wasnt found in event subscription');
+    assert.equal(
+      logUpdateCompliance._merkleRoot,
+      fakeBytes32,
+      'merkle root  wasnt found in event subscription',
+    );
+    assert.equal(
+      logUpdateCompliance._complianceProofHash,
+      fakeBytes32,
+      'compliance hash wasnt found in event subscription',
+    );
     await securityToken.unsubscribe(subscriptionID2);
 
     const logTemplateSet = await logTemplateSetArgsPromise;
 
-    assert.equal(logTemplateSet._delegateAddress, legalDelegate, 'Legal delegate address wasnt found in event subscription');
-    assert.isAbove(logTemplateSet._template.length, 20, 'Template wasnt found in event subscription');
-    assert.equal(logTemplateSet._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
+    assert.equal(
+      logTemplateSet._delegateAddress,
+      legalDelegate,
+      'Legal delegate address wasnt found in event subscription',
+    );
+    assert.isAbove(
+      logTemplateSet._template.length,
+      20,
+      'Template wasnt found in event subscription',
+    );
+    assert.equal(
+      logTemplateSet._KYC,
+      kycProvider,
+      'KYC provider address wasnt found in event subscription',
+    );
 
     const logBlacklistAddress = await logNewBlacklistedAddressArgsPromise;
-    //needs to be fixed in core. owner is getting emmited instaed of KYC
+    // Needs to be fixed in core. owner is getting emmited instaed of KYC
     // assert.equal(logBlacklistAddress._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
-    assert.equal(logBlacklistAddress._shareholder, investor, 'Investor/sharholder wasnt found in event subscription');
+    assert.equal(
+      logBlacklistAddress._shareholder,
+      investor,
+      'Investor/sharholder wasnt found in event subscription',
+    );
 
     const logWhitelistAddress = await logNewWhitelistedAddressArgsPromise;
-    //needs to be fixed in core. owner is getting emmited instaed of KYC
+    // Needs to be fixed in core. owner is getting emmited instaed of KYC
     // assert.equal(logWhitelistAddress._KYC, kycProvider, 'KYC provider address wasnt found in event subscription');
-    assert.equal(logWhitelistAddress._shareholder, investor, 'Investor/sharholder wasnt found in event subscription');
-    assert.equal(logWhitelistAddress._role, 1, 'Role wasnt found in event subscription');
+    assert.equal(
+      logWhitelistAddress._shareholder,
+      investor,
+      'Investor/sharholder wasnt found in event subscription',
+    );
+    assert.equal(
+      logWhitelistAddress._role,
+      1,
+      'Role wasnt found in event subscription',
+    );
     await securityToken.unsubscribeAll();
+  });
 
-
-  })
-
-  it('test LogNewSTO', async()=>{
-
+  it('test LogNewSTO', async () => {
     let subscriptionID3 = null;
     const eventName3 = 'LogSetSTOContract';
     const indexedFilterValues3 = ['_STOTemplate', '_auditor'];
 
-    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
     const logSetSTOContractArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID3 = securityToken.subscribe(eventName3, indexedFilterValues3, (err, log) => {
-        if (err !== null) {
-          reject(err);
-          return;
-        }
-        // console.log
-        resolve(log.args);
-      });
+      subscriptionID3 = securityToken.subscribe(
+        eventName3,
+        indexedFilterValues3,
+        (err, log) => {
+          if (err !== null) {
+            reject(err);
+            return;
+          }
+          // console.log
+          resolve(log.args);
+        },
+      );
     });
 
     const owner = accounts[0];
@@ -738,8 +847,7 @@ describe('SecurityToken wrapper', () => {
       new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
     );
 
-
-    const offering = await makeSecurityTokenOffering(
+    await makeSecurityTokenOffering(
       web3Wrapper,
       polyToken,
       securityToken,
@@ -753,11 +861,21 @@ describe('SecurityToken wrapper', () => {
 
     const logSetSTO = await logSetSTOContractArgsPromise;
     assert.isAbove(logSetSTO._STO.length, 20, 'STO address not created');
-    assert.isAbove(logSetSTO._STOtemplate.length, 20, 'STO address not created');
-    assert.equal(logSetSTO._auditor, accounts[4], 'Auditor address wasnt found');
-    assert.isAbove (logSetSTO._endTime.toNumber(), logSetSTO._startTime.toNumber() + 259200, 'start time and end time didnt work correctly');
+    assert.isAbove(
+      logSetSTO._STOtemplate.length,
+      20,
+      'STO address not created',
+    );
+    assert.equal(
+      logSetSTO._auditor,
+      accounts[4],
+      'Auditor address wasnt found',
+    );
+    assert.isAbove(
+      logSetSTO._endTime.toNumber(),
+      logSetSTO._startTime.toNumber() + 259200,
+      'start time and end time didnt work correctly',
+    );
     await securityToken.unsubscribeAll();
-
-
-  })
+  });
 });

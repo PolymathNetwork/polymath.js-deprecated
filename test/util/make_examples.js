@@ -331,7 +331,7 @@ export async function makeSecurityTokenThroughRegistrar(
 
   await registrar.initialize();
 
-  //start creating security token
+  // Start creating security token
   const creator = account
   const name = 'FUNTOKEN';
   const ticker = 'FUNT';
