@@ -14,13 +14,14 @@ import {
   makeTemplateWithFinalized,
   makeSecurityTokenThroughRegistrar,
 } from './util/make_examples';
-import { makeWeb3Wrapper } from './util/web3';
+import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
 import { fakeAddress } from './util/fake';
 
 const { assert } = chai;
 
 describe('Compliance wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
+  const web3 = makeWeb3();
 
   let accounts;
   let polyToken;
@@ -70,8 +71,9 @@ describe('Compliance wrapper', () => {
   });
 
   it('createTemplate', async () => {
-    await makeKYCProvider(customers, accounts[1]);
-    await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
+    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+    await makeKYCProvider(customers, accounts[1], expiryTime);
+    await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
     const templateAddress = await makeTemplate(
       compliance,
       accounts[1],
@@ -82,8 +84,9 @@ describe('Compliance wrapper', () => {
   });
 
   it('proposeTemplate, templateReputation, getTemplateAddressByProposal, cancelTemplateProposal', async () => {
-    await makeKYCProvider(customers, accounts[1]);
-    await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
+    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+    await makeKYCProvider(customers, accounts[1], expiryTime);
+    await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
       accounts[1],
@@ -109,7 +112,8 @@ describe('Compliance wrapper', () => {
   });
 
   it('setSTO', async () => {
-    await makeKYCProvider(customers, accounts[1]);
+    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+    await makeKYCProvider(customers, accounts[1], expiryTime);
 
     await compliance.setSTO(
       accounts[0],
@@ -181,8 +185,8 @@ describe('Compliance wrapper', () => {
       });
     });
 
-    await makeKYCProvider(customers, accounts[1]);
-    await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2]);
+    await makeKYCProvider(customers, accounts[1], expiryTime);
+    await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
     const templateAddress = await makeTemplate(
       compliance,
       accounts[1],

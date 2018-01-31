@@ -21,7 +21,7 @@ import {
   makeTemplateWithFinalized,
   makeSecurityTokenThroughRegistrar,
 } from './util/make_examples';
-import { makeWeb3Wrapper } from './util/web3';
+import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
 import { fakeBytes32 } from './util/fake';
 import { increaseTime } from './util/time';
 import { strictEqual } from 'assert';
@@ -31,7 +31,7 @@ const { assert } = chai;
 
 describe('SecurityToken wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
-
+  const web3 = makeWeb3();
   let accounts;
   let polyToken: PolyToken;
   let customers: Customers;
@@ -144,13 +144,15 @@ describe('SecurityToken wrapper', () => {
     const investor = accounts[3];
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
-    await makeKYCProvider(customers, kycProvider);
+    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+    await makeKYCProvider(customers, kycProvider, expiryTime);
 
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
+      expiryTime,
     );
 
     await compliance.proposeTemplate(
@@ -233,25 +235,24 @@ describe('SecurityToken wrapper', () => {
     const owner = accounts[0];
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
-
+    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
     // STO variables
     const auditor = accounts[4];
-    const startTime = new BigNumber(
-      Math.floor(new Date().getTime() / 1000)
-    ).plus(200);
+    const startTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(200);
 
-    const endTime = new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(
+    const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(
       2592000,
     ); // 1 Month duration
 
-    await makeKYCProvider(customers, kycProvider);
+    await makeKYCProvider(customers, kycProvider, expiryTime);
 
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
+      expiryTime,
     );
     await makeSelectedTemplateForSecurityToken(
       securityToken,
@@ -312,14 +313,16 @@ describe('SecurityToken wrapper', () => {
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
     const investor = accounts[3];
-    await makeKYCProvider(customers, kycProvider);
+    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+    await makeKYCProvider(customers, kycProvider, expiryTime);
 
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
+      expiryTime,
     );
     // Create the Selected Template for the SecurityToken
     await makeSelectedTemplateForSecurityToken(
@@ -381,25 +384,26 @@ describe('SecurityToken wrapper', () => {
       const legalDelegate = accounts[2];
       const kycProvider = accounts[1];
       const investor = accounts[3];
-
+      const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
       // STO variables
       const auditor = accounts[4];
       const startTime = new BigNumber(
-        Math.floor(new Date().getTime() / 1000)
+        web3.eth.getBlock('latest').timestamp
       ).plus(200);
 
-      const endTime = new BigNumber(
-        Math.floor(new Date().getTime() / 1000)
-      ).plus(2592000); // 1 Month duration
+      const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(
+        2592000,
+      ); // 1 Month duration
 
-      await makeKYCProvider(customers, kycProvider);
+      await makeKYCProvider(customers, kycProvider, expiryTime);
 
-      await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+      await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
       const templateAddress = await makeTemplateWithFinalized(
         compliance,
         kycProvider,
         legalDelegate,
+        expiryTime,
       );
       await makeSelectedTemplateForSecurityToken(
         securityToken,
@@ -411,7 +415,6 @@ describe('SecurityToken wrapper', () => {
         fakeBytes32,
         templateAddress,
       );
-
       await polyToken.approve(auditor, customers.address, 100);
 
       await customers.verifyCustomer(
@@ -421,7 +424,7 @@ describe('SecurityToken wrapper', () => {
         'CA',
         'investor',
         true,
-        new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
+        new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000),
       );
 
       // Create the offering Contract
@@ -445,7 +448,7 @@ describe('SecurityToken wrapper', () => {
       );
       // Start the offering
       await securityToken.startSecurityTokenOffering(owner);
-
+ 
       assert.equal(
         await securityToken.getBalanceOf(offering.address),
         1234567,
@@ -457,7 +460,6 @@ describe('SecurityToken wrapper', () => {
       );
 
       await polyToken.approve(investor, customers.address, 100);
-
       await customers.verifyCustomer(
         kycProvider,
         investor,
@@ -465,7 +467,7 @@ describe('SecurityToken wrapper', () => {
         'CA',
         'investor',
         true,
-        new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+        new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000),
       );
 
       await securityToken.addToWhitelist(owner, investor);
@@ -478,7 +480,6 @@ describe('SecurityToken wrapper', () => {
         true,
         'Should read true, investor has been whitelisted',
       );
-
       await polyToken.approve(investor, securityToken.address, 10000);
       await increaseTime(1000); // Time Jump of 1000 seconds to reach beyond the sto start date
       // getSTOContractAddress
@@ -556,7 +557,6 @@ describe('SecurityToken wrapper', () => {
       );
     });
   });
-
 
   it('subscribe, unsubscribe, unsubscribeAll, getLogs', async () => {
     // Subscribtion setup
@@ -644,57 +644,19 @@ describe('SecurityToken wrapper', () => {
       },
     );
 
-    // Subscribtion setup
-    let subscriptionID6 = null;
-    const eventName6 = 'LogVoteToFreeze';
-    const indexedFilterValues6 = null;
-
-    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
-    const logVoteToFreezeArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID6 = securityToken.subscribe(
-        eventName6,
-        indexedFilterValues6,
-        (err, log) => {
-          if (err !== null) {
-            reject(err);
-            return;
-          }
-          resolve(log.args);
-        },
-      );
-    });
-
-    // Subscribtion setup
-    let subscriptionID7 = null;
-    const eventName7 = 'LogTokenIssued';
-    const indexedFilterValues7 = null;
-
-    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
-    const logTokenIssuedArgsPromise = new Promise((resolve, reject) => {
-      subscriptionID6 = securityToken.subscribe(
-        eventName7,
-        indexedFilterValues7,
-        (err, log) => {
-          if (err !== null) {
-            reject(err);
-            return;
-          }
-          resolve(log.args);
-        },
-      );
-    });
-
     const owner = accounts[0];
     const kycProvider = accounts[1];
     const legalDelegate = accounts[2];
     const investor = accounts[3];
-    await makeKYCProvider(customers, kycProvider);
+    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+    await makeKYCProvider(customers, kycProvider, expiryTime);
 
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
+      expiryTime,
     );
 
     await makeSelectedTemplateForSecurityToken(
@@ -780,7 +742,7 @@ describe('SecurityToken wrapper', () => {
     await securityToken.unsubscribeAll();
   });
 
-  it('test LogNewSTO', async () => {
+  it('Test LogNewSTO, LogIssueToken, logFreezePoly', async () => {
     let subscriptionID3 = null;
     const eventName3 = 'LogSetSTOContract';
     const indexedFilterValues3 = ['_STOTemplate', '_auditor'];
@@ -804,7 +766,8 @@ describe('SecurityToken wrapper', () => {
     const owner = accounts[0];
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
-
+    const investor = accounts[4];
+    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
     // STO variables
     const auditor = accounts[4];
     const startTime = new BigNumber(
@@ -815,14 +778,15 @@ describe('SecurityToken wrapper', () => {
       2592000,
     ); // 1 Month duration
 
-    await makeKYCProvider(customers, kycProvider);
+    await makeKYCProvider(customers, kycProvider, expiryTime);
 
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate);
+    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
+      expiryTime,
     );
     await makeSelectedTemplateForSecurityToken(
       securityToken,
@@ -847,7 +811,7 @@ describe('SecurityToken wrapper', () => {
       new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
     );
 
-    await makeSecurityTokenOffering(
+    const offering = await makeSecurityTokenOffering(
       web3Wrapper,
       polyToken,
       securityToken,
@@ -876,6 +840,95 @@ describe('SecurityToken wrapper', () => {
       logSetSTO._startTime.toNumber() + 259200,
       'start time and end time didnt work correctly',
     );
+
+    // Subscribtion setup
+    let subscriptionID7 = null;
+    const eventName7 = 'LogTokenIssued';
+    const indexedFilterValues7 = null;
+ 
+    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logTokenIssuedArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID7 = securityToken.subscribe(
+        eventName7,
+        indexedFilterValues7,
+        (err, log) => {
+          if (err !== null) {
+            reject(err);
+            return;
+          }
+          resolve(log.args);
+        },
+      );
+    });
+
+    // Start the offering
+    await securityToken.startSecurityTokenOffering(owner);
+
+    assert.isTrue(
+      await securityToken.getOfferingStatus(),
+      'Offering status should be true for the STO contract',
+    );
+
+    await polyToken.approve(investor, customers.address, 100);
+
+    await customers.verifyCustomer(
+      kycProvider,
+      investor,
+      'US',
+      'CA',
+      'investor',
+      true,
+      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+    );
+
+    await securityToken.addToWhitelist(owner, investor);
+
+    await polyToken.approve(investor, securityToken.address, 10000);
+    await increaseTime(1000); // Time Jump of 1000 seconds to reach beyond the sto start date
+    // Bought Security Token using POLY
+    await offering.buySecurityTokenWithPoly(investor, new BigNumber(10000));
+    assert.equal(
+      (await securityToken.getBalanceOf(investor)).toNumber(),
+      100,
+      'Balance of the investor should be eqaul to 100',
+    );
+
+    const logIssueToken = await logTokenIssuedArgsPromise;
+    assert.isAbove(
+      logIssueToken._contributor.length,
+      20,
+      'Tokens are not issued1',
+    );
+    assert.equal(logIssueToken._stAmount, 100, 'Tokens are not issued2');
+    assert.equal(logIssueToken._polyContributed.toNumber(), 10000);
+
+    // Subscribtion setup
+    let subscriptionID6 = null;
+    const eventName6 = 'LogVoteToFreeze';
+    const indexedFilterValues6 = ['_recipient', '_yayPercent'];
+
+    // The callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logVoteToFreezeArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID6 = securityToken.subscribe(
+        eventName6,
+        indexedFilterValues6,
+        (err, log) => {
+          if (err !== null) {
+            reject(err);
+            return;
+          }
+          resolve(log.args);
+        },
+      );
+    });
+    // voteToFreeze
+    await increaseTime(2592000 + 100); // time jump to reach the endSTO timestamp
+    await securityToken.voteToFreeze(investor, auditor);
+
+    const logFreezePoly = await logVoteToFreezeArgsPromise;
+
+    assert.isAbove(logFreezePoly._recipient.length, 20, 'Failure to Vote');
+    assert.notEqual(logFreezePoly._yayPercent, 0, 'Failure to Vote');
     await securityToken.unsubscribeAll();
   });
 });
