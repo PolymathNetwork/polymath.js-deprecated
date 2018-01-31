@@ -3,14 +3,15 @@ import chai from 'chai';
 import 'mocha';
 
 import { makeCustomers, makePolyToken, makeKYCProvider } from './util/make_examples';
-import { makeWeb3Wrapper } from './util/web3';
+import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
 import { fakeAddress } from './util/fake';
 
 const { assert } = chai;
 
 describe('Customers wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
-
+  const web3 = makeWeb3();
+  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
   let accounts;
   let polyToken;
   let customers;
@@ -40,7 +41,7 @@ describe('Customers wrapper', () => {
 
   describe('getKYCProviderByAddress', () => {
     it('should return created provider', async () => {
-      await makeKYCProvider(customers, accounts[1]);
+      await makeKYCProvider(customers, accounts[1], expiryTime);
 
       const provider = await customers.getKYCProviderByAddress(accounts[1]);
       assert.equal(provider.name, 'Provider');
@@ -51,7 +52,7 @@ describe('Customers wrapper', () => {
     });
 
     it('should emit LogNewProvider event', async () => {
-      await makeKYCProvider(customers, accounts[1]);
+      await makeKYCProvider(customers, accounts[1], expiryTime);
       const logs = await customers.getLogs(
         'LogNewProvider',
         {},
@@ -68,7 +69,7 @@ describe('Customers wrapper', () => {
     });
 
     it('should change verification fee', async () => {
-      await makeKYCProvider(customers, accounts[1]);
+      await makeKYCProvider(customers, accounts[1], expiryTime);
       const provider = await customers.getKYCProviderByAddress(accounts[1]);
       assert.equal(provider.name, 'Provider');
 
@@ -86,7 +87,7 @@ describe('Customers wrapper', () => {
     const kycProvider = accounts[1];
     const investor = accounts[2];
 
-    await makeKYCProvider(customers, accounts[1]);
+    await makeKYCProvider(customers, accounts[1], expiryTime);
     await polyToken.approve(investor, customers.address, new BigNumber(100));
     await customers.verifyCustomer(
       kycProvider,
@@ -113,7 +114,7 @@ describe('Customers wrapper', () => {
   });
 
   it('getCustomer should return null for nonexistent customer', async () => {
-    await makeKYCProvider(customers, accounts[1]);
+    await makeKYCProvider(customers, accounts[1], expiryTime);
 
     assert.equal(
       await customers.getCustomer(accounts[0], fakeAddress),
@@ -121,5 +122,74 @@ describe('Customers wrapper', () => {
       'getCustomer returns null for nonexistent customer',
     );
   });
+
+
+  it('subscribe, unsubscribe, unsubscribeAll', async () => {
+
+    //subscribtion setup
+    let subscriptionID1 = null;
+    const eventName1 = 'LogNewProvider';
+    const indexedFilterValues1 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logNewProviderArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID1 = customers.subscribe(eventName1, indexedFilterValues1, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        resolve(log.args);
+      });
+    });
+
+    //subscribtion setup
+    let subscriptionID2 = null;
+    const eventName2 = 'LogCustomerVerified';
+    const indexedFilterValues2 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const logCustomerVerifiedArgsPromise = new Promise((resolve, reject) => {
+
+      subscriptionID2 = customers.subscribe(eventName2, indexedFilterValues2, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        resolve(log.args);
+      });
+    });
+
+
+    const owner = accounts[0]
+    const kycProvider = accounts[1];
+    const investor = accounts[2];
+
+    await makeKYCProvider(customers, accounts[1], expiryTime);
+
+    const logNewProvider = await logNewProviderArgsPromise;
+    assert.equal(logNewProvider.providerAddress, kycProvider, 'kycProvider address wasnt found in event subscription');
+    assert.equal(logNewProvider.name, 'Provider', 'Name of kycProvider wasnt found in event subscription');
+    assert.equal(logNewProvider.details, '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'Details wasnt found in event subscription'); //details hash from make_examples.js
+    await customers.unsubscribe(subscriptionID1);
+
+
+    await polyToken.approve(investor, customers.address, new BigNumber(100));
+    await customers.verifyCustomer(
+      kycProvider,
+      investor,
+      'US',
+      'CA',
+      'investor',
+      false,
+      new BigNumber(15163975079),
+    );
+
+    const logCustomerVerified = await logCustomerVerifiedArgsPromise;
+    assert.equal(logCustomerVerified.customer, investor, 'Customer address wasnt found in event subscription');
+    assert.equal(logCustomerVerified.provider, kycProvider, 'kyc provider address wasnt found in event subscription');
+    assert.equal(logCustomerVerified.role, 1, 'Role wasnt found in event subscription');
+    await customers.unsubscribeAll();
+
+  })
 
 });

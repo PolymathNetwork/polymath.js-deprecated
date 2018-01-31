@@ -313,7 +313,38 @@ describe('Template wrapper', () => {
     );
   });
 
-  // it('getLogs', async () => {
-  //
-  // })
+  it('getLogs, subscribe, ,unsubscribe, unsubscribeAll', async () => {
+    //subscribtion setup
+    let subscriptionID1 = null;
+    const eventName1 = 'DetailsUpdated';
+    const indexedFilterValues1 = null;
+
+    //the callback is passed into the filter.watch function, and is operated on when a new event comes in
+    const detailsUpdatedArgsPromise = new Promise((resolve, reject) => {
+      subscriptionID1 = template.subscribe(eventName1, indexedFilterValues1, (err, log) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
+        resolve(log.args);
+      });
+    });
+
+    await template.updateTemplateDetails(accounts[0], fakeBytes32); // fake hash
+
+    const detailsUpdated = await detailsUpdatedArgsPromise
+    assert.equal(detailsUpdated._prevDetails, '0x7468697320776f756c6420626520686173686573000000000000000000000000', 'previous details wasnt found in event subscription'); //hash of 'this would be hashes'
+    assert.equal(detailsUpdated._newDetails, fakeBytes32, 'new details wasnt found in event subscription');
+    assert.isAbove(detailsUpdated._updateDate.toNumber(), 1517265000, 'Update date wasnt found in event subscription'); //some time on jan 29th 2017
+    await template.unsubscribeAll();
+
+    const logs = await template.getLogs(
+      eventName1,
+      {},
+      { fromBlock: 1 },
+    );
+    assert.isAbove(logs.length, 0, 'Got a log');
+    assert.equal(logs[0].args._prevDetails, '0x7468697320776f756c6420626520686173686573000000000000000000000000', 'logs have correct data retrieved');
+
+  })
 });

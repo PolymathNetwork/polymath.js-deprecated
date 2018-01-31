@@ -124,6 +124,7 @@ export const makeLegalDelegate = async (
   customers: Customers,
   kycProvider: string,
   legalDelegate: string,
+  expiryTime: BigNumber,
 ) => {
   await polyToken.approve(legalDelegate, customers.address, 100);
   await customers.verifyCustomer(
@@ -133,7 +134,7 @@ export const makeLegalDelegate = async (
     'CA',
     'delegate',
     true,
-    new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+    expiryTime,
   );
 };
 
@@ -141,6 +142,7 @@ export const makeTemplate = async (
   compliance: Compliance,
   kycProvider: string,
   legalDelegate: string,
+  expiryTime: BigNumber
 ): Promise<string> => {
   const templateAddress = await compliance.createTemplate(
     legalDelegate,
@@ -149,7 +151,7 @@ export const makeTemplate = async (
     false,
     kycProvider,
     '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-    new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+    expiryTime,
     new BigNumber(1000),
     new BigNumber(10),
     new BigNumber(9888888),
@@ -168,6 +170,7 @@ export const makeTemplateWithFinalized = async (
   compliance: Compliance,
   kycProvider: string,
   legalDelegate: string,
+  expiryTime: BigNumber,
 ): Promise<string> => {
   const templateAddress = await compliance.createTemplate(
     legalDelegate,
@@ -176,7 +179,7 @@ export const makeTemplateWithFinalized = async (
     false,
     kycProvider,
     '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-    new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+    expiryTime,
     new BigNumber(1000),
     new BigNumber(10),
     new BigNumber(9888888),
@@ -331,7 +334,7 @@ export async function makeSecurityTokenThroughRegistrar(
 
   await registrar.initialize();
 
-  //start creating security token
+  // Start creating security token
   const creator = account
   const name = 'FUNTOKEN';
   const ticker = 'FUNT';

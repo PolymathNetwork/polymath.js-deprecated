@@ -1,6 +1,10 @@
 [![Build Status](https://travis-ci.org/PolymathNetwork/polymath.js.svg?branch=master)](https://travis-ci.org/PolymathNetwork/polymath.js)
 <a href="https://t.me/polymathnetwork"><img src="https://img.shields.io/badge/50k+-telegram-blue.svg" target="_blank"></a>
 
+[![dependencies Status](https://david-dm.org/PolymathNetwork/polymath.js.svg)](https://david-dm.org/PolymathNetwork/polymath.js)
+[![devDependencies Status](https://david-dm.org/PolymathNetwork/polymath.js/dev-status.svg)](https://david-dm.org/PolymathNetwork/polymath.js?type=dev)
+
+
 <!--img src="https://img.shields.io/badge/bounties-1,000,000-green.svg" href="/issues-->
 
 ![Polymath](Polymath.png)
