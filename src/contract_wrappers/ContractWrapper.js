@@ -23,7 +23,7 @@ export default class ContractWrapper {
   _contract: any;
 
   _filters: { [string]: Web3Filter };
-  // _filterCallback: { [string]: EventCallback<mixed> };
+  //_filterCallback: { [string]: EventCallback<mixed> }; - from dave : need to examine if we need this
 
   isInitialized: boolean;
   isInitializing: boolean;

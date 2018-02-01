@@ -31,7 +31,6 @@ describe('Registrar wrapper', () => {
   });
 
   beforeEach(async () => {
-    // parameters for Template constructor
     polyToken = await makePolyToken(web3Wrapper, accounts[0]);
     customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
 
@@ -94,9 +93,6 @@ describe('Registrar wrapper', () => {
       lockupPeriod,
       quorum,
     );
-
-    // const address = await registrar.getSecurityTokenAddress(ticker);
-    // const tokenData = await registrar.getSecurityTokenData(address);
 
     const logs = await registrar.getLogs(
       'LogNewSecurityToken',
@@ -173,7 +169,7 @@ describe('Registrar wrapper', () => {
     const fee = 1000;
     const type = 1;
     const maxPoly = 100000;
-    const lockupPeriod = expiryTime + 31557600; // one year from jan 19 2017
+    const lockupPeriod = expiryTime + 31557600; // one year ahead
     const quorum = 75;
 
     await polyToken.approve(owner, registrar.address, fee);

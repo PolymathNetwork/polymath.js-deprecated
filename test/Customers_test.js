@@ -24,7 +24,7 @@ describe('Customers wrapper', () => {
     polyToken = await makePolyToken(web3Wrapper, accounts[0]);
     customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
 
-    // Fund two accounts.
+    // Fund three accounts.
     await polyToken.generateNewTokens(
       new BigNumber(10).toPower(18).times(100000),
       accounts[0],

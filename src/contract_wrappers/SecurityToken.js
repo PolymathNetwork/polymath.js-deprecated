@@ -284,7 +284,7 @@ export default class SecurityToken extends ContractWrapper {
 
   /**
    * Start the Offering after the template and STO selection
-   * @param owner                     Address of the Owner of a Security Token
+   * @param owner Address of the Owner of a Security Token
    */
   async startSecurityTokenOffering(owner: string) {
     await this._contract.startOffering({
@@ -437,6 +437,7 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /** Queries the shareholder details.
+   *
    * @return Returns the type {@link Shareholder}
    */
   async getShareholderDetails(
@@ -445,7 +446,9 @@ export default class SecurityToken extends ContractWrapper {
     return this._contract.shareholders.call(shareholderAddress);
   }
 
-  /** Queries the POLY allocation details, which cover the rules determining if the stakeholder will receive their POLY vesting.
+  /**
+   * Queries the POLY allocation details, which cover the rules determining if the stakeholder will receive their POLY vesting.
+   * @param polyStakeholderAddress The address of the stakeholder
    * @return Returns the type {@link PolyAllocation}
    */
   async getPolyAllocationDetails(
@@ -455,6 +458,7 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /** Checks to see how much a shareholder has contributed to the Security token.
+   * @param contributorAddress The address of the contributor
    * @return The amount the user has contributed contributed
    */
   async getContributedToSTO(contributorAddress: string): Promise<BigNumber> {
@@ -462,6 +466,8 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /** Get information on if a shareholder has voted to freeze a POLY allocation.
+   * @param userAddress The address of the user who wants to vote
+   * @param addressBeingVotedOn The stakeholder who is being voted agaisnt
    * @return True if the shareholder has voted to freeze
    */
   async getVoted(

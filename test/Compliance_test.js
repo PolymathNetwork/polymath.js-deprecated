@@ -134,7 +134,7 @@ describe('Compliance wrapper', () => {
       });
     });
 
-    await makeKYCProvider(customers, accounts[1], expiryTime);
+    await makeKYCProvider(customers, accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
@@ -154,7 +154,6 @@ describe('Compliance wrapper', () => {
     let logNewTemplateProposal = await logNewTemplateProposalArgsPromise;
     assert.equal(logNewTemplateProposal._securityToken, securityToken.address, 'ST address not picked up from LogNewTemplateProposal event') //needs to be renamed from core
 
-
     // Reputation
     let templateReputation = await compliance.getTemplateReputation(templateAddress);
     assert.equal(templateReputation.owner, accounts[2], "TemplateReputation not stored or read properly");
@@ -166,7 +165,6 @@ describe('Compliance wrapper', () => {
     //Test all templateProposals
     let arrayOfTemplates = await compliance.getAllTemplateProposals(securityToken.address)
     assert.equal(arrayOfTemplates[0], templateAddress, 'Template address does not match the getter function return');
-
 
     await compliance.cancelTemplateProposal(accounts[2], securityToken.address, 0);
 
@@ -180,15 +178,11 @@ describe('Compliance wrapper', () => {
 
    });
 
-
   it('getMinimumVestingPeriod', async () => {
     let minimum = await compliance.getMinimumVestingPeriod();
     assert.equal(minimum, 60 * 60 * 24 * 100, "Does not equal 100 days, when it should")
   })
 
-  // so we need to have a securityToken actually created through STRegistrar
-  // and so me of the stuff has to match up
-  // then we have an actual one in offeringProposals
   it('setSTO, proposeSTO, cancleSTO, getSTOProposal, getSTOAddressByProposal, getAllOfferingProposals', async () => {
 
     //subscribtion setup
@@ -287,9 +281,6 @@ describe('Compliance wrapper', () => {
     let logNewContractProposal = await logNewContractProposalArgsPromise;
     assert.equal(logNewContractProposal._delegate, auditor, 'legal delegate not picked up from LogNewProposal event') //needs to be renamed from core
 
-    //to confirm setSTO, we need to check offerings for the msg.sender addr
-    //which is using getOfferingByProposal
-    //in setSTO we
     let getSTO = await compliance.getSTOProposal(securityToken.address, 0)
     assert.equal(getSTO.auditorAddress, auditor, "Auditor address not read properly");
 
@@ -304,10 +295,8 @@ describe('Compliance wrapper', () => {
     // Cancel Proposal
     await compliance.cancelSTOProposal(auditor, securityToken.address, 0);
 
-    //LOGCANCLESTOPROPOSAL
     let logCancleContractProposal = await logCancleContractProposalArgsPromise;
     assert.equal(logNewContractProposal._securityToken, securityToken.address, 'ST address not picked up from LogCancleContractProposal event') //needs to be renamed from core
-
 
 
     const addressShouldBeZero = await compliance.getSTOAddressByProposal(securityToken.address, 0)
@@ -315,8 +304,6 @@ describe('Compliance wrapper', () => {
 
     await compliance.unsubscribe(subscriptionID3);
     await compliance.unsubscribe(subscriptionID5);
-
-
   })
 
   it('LogTemplateCreated event test, subscribe, unsubscribe', async () => {
@@ -337,7 +324,7 @@ describe('Compliance wrapper', () => {
       });
     });
 
-    await makeKYCProvider(customers, accounts[1], expiryTime);
+    await makeKYCProvider(customers, accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
     const templateAddress = await makeTemplate(
       compliance,
@@ -346,16 +333,11 @@ describe('Compliance wrapper', () => {
       expiryTime,
     );
 
-
     const logTemplateCreated = await logTemplateCreatedArgsPromise;
     assert.equal(logTemplateCreated._creator, accounts[2], 'legal delegate creator address wasnt found in event subscription'); //'offeringtype' from make_examples.js
     assert.isAbove(logTemplateCreated._template.length, 20, 'template address wasnt found in event subscription');
     assert.equal(logTemplateCreated._offeringType, "offeringtype", 'offering type wasnt found in event subscription'); //'offeringtype' from make_examples.js
     await compliance.unsubscribe(subscriptionID1);
 
-
   })
-
-
-
 });

@@ -59,7 +59,7 @@ export default class Customers extends ContractWrapper {
   ): string {
     const wrappedCallback = callback;
 
-    //* *temporarily green this out, it isnt working, might not need */
+    //* *temporarily green this out, it isnt working, might not need - DAVE */
 
     // if (eventName === 'LogCustomerVerified') {
     //   // Convert from number roles to string enum roles.
@@ -185,7 +185,8 @@ export default class Customers extends ContractWrapper {
    * Submit an on-chain record that you have verified a customer's information.
    * @param  kycProviderAddress The Ethereum address of your KYC provider account
    * @param  customerAddress    The Ethereum address of the customer you verified
-   * @param  jurisdiction       The customer's jurisdiction that you verified. Either an ISO 3166-1 alpha-2 country code or an ISO 3166-2 country subdivision code.
+   * @param  countryJurisdiction   The customer's jurisdiction that you verified. An ISO 3166-1 alpha-2 country code
+   * @param  divisionJurisdiction  The customer's jurisdiction that you verified. An ISO 3166-2 country subdivision code.
    * @param  role               The type of Polymath user that the customer is (e.g. investor)
    * @param  accredited         Whether the customer is accredited
    * @param  expires            The time at which this verification should expire, in seconds since the Unix epoch

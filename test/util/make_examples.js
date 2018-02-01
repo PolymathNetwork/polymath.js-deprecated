@@ -51,7 +51,6 @@ export async function makeCustomers(
 export async function makeCompliance(
   web3Wrapper: Web3Wrapper,
   customers: Customers,
-//  securityTokenRegistrar: SecurityTokenRegistrar,
   account: string,
 ) {
   const contractTemplate = contract(complianceArtifact);
@@ -61,8 +60,7 @@ export async function makeCompliance(
     gas: 6000000,
   });
 
- // const securityTokenRegistrar = SecurityTokenRegistrar;
-  const compliance = new Compliance(web3Wrapper, customers, /*securityTokenRegistrar,*/ instance.address);
+  const compliance = new Compliance(web3Wrapper, customers, instance.address);
   await compliance.initialize();
   return compliance;
 }

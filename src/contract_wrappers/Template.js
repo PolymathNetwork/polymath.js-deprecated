@@ -154,9 +154,10 @@ export default class Template extends ContractWrapper {
 
   /**
    * Checks if the template requirements for jurisdiction, accreditation, and role are met.
-   * @param jurisdiction The ISO-3166 code of the investors jurisdiction (solidity type bytes32)
-   * @param accredited Defines if the investor is accredited or not
-   * @param role Role string used to see if the role is allowed for a security token (solidity type uint8)
+   * @param  countryJurisdiction   The customer's jurisdiction that you verified. An ISO 3166-1 alpha-2 country code
+   * @param  divisionJurisdiction  The customer's jurisdiction that you verified. An ISO 3166-2 country subdivision code.
+   * @param  accredited            Defines if the investor is accredited or not
+   * @param  role                  Role string used to see if the role is allowed for a security token (solidity type uint8)
    * @return True if it all template requirements are met
    */
   async checkTemplateRequirements(
@@ -246,26 +247,29 @@ export default class Template extends ContractWrapper {
 
   /**
    * Checks if the jurisdiction is allowed for this template
+   * @param  countryJurisdiction   The customer's jurisdiction that you verified. An ISO 3166-1 alpha-2 country code
    * @return True if the jurisdiction is allowed
    */
   async checkIfCountryJurisdictionIsAllowed(
-    jurisdiction: string,
+    countryJurisdiction: string,
   ): Promise<boolean> {
-    return this._contract.allowedJurisdictions.call(jurisdiction);
+    return this._contract.allowedJurisdictions.call(countryJurisdiction);
   }
 
   /**
    * Checks if the jurisdiction division is allowed for this template
+   * @param  divisionJurisdiction  The customer's jurisdiction that you verified. An ISO 3166-2 country subdivision code.
    * @return True if the division is allowed
    */
   async checkIfDivisionJurisdictionIsAllowed(
-    jurisdiction: string,
+    divisionJurisdiction: string,
   ): Promise<boolean> {
-    return this._contract.blockedDivisionJurisdictions.call(jurisdiction);
+    return this._contract.blockedDivisionJurisdictions.call(divisionJurisdiction);
   }
 
   /**
    * Checks if a role is allowed for the template
+   * @param role The role we are checking
    * @return True if the role is allowed
    */
   async checkIfRoleIsAllowed(role: number): Promise<boolean> {
