@@ -15,5 +15,5 @@ toc:
   - BlockRange
   - Log
   - TransferEventArgs
-  - AllowanceEventArgs
+  - ApprovalEventArgs
   - PolyTokenEventArgs

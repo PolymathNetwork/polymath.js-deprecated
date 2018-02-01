@@ -235,7 +235,7 @@ export default class Template extends ContractWrapper {
 
   /**
    * Returns the issuers jurisdiction by calling the state variable.
-   * @return The issuer jurisdiction code (solidty type bytes32)
+   * @return The issuer jurisdiction code (solidity type bytes32)
    */
   async getIssuerJurisdiction(): Promise<string> {
     const bytes32Returned = await this._contract.issuerJurisdiction.call();
@@ -286,7 +286,7 @@ export default class Template extends ContractWrapper {
 
   /**
    * Returns when the template expires by calling the state variable
-   * @return A BigNumber object representing the UNIX time the template expires (solidty type uint256)
+   * @return A BigNumber object representing the UNIX time the template expires (solidity type uint256)
    */
   async getTemplateExpiry(): Promise<BigNumber> {
     return (await this._contract.expires.call()).toNumber();
