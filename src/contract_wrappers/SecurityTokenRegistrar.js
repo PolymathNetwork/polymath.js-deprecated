@@ -71,11 +71,12 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @param name Name of the security token
    * @param ticker Ticker name of the security
    * @param totalSupply Total amount of tokens being created
+   * @param decimals The number of decimal places that the tokens can be split up into
    * @param owner Public Key address of the security token owner
+   * @param maxPoly Amount of POLY being raised
    * @param host The host of the security token wizard
    * @param fee POLY Fee being requested by the wizard host
    * @param type Type of security being tokenized (NEED TOKEN NUMBERS ie. security:1, somethingelse:2)
-   * @param maxPoly Amount of POLY being raised
    * @param lockupPeriod Length of time (unix) raised POLY will be locked up for dispute
    * @param quorum Percent of initial investors required to freeze POLY raise
    */

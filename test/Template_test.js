@@ -29,7 +29,7 @@ describe('Template wrapper', () => {
     const accredited = false;
     const KYC = accounts[1];
     const details = 'this would be hashes';
-    const expires = expiryTime.toNumber()// + 1000000;
+    const expires = expiryTime.toNumber();
 
     const fee = 1000;
     const quorum = 10;
@@ -142,7 +142,7 @@ describe('Template wrapper', () => {
   });
 
   it('updateTemplateDetails, getTemplateDetails', async () => {
-    await template.updateTemplateDetails(accounts[0], fakeBytes32); // fake hash
+    await template.updateTemplateDetails(accounts[0], fakeBytes32);
 
     const getUpdatedDetails = await template.getTemplateDetails();
     const newHash = getUpdatedDetails[0];
@@ -225,7 +225,7 @@ describe('Template wrapper', () => {
     const jurisdictionDivision = 'ON';
     const accredited = false;
     const role = 'investor';
-    const roleNotAdded = 'delegate'; // testing the failure
+    const roleNotAdded = 'delegate';
 
     await template.addJurisdiction(accounts[0], [jurisdictionCountry], [true]);
     await template.addDivisionJurisdiction(accounts[0], [jurisdictionDivision], [true]);
@@ -335,7 +335,7 @@ describe('Template wrapper', () => {
       });
     });
 
-    await template.updateTemplateDetails(accounts[0], fakeBytes32); // fake hash
+    await template.updateTemplateDetails(accounts[0], fakeBytes32);
 
     const detailsUpdated = await detailsUpdatedArgsPromise
     assert.equal(detailsUpdated._prevDetails, '0x7468697320776f756c6420626520686173686573000000000000000000000000', 'previous details wasnt found in event subscription'); //hash of 'this would be hashes'

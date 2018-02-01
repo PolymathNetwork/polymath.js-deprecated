@@ -29,7 +29,6 @@ export default class Compliance extends ContractWrapper {
   constructor(
     web3Wrapper: Web3Wrapper,
     customers: Customers,
-    //   securityTokenRegistrar: SecurityTokenRegistrar,
     deployedAddress?: string,
   ) {
     super(web3Wrapper, complianceArtifact, deployedAddress);
@@ -311,6 +310,7 @@ export default class Compliance extends ContractWrapper {
 
   /**
    * Returns all Template proposals
+   * @param   SecurityTokenAddress  Address of the Security Token
    * @return An array of addresses
    */
   async getAllTemplateProposals(
@@ -323,6 +323,7 @@ export default class Compliance extends ContractWrapper {
 
   /**
    * Returns all STO proposal addresses
+   * @param   SecurityTokenAddress  Address of the Security Token
    * @return An array of addresses
    */
   async getAllOfferingProposals(

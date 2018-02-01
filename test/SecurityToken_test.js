@@ -59,7 +59,7 @@ describe('SecurityToken wrapper', () => {
       expiryTime,
     );
 
-    // Fund four accounts.
+    // Fund five accounts.
     await polyToken.generateNewTokens(
       new BigNumber(10).toPower(18).times(100000),
       accounts[0],
@@ -252,7 +252,7 @@ describe('SecurityToken wrapper', () => {
       2592000,
     ); // 1 Month duration
 
-    await makeKYCProvider(customers, kycProvider, expiryTime);
+    await makeKYCProvider(customers, kycProvider);
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
@@ -322,7 +322,7 @@ describe('SecurityToken wrapper', () => {
     const kycProvider = accounts[1];
     const investor = accounts[3];
     const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
-    await makeKYCProvider(customers, kycProvider, expiryTime);
+    await makeKYCProvider(customers, kycProvider);
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
@@ -403,7 +403,7 @@ describe('SecurityToken wrapper', () => {
         2592000,
       ); // 1 Month duration
 
-      await makeKYCProvider(customers, kycProvider, expiryTime);
+      await makeKYCProvider(customers, kycProvider);
 
       await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
@@ -657,7 +657,7 @@ describe('SecurityToken wrapper', () => {
     const legalDelegate = accounts[2];
     const investor = accounts[3];
     const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
-    await makeKYCProvider(customers, kycProvider, expiryTime);
+    await makeKYCProvider(customers, kycProvider);
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
     const templateAddress = await makeTemplateWithFinalized(
@@ -765,7 +765,6 @@ describe('SecurityToken wrapper', () => {
             reject(err);
             return;
           }
-          // console.log
           resolve(log.args);
         },
       );
@@ -889,6 +888,7 @@ describe('SecurityToken wrapper', () => {
 
     await polyToken.approve(investor, securityToken.address, 10000);
     await increaseTime(1000); // Time Jump of 1000 seconds to reach beyond the sto start date
+
     // Bought Security Token using POLY
     await offering.buySecurityTokenWithPoly(investor, new BigNumber(10000));
     assert.equal(
