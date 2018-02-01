@@ -26,7 +26,7 @@ const { assert } = chai;
 describe('Compliance wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
-  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(100000);
+  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
   let accounts;
   let polyToken;
@@ -57,6 +57,7 @@ describe('Compliance wrapper', () => {
       securityToken,
       accounts[0],
       accounts[1],
+      expiryTime,
     );
 
 
@@ -234,13 +235,9 @@ describe('Compliance wrapper', () => {
 
     // STO variables
     const auditor = accounts[4];
-    const startTime = new BigNumber(
-      Math.floor(new Date().getTime() / 1000)
-    ).plus(200);
+    const startTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(200);
+    const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(2592000);
 
-    const endTime = new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(
-      2592000,
-    ); // 1 Month duration
 
     await makeKYCProvider(customers, kycProvider);
 

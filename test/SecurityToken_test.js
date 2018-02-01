@@ -37,6 +37,7 @@ describe('SecurityToken wrapper', () => {
   let customers: Customers;
   let compliance: Compliance;
   let securityToken: SecurityToken;
+  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
   before(async () => {
     accounts = await web3Wrapper.getAvailableAddressesAsync();
@@ -55,6 +56,7 @@ describe('SecurityToken wrapper', () => {
       securityToken,
       accounts[0],
       accounts[1],
+      expiryTime,
     );
 
     // Fund four accounts.
@@ -62,22 +64,27 @@ describe('SecurityToken wrapper', () => {
       new BigNumber(10).toPower(18).times(100000),
       accounts[0],
     );
+
     await polyToken.generateNewTokens(
       new BigNumber(10).toPower(18).times(100000),
       accounts[1],
     );
+
     await polyToken.generateNewTokens(
       new BigNumber(10).toPower(18).times(100000),
       accounts[2],
     );
+
     await polyToken.generateNewTokens(
       new BigNumber(10).toPower(18).times(100000),
       accounts[3],
     );
+
     await polyToken.generateNewTokens(
       new BigNumber(10).toPower(18).times(100000),
       accounts[4],
     );
+
   });
 
   it('getName, getDecimals', async () => {
@@ -92,6 +99,7 @@ describe('SecurityToken wrapper', () => {
       'It should equals with the decimals value provided at the time of creation of securityToken',
     );
   });
+
 
   it('getSymbol, getOwnerAddress, getTotalSupply', async () => {
     assert.equal(
@@ -145,8 +153,8 @@ describe('SecurityToken wrapper', () => {
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
     const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
-    await makeKYCProvider(customers, kycProvider, expiryTime);
 
+    await makeKYCProvider(customers, kycProvider, expiryTime);
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
     const templateAddress = await makeTemplateWithFinalized(
       compliance,
@@ -178,7 +186,7 @@ describe('SecurityToken wrapper', () => {
       'CA',
       'investor',
       true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+      new BigNumber(15163975079),
     );
 
     await securityToken.addToWhitelist(owner, investor);
@@ -274,7 +282,7 @@ describe('SecurityToken wrapper', () => {
       'CA',
       'investor',
       true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
+      new BigNumber(15163975079),
     );
 
     const offering = await makeSecurityTokenOffering(
@@ -343,7 +351,7 @@ describe('SecurityToken wrapper', () => {
       'CA',
       'investor',
       true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(50000),
+      new BigNumber(15163975079),
     );
 
     // addToWhiteList
@@ -448,7 +456,7 @@ describe('SecurityToken wrapper', () => {
       );
       // Start the offering
       await securityToken.startSecurityTokenOffering(owner);
- 
+
       assert.equal(
         await securityToken.getBalanceOf(offering.address),
         1234567,
@@ -679,7 +687,7 @@ describe('SecurityToken wrapper', () => {
       'CA',
       'investor',
       true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+      new BigNumber(15163975079),
     );
 
     await securityToken.addToWhitelist(owner, investor);
@@ -766,17 +774,13 @@ describe('SecurityToken wrapper', () => {
     const owner = accounts[0];
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
-    const investor = accounts[4];
+    const investor = accounts[3];
     const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
     // STO variables
     const auditor = accounts[4];
-    const startTime = new BigNumber(
-      Math.floor(new Date().getTime() / 1000)
-    ).plus(200);
+    const startTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(200);
+    const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(2592000);
 
-    const endTime = new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(
-      2592000,
-    ); // 1 Month duration
 
     await makeKYCProvider(customers, kycProvider, expiryTime);
 
@@ -808,7 +812,7 @@ describe('SecurityToken wrapper', () => {
       'CA',
       'investor',
       true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
+      new BigNumber(15163975079),
     );
 
     const offering = await makeSecurityTokenOffering(
@@ -845,7 +849,7 @@ describe('SecurityToken wrapper', () => {
     let subscriptionID7 = null;
     const eventName7 = 'LogTokenIssued';
     const indexedFilterValues7 = null;
- 
+
     // The callback is passed into the filter.watch function, and is operated on when a new event comes in
     const logTokenIssuedArgsPromise = new Promise((resolve, reject) => {
       subscriptionID7 = securityToken.subscribe(
@@ -878,7 +882,7 @@ describe('SecurityToken wrapper', () => {
       'CA',
       'investor',
       true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(100),
+      new BigNumber(15163975079),
     );
 
     await securityToken.addToWhitelist(owner, investor);
