@@ -12,11 +12,11 @@ import ContractWrapper from './ContractWrapper';
 
 import securityTokenOfferingArtifact from '../artifacts/STOContract.json';
 
-/**
+/*NOTE - KEEP ALL COMMENTS NORMAL, i.e. NO DOUBLE STAR. THIS FILE DOES NOT NEED TO BE PICKED UP BY DOCUMENTATION.js
  * Wrapper for the STOContract Solidity contract
  */
 export default class STOContract extends ContractWrapper {
-  /**
+  /*
    * @hideconstructor
    */
   constructor(
@@ -30,7 +30,7 @@ export default class STOContract extends ContractWrapper {
     this.POLY = polyToken;
     this.owner = owner;
   }
-  /**
+  /*
    * Subscribes to events emitted by the contract.
    * @param   eventName           The name of the event to subscribe to
    * @param   indexedFilterValues Event argument values with which to filter logs
@@ -45,7 +45,7 @@ export default class STOContract extends ContractWrapper {
     return super._subscribe(eventName, indexedFilterValues, callback);
   }
 
-  /**
+  /*
    * Gets the STO start time as a unix timestamp.
    * @return The start time.
    */
@@ -54,7 +54,7 @@ export default class STOContract extends ContractWrapper {
     return this._contract.startTime.call();
   }
 
-  /**
+  /*
    * Gets the STO end time as a unix timestamp.
    * @return The end time.
    */
@@ -63,7 +63,7 @@ export default class STOContract extends ContractWrapper {
     return this._contract.endTime.call();
   }
 
-  /**
+  /*
    * Gets the owner of the offering contract.
    * @return The owner address.
    */
@@ -72,7 +72,7 @@ export default class STOContract extends ContractWrapper {
     return this._contract.owner.call();
   }
 
-  /**
+  /*
    * Gets the rate of one security token in terms of poly.
    * @return The rate in poly.
    */
@@ -81,7 +81,7 @@ export default class STOContract extends ContractWrapper {
     return this._contract.rateInPoly.call();
   }
 
-  /**
+  /*
    * Gets the address of the securityToken.
    * @return The security token contract address.
    */
@@ -90,7 +90,7 @@ export default class STOContract extends ContractWrapper {
     return this._contract.securityTokenAddress.call();
   }
 
-  /**
+  /*
    * Issue Security Token by the owner
    * @param owner                       Owner of the offering contract
    * @param securityTokenAddress        Address of the security token
@@ -114,7 +114,7 @@ export default class STOContract extends ContractWrapper {
     );
   }
 
-  /**
+  /*
    * Buy Security Token using POLY
    * @param contributor                Address of the contributor
    * @param amountOfPolyContributed    Number of POLY contributed

@@ -16,7 +16,7 @@ export type Web3Filter = Filter;
  * Argument values for filtering event logs
  */
 export type IndexedFilterValues = {
-  [string]: string | BigNumber,
+  filterValues: Array<string> | Array<BigNumber>,
 };
 
 /**
@@ -50,6 +50,13 @@ export type Log<LogArgs> = {
 
 // PolyToken types
 
+
+/**
+ * Arguments for the PolyToken events
+ */
+export type PolyTokenEventArgs = TransferEventArgs | ApprovalEventArgs;
+
+
 /**
  * Arguments for the PolyToken Transfer event
  */
@@ -67,11 +74,6 @@ export type ApprovalEventArgs = {
   _spender: string,
   _value: BigNumber,
 };
-
-/**
- * Arguments for the PolyToken events
- */
-export type PolyTokenEventArgs = TransferEventArgs | ApprovalEventArgs;
 
 // Customers types
 

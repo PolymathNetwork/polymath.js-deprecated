@@ -114,8 +114,8 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
   }
 
   /**
-   * Getter function for ST data by passing the address as the variable.
-   * @param tokenAddress
+   * Getter function for ST data by passing the address as the argument.
+   * @param tokenAddress Address of the security token
    * @return The security token data
    */
   async getSecurityTokenData(tokenAddress: string): Promise<SecurityTokenData> {
@@ -130,7 +130,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
   }
 
   /**
-   * Getter function for ST addresses by passing the ticker/symbol as the variable.
+   * Getter function for ST addresses by passing the ticker/symbol as the argument.
    * @param ticker The security token ticker
    * @return The security token address
    */

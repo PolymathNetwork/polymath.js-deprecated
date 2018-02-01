@@ -159,7 +159,7 @@ table {
 }
 
 #split-right {
-  flex-basis: auto !important;
+  flex-basis: 100% !important;
 }
 
 #split-right > .minishadow .fill-light:first-child {
