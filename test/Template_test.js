@@ -1,14 +1,18 @@
 import chai from 'chai';
 import 'mocha';
 
+import BigNumber from 'bignumber.js';
+
 import { makeTemplateDirectCall } from './util/make_examples';
-import { makeWeb3Wrapper } from './util/web3';
+import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
 import { fakeBytes32, fakeAddress } from './util/fake';
 
 const { assert } = chai;
 
 describe('Template wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
+  const web3 = makeWeb3();
+  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
   let accounts;
   let template;
@@ -25,10 +29,12 @@ describe('Template wrapper', () => {
     const accredited = false;
     const KYC = accounts[1];
     const details = 'this would be hashes';
-    const expires = 1602288000;
+    const expires = expiryTime.toNumber()// + 1000000;
+
     const fee = 1000;
     const quorum = 10;
     const vestingPeriod = 8888888;
+    const expiryTime2 = new BigNumber(web3.eth.getBlock('latest').timestamp);
 
     template = await makeTemplateDirectCall(
       web3Wrapper,
@@ -38,7 +44,7 @@ describe('Template wrapper', () => {
       accredited,
       KYC,
       details,
-      expires,
+      expires + 10000,
       fee,
       quorum,
       vestingPeriod,
@@ -305,10 +311,9 @@ describe('Template wrapper', () => {
 
   it('getTemplateExpiry', async () => {
     const expiry = await template.getTemplateExpiry();
-    const expireTime = 1602288000;
-    assert.equal(
+    assert.isAbove(
       expiry,
-      expireTime,
+      0,
       'Expiry was not correctly checked and compared',
     );
   });

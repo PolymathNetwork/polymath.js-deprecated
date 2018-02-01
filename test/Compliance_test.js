@@ -57,6 +57,7 @@ describe('Compliance wrapper', () => {
       securityToken,
       accounts[0],
       accounts[1],
+      expiryTime,
     );
 
 
@@ -234,13 +235,9 @@ describe('Compliance wrapper', () => {
 
     // STO variables
     const auditor = accounts[4];
-    const startTime = new BigNumber(
-      Math.floor(new Date().getTime() / 1000)
-    ).plus(200);
+    const startTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(200);
+    const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(2592000);
 
-    const endTime = new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(
-      2592000,
-    ); // 1 Month duration
 
     await makeKYCProvider(customers, kycProvider);
 
@@ -272,7 +269,7 @@ describe('Compliance wrapper', () => {
       'CA',
       'investor',
       true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
+      new BigNumber(15163975079),
     );
 
     //this make example does setSTO and proposeSTO, and we will test below

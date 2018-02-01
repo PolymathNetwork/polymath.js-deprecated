@@ -217,7 +217,7 @@ export async function makeTemplateDirectCall(
     accredited,
     KYC,
     details,
-    expires,
+    expires + 15067386,
     fee,
     quorum,
     vestingPeriod,
@@ -317,6 +317,7 @@ export async function makeSecurityTokenThroughRegistrar(
   securityToken: SecurityToken,
   account: string,
   hostAccount: string,
+  currentBlockTime: number,
 ) {
   const contractTemplate = contract(securityTokenRegistrarArtifact);
   contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
@@ -345,7 +346,7 @@ export async function makeSecurityTokenThroughRegistrar(
   const fee = 1000;
   const type = 1;
   const maxPoly = 100000;
-  const lockupPeriod = 1516397507 + 31557600; // one year from jan 19 2017
+  const lockupPeriod = currentBlockTime + 31557600; // plus one year
   const quorum = 75;
 
   // Fund two accounts.

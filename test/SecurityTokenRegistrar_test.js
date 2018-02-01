@@ -9,13 +9,15 @@ import {
   makeSecurityToken,
   makeSecurityTokenRegistrar,
 } from './util/make_examples';
-import { makeWeb3Wrapper } from './util/web3';
+import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
 import SecurityToken from '../src/contract_wrappers/SecurityToken';
 
 const { assert } = chai;
 
 describe('Registrar wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
+  const web3 = makeWeb3();
+  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
   let accounts;
   let polyToken;
@@ -74,7 +76,7 @@ describe('Registrar wrapper', () => {
     const fee = 1000;
     const type = 1;
     const maxPoly = 100000;
-    const lockupPeriod = 1516397507 + 31557600; // one year from jan 19 2017
+    const lockupPeriod = expiryTime + 31557600; // one year plus
     const quorum = 75;
 
     await polyToken.approve(owner, registrar.address, fee);
@@ -171,7 +173,7 @@ describe('Registrar wrapper', () => {
     const fee = 1000;
     const type = 1;
     const maxPoly = 100000;
-    const lockupPeriod = 1516397507 + 31557600; // one year from jan 19 2017
+    const lockupPeriod = expiryTime + 31557600; // one year from jan 19 2017
     const quorum = 75;
 
     await polyToken.approve(owner, registrar.address, fee);
