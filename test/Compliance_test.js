@@ -26,7 +26,7 @@ const { assert } = chai;
 describe('Compliance wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
-  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(100000);
 
   let accounts;
   let polyToken;
@@ -272,7 +272,7 @@ describe('Compliance wrapper', () => {
       'CA',
       'investor',
       true,
-      new BigNumber(Math.floor(new Date().getTime() / 1000)).plus(10000),
+      new BigNumber(15163975079),
     );
 
     //this make example does setSTO and proposeSTO, and we will test below
