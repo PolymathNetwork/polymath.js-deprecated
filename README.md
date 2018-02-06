@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/PolymathNetwork/polymath.js.svg?branch=master)](https://travis-ci.org/PolymathNetwork/polymath.js)
 <a href="https://t.me/polymathnetwork"><img src="https://img.shields.io/badge/50k+-telegram-blue.svg" target="_blank"></a>
+[![Build Status](https://travis-ci.org/PolymathNetwork/polymath.js.svg?branch=master)](https://travis-ci.org/PolymathNetwork/polymath.js)
 [![Known Vulnerabilities](https://snyk.io/test/github/priom/polymath.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/priom/polymath.js?targetFile=package.json)
 [![dependencies Status](https://david-dm.org/PolymathNetwork/polymath.js.svg)](https://david-dm.org/PolymathNetwork/polymath.js)
 [![devDependencies Status](https://david-dm.org/PolymathNetwork/polymath.js/dev-status.svg)](https://david-dm.org/PolymathNetwork/polymath.js?type=dev)
@@ -8,7 +8,7 @@
 
 # Polymath.js
 
-Polymath.js is the main library for interacting with Polymath's smart contracts. It is written in javascript using flow, babel and eslint. The documentation is automatically generated using documentationjs. See the docs here(insert link when live).
+Polymath.js is the main library for interacting with Polymath's smart contracts. It is written in javascript using flow, babel and eslint. The documentation is automatically generated using documentationjs. Checkout the [docs](https://docs.polymath.network)
 
 [Read the whitepaper](whitepaper.pdf)
 
