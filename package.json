@@ -2,7 +2,6 @@
   "name": "polymath.js",
   "author": "polymath",
   "version": "0.1.0",
-  "private": true,
   "description": "Tools for interacting with the Polymath platform",
   "main": "index.js",
   "scripts": {
