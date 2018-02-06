@@ -1,6 +1,6 @@
 {
-  "name": "polymath.js",
-  "author": "polymath",
+  "name": "@polymathnetwork/polymath",
+  "author": "Polymath",
   "version": "0.1.0",
   "description": "Tools for interacting with the Polymath platform",
   "main": "index.js",
@@ -30,8 +30,8 @@
     "contracts": "scripts/updateContracts.sh"
   },
   "husky": {
-      "hooks": {
-        "pre-commit": "lint-staged && flow"
+    "hooks": {
+      "pre-commit": "lint-staged && flow"
     }
   },
   "lint-staged": {
@@ -47,7 +47,6 @@
   "keywords": [
     "polymath"
   ],
-  "author": "Polymath",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/PolymathNetwork/polymath.js/issues"
@@ -103,5 +102,10 @@
     "webpack-node-externals": "1.6.0",
     "yargs": "10.0.3",
     "ganache-cli": "6.0.3"
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
   }
 }
