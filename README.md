@@ -1,8 +1,6 @@
 <a href="https://t.me/polymathnetwork"><img src="https://img.shields.io/badge/50k+-telegram-blue.svg" target="_blank"></a>
 [![Build Status](https://travis-ci.org/PolymathNetwork/polymath.js.svg?branch=master)](https://travis-ci.org/PolymathNetwork/polymath.js)
 [![Known Vulnerabilities](https://snyk.io/test/github/priom/polymath.js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/priom/polymath.js?targetFile=package.json)
-[![dependencies Status](https://david-dm.org/PolymathNetwork/polymath.js.svg)](https://david-dm.org/PolymathNetwork/polymath.js)
-[![devDependencies Status](https://david-dm.org/PolymathNetwork/polymath.js/dev-status.svg)](https://david-dm.org/PolymathNetwork/polymath.js?type=dev)
 
 ![Polymath](Polymath.png)
 
