@@ -67,6 +67,7 @@ async function copyArtifacts(/* argv */) {
     'SecurityTokenRegistrar',
     'STOContract',
     'Template',
+    'PolyToken',
   ];
 
   for (let i = 0; i < toCopy.length; i++) {
