@@ -41,6 +41,7 @@ else
   echo "Starting our own testrpc instance"
   start_testrpc
 
+  webpack && run-s babel:src babel:test
   run-s truffle:compile copy-artifacts
   truffle migrate --network=testrpc
   mocha lib/test/**/*_test.js --timeout 10000 --bail --exit
