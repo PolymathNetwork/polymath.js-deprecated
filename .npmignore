@@ -1,10 +1,7 @@
 # NOTE: The only difference between .npmignore and .gitignore is that .npmignore
 # does not ignore `build/js` or `lib` so that they are published with the package.
 # Do not ignore the entire build folder in .npmignore!
-# Compiled contracts and JavaScript built for web
-build
-# JavaScript built for Node
-lib
+build/contracts
 # Everything below is the same between .npmignore and .gitignore.
 #####
 

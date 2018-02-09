@@ -241,6 +241,16 @@
     }
   ],
   "networks": {
+    "1": {
+      "events": {},
+      "links": {},
+      "address": "0x9992ec3cf6a55b00978cddf2b27bc6882d88d1ec"
+    },
+    "3": {
+      "events": {},
+      "links": {},
+      "address": "0x96a62428509002a7ae5f6ad29e4750d852a3f3d7"
+    },
     "50": {
       "events": {},
       "links": {},

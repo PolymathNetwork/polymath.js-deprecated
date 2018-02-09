@@ -223,6 +223,16 @@
     }
   ],
   "networks": {
+    "1": {
+      "events": {},
+      "links": {},
+      "address": "0x56e30b617c8b4798955b6be6fec706de91352ed0"
+    },
+    "3": {
+      "events": {},
+      "links": {},
+      "address": "0x7eD744cdE284417740bCF758795d54dd14DD08dA"
+    },
     "50": {
       "events": {},
       "links": {},

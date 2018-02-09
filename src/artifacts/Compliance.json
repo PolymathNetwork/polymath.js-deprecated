@@ -601,6 +601,16 @@
     }
   ],
   "networks": {
+    "1": {
+      "events": {},
+      "links": {},
+      "address": "0x076719c05961a0c3398e558e2199085d32717ca6"
+    },
+    "3": {
+      "events": {},
+      "links": {},
+      "address": "0x238aa304fd1331a591c63e624453f4aeb08bc4b0"
+    },
     "50": {
       "events": {},
       "links": {},
