@@ -60,14 +60,13 @@ async function copyArtifact(filePath) {
 
 async function copyArtifacts(/* argv */) {
   const toCopy = [
-    'PolyTokenMock',
     'Customers',
     'Compliance',
+    'PolyTokenMock',
     'SecurityToken',
     'SecurityTokenRegistrar',
     'STOContract',
     'Template',
-    'PolyToken',
   ];
 
   for (let i = 0; i < toCopy.length; i++) {

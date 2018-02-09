@@ -19,7 +19,7 @@
     "documentation-serve": "documentation serve --watch src/contract_wrappers --config documentation.yml --theme lib/src/theme_polymath",
     "lint": "eslint --fix src test",
     "migrate-testrpc": "truffle migrate --network=testrpc",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
     "serve-poly-docs": "run-s documentation-copy-babel-ignored documentation-serve",
     "start": "run-p babel:watchsrc babel:watchtest",
     "test": "mocha lib/test/**/*_test.js --timeout 20000 --bail --exit",
