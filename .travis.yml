@@ -13,6 +13,7 @@ cache:
     - "node_modules"
 
 before_script:
+- yarn build
 - yarn testrpc &
 - sleep 1
 
