@@ -1,5 +1,5 @@
 {
-  "name": "@polymathnetwork/polymath",
+  "name": "polymathjs",
   "author": "Polymath",
   "version": "0.1.0",
   "description": "Tools for interacting with the Polymath platform",
