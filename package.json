@@ -59,12 +59,12 @@
     "mnemonic": "age drama cover door helmet mechanic wine lesson vote inflict will keep"
   },
   "dependencies": {
+    "@0xproject/web3-wrapper": "0.1.2",
     "truffle-contract": "3.0.1",
     "uuid": "3.1.0",
     "web3": "0.20.1"
   },
   "devDependencies": {
-    "@0xproject/web3-wrapper": "0.1.2",
     "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
     "babel-eslint": "8.1.2",
