@@ -3,7 +3,7 @@
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 // import { ContractNotFoundError } from './types';
-import { Customers, PolyToken } from './contract_wrappers';
+import { Compliance, Customers, PolyToken, SecurityTokenRegistrar } from './contract_wrappers';
 import type { Web3Provider } from './types';
 
 export * from './contract_wrappers';
@@ -21,6 +21,8 @@ export class Polymath {
 
   polyToken: PolyToken;
   customers: Customers;
+  compliance: Compliance;
+  securityTokenRegistrar: SecurityTokenRegistrar;
 
   constructor(web3Provider: Web3Provider) {
     this._web3Wrapper = new Web3Wrapper(web3Provider);
@@ -32,6 +34,12 @@ export class Polymath {
 
     this.customers = new Customers(this._web3Wrapper, this.polyToken);
     initializePromises.push(this.customers.initialize());
+
+    this.compliance = new Compliance(this._web3Wrapper);
+    initializePromises.push(this.compliance.initialize());
+
+    this.securityTokenRegistrar = new SecurityTokenRegistrar(this._web3Wrapper);
+    initializePromises.push(this.securityTokenRegistrar.initialize());
 
     this.initializedPromise = Promise.all(initializePromises);
   }

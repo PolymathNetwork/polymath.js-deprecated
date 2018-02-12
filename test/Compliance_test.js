@@ -54,7 +54,6 @@ describe('Compliance wrapper', () => {
       polyToken,
       customers,
       compliance,
-      securityToken,
       accounts[0],
       accounts[1],
       expiryTime,

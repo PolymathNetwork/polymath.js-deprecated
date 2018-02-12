@@ -30,7 +30,7 @@ type LogCustomerVerifiedArgsUnprocessed = {
  * Wrapper for the Customers Solidity contract
  */
 export default class Customers extends ContractWrapper {
-  // polyToken: PolyToken;
+  polyToken: PolyToken;
 
   /**
    * @hideconstructor

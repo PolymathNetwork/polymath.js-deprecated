@@ -5,8 +5,6 @@ import Web3 from 'web3';
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 import ContractWrapper from './ContractWrapper';
-import Customers from './Customers';
-import SecurityTokenRegistrar from './SecurityTokenRegistrar';
 
 import complianceArtifact from '../artifacts/Compliance.json';
 import type {
@@ -28,13 +26,9 @@ export default class Compliance extends ContractWrapper {
    */
   constructor(
     web3Wrapper: Web3Wrapper,
-    customers: Customers,
     deployedAddress?: string,
   ) {
     super(web3Wrapper, complianceArtifact, deployedAddress);
-
-    this.customers = customers;
-    this.securityTokenRegistrar = SecurityTokenRegistrar;
   }
 
   /**
