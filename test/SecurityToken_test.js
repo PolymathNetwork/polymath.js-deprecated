@@ -155,12 +155,12 @@ describe('SecurityToken wrapper', () => {
 
     await makeKYCProvider(customers, kycProvider, expiryTime);
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
 
     await compliance.proposeTemplate(
       legalDelegate,
@@ -255,12 +255,12 @@ describe('SecurityToken wrapper', () => {
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
     await makeSelectedTemplateForSecurityToken(
       securityToken,
       compliance,
@@ -325,12 +325,12 @@ describe('SecurityToken wrapper', () => {
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
     // Create the Selected Template for the SecurityToken
     await makeSelectedTemplateForSecurityToken(
       securityToken,
@@ -406,12 +406,12 @@ describe('SecurityToken wrapper', () => {
 
       await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
-      const templateAddress = await makeTemplateWithFinalized(
+      const templateAddress = (await makeTemplateWithFinalized(
         compliance,
         kycProvider,
         legalDelegate,
         expiryTime,
-      );
+      )).address;
       await makeSelectedTemplateForSecurityToken(
         securityToken,
         compliance,
@@ -659,12 +659,12 @@ describe('SecurityToken wrapper', () => {
     await makeKYCProvider(customers, kycProvider);
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
 
     await makeSelectedTemplateForSecurityToken(
       securityToken,
@@ -784,12 +784,12 @@ describe('SecurityToken wrapper', () => {
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
     await makeSelectedTemplateForSecurityToken(
       securityToken,
       compliance,

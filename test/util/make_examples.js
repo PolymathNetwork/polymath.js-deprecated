@@ -60,7 +60,7 @@ export async function makeCompliance(
     gas: 6000000,
   });
 
-  const compliance = new Compliance(web3Wrapper, customers, instance.address);
+  const compliance = new Compliance(web3Wrapper, instance.address);
   await compliance.initialize();
   return compliance;
 }
@@ -94,11 +94,7 @@ export async function makeSecurityToken(
 
   const securityToken = new SecurityToken(
     web3Wrapper,
-    polyToken,
-    customers,
-    compliance,
     instance.address,
-    { from: account },
   );
   await securityToken.initialize();
   return securityToken;
@@ -142,7 +138,7 @@ export const makeTemplate = async (
   legalDelegate: string,
   expiryTime: BigNumber
 ): Promise<string> => {
-  const templateAddress = await compliance.createTemplate(
+  const template = await compliance.createTemplate(
     legalDelegate,
     'offeringtype',
     'US-CA',
@@ -155,13 +151,10 @@ export const makeTemplate = async (
     new BigNumber(9888888),
   );
 
-  const template = new Template(compliance._web3Wrapper, templateAddress);
-  await template.initialize();
-
   await template.addJurisdiction(legalDelegate, ['US-CA'], [true]);
   await template.addRoles(legalDelegate, ['investor'], [true]);
 
-  return templateAddress;
+  return template;
 };
 
 export const makeTemplateWithFinalized = async (
@@ -169,8 +162,8 @@ export const makeTemplateWithFinalized = async (
   kycProvider: string,
   legalDelegate: string,
   expiryTime: BigNumber,
-): Promise<string> => {
-  const templateAddress = await compliance.createTemplate(
+): Promise<Template> => {
+  const template = await compliance.createTemplate(
     legalDelegate,
     'offeringtype',
     'US-CA',
@@ -183,14 +176,11 @@ export const makeTemplateWithFinalized = async (
     new BigNumber(9888888),
   );
 
-  const template = new Template(compliance._web3Wrapper, templateAddress);
-  await template.initialize();
-
   await template.addJurisdiction(legalDelegate, ['US-CA'], [true]);
   await template.addRoles(legalDelegate, ['investor'], [true]);
   await template.finalizeTemplate(legalDelegate);
 
-  return templateAddress;
+  return template;
 };
 
 export async function makeTemplateDirectCall(
@@ -381,11 +371,7 @@ export async function makeSecurityTokenThroughRegistrar(
 
   const securityTokenThroughRegistrar = new SecurityToken(
     web3Wrapper,
-    polyToken,
-    customers,
-    compliance,
     securityTokenAddress,
-    { from: account },
   );
 
   await securityTokenThroughRegistrar.initialize();

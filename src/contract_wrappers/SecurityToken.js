@@ -32,25 +32,14 @@ export type LogNewWhitelistedAddress = {
  * Wrapper for the SecurityToken Solidity contract
  */
 export default class SecurityToken extends ContractWrapper {
-  polyToken: PolyToken;
-  customers: Customers;
-  compliance: Compliance;
-
   /**
    * @hideconstructor
    */
   constructor(
     web3Wrapper: Web3Wrapper,
-    polyToken: PolyToken,
-    customers: Customers,
-    compliance: Compliance,
     deployedAddress: string,
   ) {
     super(web3Wrapper, securityTokenArtifact, deployedAddress);
-
-    this.polyToken = polyToken;
-    this.customers = customers;
-    this.compliance = compliance;
   }
 
   /**

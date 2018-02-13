@@ -86,12 +86,12 @@ describe('Compliance wrapper', () => {
   it('createTemplate', async () => {
     await makeKYCProvider(customers, accounts[1], expiryTime);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
-    const templateAddress = await makeTemplate(
+    const templateAddress = (await makeTemplate(
       compliance,
       accounts[1],
       accounts[2],
       expiryTime,
-    );
+    )).address;
 
     assert.isAbove(templateAddress.length, 0);
   });
@@ -135,13 +135,12 @@ describe('Compliance wrapper', () => {
 
     await makeKYCProvider(customers, accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       accounts[1],
       accounts[2],
       expiryTime,
-
-    );
+    )).address;
 
 
     // Propose Template
@@ -235,12 +234,12 @@ describe('Compliance wrapper', () => {
     await makeKYCProvider(customers, kycProvider);
 
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
 
     await makeSelectedTemplateForSecurityToken(
       securityToken,
@@ -325,12 +324,12 @@ describe('Compliance wrapper', () => {
 
     await makeKYCProvider(customers, accounts[1]);
     await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
-    const templateAddress = await makeTemplate(
+    const templateAddress = (await makeTemplate(
       compliance,
       accounts[1],
       accounts[2],
       expiryTime,
-    );
+    )).address;
 
     const logTemplateCreated = await logTemplateCreatedArgsPromise;
     assert.equal(logTemplateCreated._creator, accounts[2], 'legal delegate creator address wasnt found in event subscription'); //'offeringtype' from make_examples.js

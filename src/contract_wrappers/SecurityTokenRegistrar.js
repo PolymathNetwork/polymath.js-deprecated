@@ -2,7 +2,9 @@
 
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import { BigNumber } from 'bignumber.js';
+
 import ContractWrapper from './ContractWrapper';
+import SecurityToken from './SecurityToken';
 import securityTokenRegistrarArtifact from '../artifacts/SecurityTokenRegistrar.json';
 import type {
   BlockRange,
@@ -58,7 +60,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
   }
 
   /**
-   * Creates a security token and stores it in the security token registry. Returns a promise of true it the security token was successfully created. This is done by event watching for the event {@link LogNewSecurityToken()}.
+   * Creates a security token and stores it in the security token registry.
    *
    * @param creator The address from which the token is created
    * @param name Name of the security token
@@ -72,6 +74,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @param type Type of security being tokenized (NEED TOKEN NUMBERS ie. security:1, somethingelse:2)
    * @param lockupPeriod Length of time (unix) raised POLY will be locked up for dispute
    * @param quorum Percent of initial investors required to freeze POLY raise
+   * @return The security token created
    */
   async createSecurityToken(
     creator: string,
@@ -86,8 +89,8 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
     type: number,
     lockupPeriod: BigNumber,
     quorum: number,
-  ) {
-    await this._contract.createSecurityToken(
+  ): Promise<SecurityToken> {
+    const receipt = await this._contract.createSecurityToken(
       name,
       ticker,
       totalSupply,
@@ -104,6 +107,19 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
         gas: 6700000,
       },
     );
+    const logs = receipt.logs.filter(log => log.event === 'LogNewSecurityToken');
+
+    if (logs.length === 0) {
+      throw new Error('createSecurityToken couldn\'t find an event log.');
+    }
+
+    const address = logs[0].args.securityTokenAddress;
+
+    if (!address) {
+      throw new Error('createSecurityToken couldn\'t get security token address.');
+    }
+
+    return this.getSecurityTokenByAddress(address);
   }
 
   /**
@@ -120,6 +136,17 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
       return i;
     });
     return dataToNumber;
+  }
+
+  /**
+   * Instantiates a `SecurityToken` given its contract address.
+   * @param address The address of the security tokens
+   * @return The security token instance
+   */
+  async getSecurityTokenByAddress(address: string): Promise<SecurityToken> {
+    const securityToken = new SecurityToken(this._web3Wrapper, address);
+    await securityToken.initialize();
+    return securityToken;
   }
 
   /**
