@@ -101,7 +101,6 @@ export type KYCProvider = {
   joined: BigNumber,
   detailsHash: string,
   verificationFee: BigNumber,
-  active: boolean,
 };
 
 /**

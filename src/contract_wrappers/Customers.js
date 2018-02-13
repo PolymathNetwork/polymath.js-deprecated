@@ -190,9 +190,12 @@ export default class Customers extends ContractWrapper {
    * @param  role               The type of Polymath user that the customer is (e.g. investor)
    * @param  accredited         Whether the customer is accredited
    * @param  expires            The time at which this verification should expire, in seconds since the Unix epoch
+   * @param  nonce              Nonce of signature (avoid replay attack)
+   * @param  v                  customer signature
+   * @param  r                  customer signature
+   * @param  s                  customer signature
    */
   async verifyCustomer(
-    // ownerAddress: string,
     kycProviderAddress: string,
     customerAddress: string,
     countryJurisdiction: string,
@@ -200,6 +203,10 @@ export default class Customers extends ContractWrapper {
     role: CustomerRole,
     accredited: boolean,
     expires: BigNumber,
+    nonce: number,
+    v: number,
+    r: string,
+    s: string,
   ) {
     await this._contract.verifyCustomer(
       customerAddress,
@@ -208,6 +215,10 @@ export default class Customers extends ContractWrapper {
       new BigNumber(roleToNumber(role)),
       accredited,
       expires,
+      nonce,
+      v,
+      r,
+      s,
       {
         from: kycProviderAddress,
         gas: 2500000,
