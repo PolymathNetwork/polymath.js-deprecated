@@ -65,7 +65,8 @@ async function copyArtifacts(/* argv */) {
     'PolyTokenMock',
     'SecurityToken',
     'SecurityTokenRegistrar',
-    'STOContract',
+    'SimpleCappedOffering',
+    'SimpleCappedOfferingFactory',
     'Template',
   ];
 

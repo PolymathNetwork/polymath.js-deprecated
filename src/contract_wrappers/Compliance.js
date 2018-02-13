@@ -15,7 +15,6 @@ import type {
   EventCallback,
   IndexedFilterValues,
   Log,
-  STOProposal,
   TemplateReputation,
 } from '../types';
 
@@ -49,8 +48,9 @@ export default class Compliance extends ContractWrapper {
       | 'LogTemplateCreated'
       | 'LogNewTemplateProposal'
       | 'LogCancelTemplateProposal'
-      | 'LogNewContractProposal'
-      | 'LogCancelContractProposal',
+      | 'LogOfferingFactoryRegistered'
+      | 'LogNewOfferingFactoryProposal'
+      | 'LogCancelOfferingFactoryProposal',
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<ComplianceEventArgs>,
   ): string {
@@ -68,7 +68,7 @@ export default class Compliance extends ContractWrapper {
     eventName:
       | 'LogTemplateCreated'
       | 'LogNewTemplateProposal'
-      | 'LogNewContractProposal',
+      | 'LogNewOfferingFactoryProposal',
     indexedFilterValues: IndexedFilterValues,
     blockRange?: BlockRange,
   ): Promise<Array<Log<ComplianceEventArgs>>> {
@@ -168,62 +168,77 @@ export default class Compliance extends ContractWrapper {
   }
 
   /**
-   * Set an STO contract to be stored in the offerings mapping in Compliance.sol
-   * @param stoDeveloperAddress  Address of the creator of the STO
-   * @param stoAddress     Address of the STO contract deployed over the network
-   * @param fee            Fee to be paid in poly to use that contract
-   * @param vestingPeriod  Number of days investor binded to hold the Security token
-   * @param quorum         Minimum percent of shareholders which need to vote to freeze
+   * Set an STO contract factory to be stored in the offeringsFactories mapping in Compliance.sol
+   * @param factoryAddress Address of the factory 
+   * @param factoryCreatorAddress Address of the factory creator
    */
-  async setSTO(
-    stoDeveloperAddress: string,
-    stoAddress: string,
-    fee: BigNumber,
-    vestingPeriod: BigNumber,
-    quorum: BigNumber,
+  async registerOfferingFactory(
+    factoryAddress: string,
+    factoryCreatorAddress: string,
   ) {
-    await this._contract.setSTO(stoAddress, fee, vestingPeriod, quorum, {
-      from: stoDeveloperAddress,
+    await this._contract.registerOfferingFactory(factoryAddress, {
+      from: factoryCreatorAddress,
       gas: 200000,
     });
   }
 
   /**
-   * Propose a Security Token Offering Contract for an issuance
-   * @param stoCreatorAddress     Address of the STO developer
-   * @param securityTokenAddress  Address of the security token deployed over the network
-   * @param stoContractAddress    Address of the STO contract deployed over the network
+   * Propose a Security Token Offering factory for an issuance
+   * @param factoryCreatorAddress     Address of the STO factory developer
+   * @param securityTokenAddress      Address of the security token deployed over the network
+   * @param factoryAddress        Address of the STO contract deployed over the network
    */
-  async proposeSTO(
-    stoCreatorAddress: string,
+  async proposeOfferingFactoryToSecurityToken(
+    factoryCreatorAddress: string,
     securityTokenAddress: string,
-    stoContractAddress: string,
+    factoryAddress: string,
   ) {
-    await this._contract.proposeOfferingContract(
+    await this._contract.proposeOfferingFactory(
       securityTokenAddress,
-      stoContractAddress,
+      factoryAddress,
       {
-        from: stoCreatorAddress,
+        from: factoryCreatorAddress,
         gas: 3000000,
       },
     );
   }
 
   /**
-   * Allows an STO developer to cancle an already proposed STO.
-   * @param   proposalMakerAddress  Ethereum address of STO developer who originally proposed the template
-   * @param   securityTokenAddress  Ethereum address of the security token the template is created for
-   * @param   offeringIndex         The STO proposal array index
+   * Allows an STO contract factory developer to cancle an already proposed STO.
+   * @param   proposalMakerAddress          Ethereum address of STO factory developer who originally proposed the template
+   * @param   securityTokenAddress          Ethereum address of the security token the template is created for
+   * @param   offeringFactoryProposalIndex  The STO factory proposal array index
    */
-  async cancelSTOProposal(
+  async cancelOfferingFactoryProposal(
     proposalMakerAddress: string,
     securityTokenAddress: string,
-    offeringIndex: number,
+    offeringFactoryProposalIndex: number,
   ) {
-    await this._contract.cancelOfferingProposal(
+    await this._contract.cancelOfferingFactoryProposal(
       securityTokenAddress,
-      offeringIndex,
+      offeringFactoryProposalIndex,
       { from: proposalMakerAddress },
+    );
+  }
+
+
+  /**
+   * Allow to update the reputation of the particular STO factory
+   * @param offeringFactory           Address of the offering factory
+   * @param polyRaised                Amount of POLY raised by the offering factory contract
+   * @param reputationUpdaterAddress  Address which update the reputation of the factory
+   */
+  async updateOfferingFactoryReputation(
+    offeringFactory: string,
+    polyRaised: BigNumber,
+    reputationUpdaterAddress: string,
+  ) {
+    await this._contract.updateOfferingFactoryReputation(
+      offeringFactory,
+      polyRaised,
+      {
+        from : reputationUpdaterAddress
+      }
     );
   }
 
@@ -244,43 +259,34 @@ export default class Compliance extends ContractWrapper {
   }
 
   /**
-   * Get the STO address for a security token by passing its proposal index.
+   * Get the STO factory address for a security token by passing its proposal index.
    * @param   securityTokenAddress  Ethereum address of the security token the STO is created for
    * @param   proposalIndex         The STO proposal array index
-   * @return  The template address
+   * @return  The offering factory address
    */
-  async getSTOAddressByProposal(
+  async getOfferingFactoryByProposal(
     securityTokenAddress: string,
     proposalIndex: number,
   ): Promise<string> {
-    return this._contract.offeringProposals.call(
+    return this._contract.getOfferingFactoryByProposal.call(
       securityTokenAddress,
       proposalIndex,
     );
   }
 
   /**
-   * Get an STO that has been proposed for a security token by passing its offering index.
+   * Get an STO factory that has been proposed for a security token by passing its offering index.
    * @param   securityTokenAddress  Ethereum address of the security token the STO is created for
-   * @param   offeringIndex         The STO proposal array index
-   * @return  The type {@link Offering}.
+   * @return  The array of addresses.
    */
-  async getSTOProposal(
+  async getAllOfferingFactoryProposals(
     securityTokenAddress: string,
     offeringIndex: string,
-  ): Promise<STOProposal> {
-    const proposal = await this._contract.getOfferingByProposal(
+  ): Promise<Array<string>> {
+    const proposal = await this._contract.getAllOfferingFactoryProposals(
       securityTokenAddress,
-      offeringIndex,
     );
-
-    return {
-      stoContractAddress: proposal[0],
-      auditorAddress: proposal[1],
-      vestingPeriod: proposal[2],
-      quorum: proposal[3],
-      fee: proposal[4],
-    };
+    return proposal;
   }
 
   /**
@@ -317,19 +323,6 @@ export default class Compliance extends ContractWrapper {
     securityTokenAddress: string,
   ): Promise<Array<string>> {
     return await this._contract.getAllTemplateProposals.call(
-      securityTokenAddress,
-    );
-  }
-
-  /**
-   * Returns all STO proposal addresses
-   * @param   SecurityTokenAddress  Address of the Security Token
-   * @return An array of addresses
-   */
-  async getAllOfferingProposals(
-    securityTokenAddress: string,
-  ): Promise<Array<string>> {
-    return await this._contract.getAllOfferingProposals.call(
       securityTokenAddress,
     );
   }

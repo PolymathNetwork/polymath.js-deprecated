@@ -127,19 +127,6 @@ export type LogCustomerVerifiedArgs = {
  */
 export type CustomersEventArgs = LogNewProviderArgs | LogCustomerVerifiedArgs;
 
-// Compliance
-
-/**
- * STOProposal struct from Compliance.sol
- */
-export type STOProposal = {
-  stoContractAddress: string,
-  auditorAddress: string,
-  vestingPeriod: BigNumber,
-  quorum: BigNumber,
-  fee: BigNumber,
-};
-
 /**
  * TemplateReputation struct from Compliance.sol
  */
@@ -179,33 +166,43 @@ export type LogCancelTemplateProposal = {
 };
 
 /**
- * Arguments for the Compliance.sol LogNewContractProposal event
+ * Arguments for the Compliance.sol LogOfferingFactoryRegistered event
  */
-export type LogNewContractProposal = {
-  _securityToken: string,
-  _offeringContract: string,
-  _auditor: string,
-  _offeringProposalIndex: number,
+export type LogOfferingFactoryRegistered = {
+  _creator: string,
+  _offeringFactory: string,
+  _description: string,
 };
 
 /**
- * Arguments for the Compliance.sol LogCancelContractProposal event
+ * Arguments for the Compliance.sol LogNewOfferingFactoryProposal event
  */
-export type LogCancelContractProposal = {
+export type LogNewOfferingFactoryProposal = {
   _securityToken: string,
-  _offeringContract: string,
-  _proposalIndex: number,
+  _offeringFactory: string,
+  _owner: string,
+  _offeringFactoryProposalIndex: number,
+};
+
+/**
+ * Arguments for the Compliance.sol LogCancelOfferingFactoryProposal event
+ */
+export type LogCancelOfferingFactoryProposal = {
+  _securityToken: string,
+  _offeringFactory: string,
+  _offeringFactoryProposalIndex: number,
 };
 
 /**
  * Arguments for the Compliance events
  */
 export type ComplianceEventArgs =
-  | LogTemplateCreated
-  | LogNewTemplateProposal
-  | LogCancelTemplateProposal
-  | LogNewContractProposal
-  | LogCancelContractProposal;
+| LogTemplateCreated
+| LogNewTemplateProposal
+| LogCancelTemplateProposal
+| LogOfferingFactoryRegistered
+| LogNewOfferingFactoryProposal
+| LogCancelOfferingFactoryProposal;
 
 // SecurityToken types
 
@@ -259,15 +256,24 @@ export type LogUpdatedComplianceProof = {
 };
 
 /**
- * Arguments for the SecurityToken.sol LogSetSTOContract event
+ * Arguments for the SecurityToken.sol LogOfferingFactorySet event
  */
-export type LogSetSTOContract = {
-  _STO: string,
-  _STOtemplate: string,
-  _auditor: string,
+export type LogOfferingFactorySet = {
+  _offeringFactory: string,
+  _owner: string,
+  _description: string,
+};
+
+/**
+ * Arguments for the SecurityToken.sol LogOfferingStarted event
+ */
+export type LogOfferingStarted = {
+  _offeringFactory: string,
+  _owner: string, 
   _startTime: BigNumber,
   _endTime: BigNumber,
-};
+  _fxPolyToken: BigNumber
+}
 
 /**
  * Arguments for the SecurityToken.sol LogNewWhitelistedAddress event
@@ -307,16 +313,44 @@ export type LogTokenIssued = {
 };
 
 /**
+ * Arguments for the SecurityToken.sol ChangeName event
+ */
+export type ChangeName = {
+  _oldName: string,
+  _newName: string,
+}
+
+/**
+ * Arguments for the SecurityToken.sol ChangeDecimals event
+ */
+export type ChangeDecimals = {
+  _oldDecimals: number,
+  _newDecimals: number,
+}
+
+/**
+ * Arguments for the SecurityToken.sol ChangeTotalSupply event
+ */
+export type ChangeTotalSupply = {
+  _oldTotalSupply: BigNumber,
+  _newTotalSupply: BigNumber,
+}
+
+/**
  * Arguments for the SecurityToken events
  */
 export type SecurityTokenEventArgs =
   | LogTemplateSet
   | LogUpdatedComplianceProof
-  | LogSetSTOContract
+  | LogOfferingFactorySet
+  | LogOfferingStarted
   | LogNewWhitelistedAddress
   | LogNewBlacklistedAddress
   | LogVoteToFreeze
-  | LogTokenIssued;
+  | LogTokenIssued
+  | ChangeName
+  | ChangeDecimals
+  | ChangeTotalSupply;
 
 // SecurityTokenRegistrar types
 
@@ -349,10 +383,10 @@ export type LogNewSecurityToken = {
  */
 export type SecurityTokenRegistrarEventArgs = LogNewSecurityToken;
 
-// STOContract Events
+// SimpleCappedOffering Events
 
 /**
- * Arguments for the STOContract.sol LogBoughtSecurityToken event
+ * Arguments for the SimpleCappedOffering.sol LogBoughtSecurityToken event
  */
 export type LogBoughtSecurityToken = {
   _contributor: string,
@@ -360,7 +394,7 @@ export type LogBoughtSecurityToken = {
   _timestamp: BigNumber,
 };
 
-export type STOContractEventArgs = LogBoughtSecurityToken;
+export type SimpleCappedOfferingEventArgs = LogBoughtSecurityToken;
 
 // Template Events
 

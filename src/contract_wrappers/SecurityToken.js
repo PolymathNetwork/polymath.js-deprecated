@@ -11,7 +11,8 @@ import PolyToken from './PolyToken';
 import securityTokenArtifact from '../artifacts/SecurityToken.json';
 import bytes32Zero from '../bytes32Zero';
 import { numberToRole } from '../roles';
-import type {
+import typeimport { v1String } from '../../../../Library/Caches/typescript/2.6/node_modules/@types/uuid/interfaces';
+ {
   BlockRange,
   EventCallback,
   IndexedFilterValues,
@@ -62,13 +63,17 @@ export default class SecurityToken extends ContractWrapper {
    */
   subscribe(
     eventName:
-      | 'LogTemplateSet'
-      | 'LogUpdatedComplianceProof'
-      | 'LogSetSTOContract'
-      | 'LogNewWhitelistedAddress'
-      | 'LogNewBlacklistedAddress'
-      | 'LogVoteToFreeze'
-      | 'LogTokenIssued',
+    | 'LogTemplateSet'
+    | 'LogUpdatedComplianceProof'
+    | 'LogOfferingFactorySet'
+    | 'LogOfferingStarted'
+    | 'LogNewWhitelistedAddress'
+    | 'LogNewBlacklistedAddress'
+    | 'LogVoteToFreeze'
+    | 'LogTokenIssued'
+    | 'ChangeName'
+    | 'ChangeDecimals'
+    | 'ChangeTotalSupply',
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<SecurityTokenEventArgs>,
   ): string {
@@ -103,12 +108,17 @@ export default class SecurityToken extends ContractWrapper {
    */
   async getLogs(
     eventName:
-      | 'LogTemplateSet'
-      | 'LogUpdatedComplianceProof'
-      | 'LogSetSTOContract'
-      | 'LogNewWhitelistedAddress'
-      | 'LogVoteToFreeze'
-      | 'LogTokenIssued',
+    | 'LogTemplateSet'
+    | 'LogUpdatedComplianceProof'
+    | 'LogOfferingFactorySet'
+    | 'LogOfferingStarted'
+    | 'LogNewWhitelistedAddress'
+    | 'LogNewBlacklistedAddress'
+    | 'LogVoteToFreeze'
+    | 'LogTokenIssued'
+    | 'ChangeName'
+    | 'ChangeDecimals'
+    | 'ChangeTotalSupply',
     indexedFilterValues: IndexedFilterValues,
     blockRange?: BlockRange,
   ): Promise<Array<Log<SecurityTokenEventArgs>>> {
@@ -243,6 +253,54 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /**
+   * Issuer can change the totalSupply before starting the offering
+   * @param newTotalSupply New total supply
+   * @param issuerAddress  Address of the issuer of the security token
+   */
+  async changeTotalSupplyOfSecurityToken(
+    newTotalSupply: BigNumber,
+    issuerAddress: string,
+  ): Promise<string | boolean> {
+    await this._contract.changeTotalSupply(newTotalSupply, { from : issuerAddress });
+    if (newTotalSupply == await this.getTotalSupply()) {
+      return true;
+    } 
+    return "Only Owner of the Security Token can call this function before starting the offering";
+  }
+
+  /**
+   * Issuer can change the decimal before starting the offering
+   * @param newDecimals New decimals
+   * @param issuerAddress  Address of the issuer of the security token
+   */
+  async changeDecimalsOfSecurityToken(
+    newDecimals: number,
+    issuerAddress: string,
+  ): Promise<string | boolean> {
+    await this._contract.changeDecimals(newDecimals, { from : issuerAddress });
+    if (newDecimals == await this.getDecimals()) {
+      return true;
+    } 
+    return "Only Owner of the Security Token can call this function before starting the offering";
+  }
+
+  /**
+   * Issuer can change the decimal before starting the offering
+   * @param newName New name
+   * @param issuerAddress  Address of the issuer of the security token
+   */
+  async changeNameOfSecurityToken(
+    newName: string,
+    issuerAddress: string,
+  ): Promise<string | boolean> {
+    await this._contract.changeName(newName, { from : issuerAddress });
+    if (newName == await this.getName()) {
+      return true;
+    } 
+    return "Only Owner of the Security Token can call this function before starting the offering";
+  }
+
+  /**
    * Update compliance proof hash for the issuance
    * @param ownerOrLegalDelegateAddress Owner or legal delegate address which have access to update the contract
    * @param newMerkleRoot               New merkle root hash of the compliance Proofs
@@ -272,11 +330,11 @@ export default class SecurityToken extends ContractWrapper {
 
   /**
    * Select an security token offering proposal for the issuance
-   * @param delegateAddress           Delegate address of the choosen template
-   * @param offeringProposalIndex     Array index of the STO proposal
+   * @param delegateAddress                  Delegate address of the choosen template
+   * @param offeringFactoryProposalIndex     Array index of the STO proposal
    */
-  async selectSTOProposal(delegateAddress: string, proposalIndex: number) {
-    await this._contract.selectOfferingProposal(proposalIndex, {
+  async selectOfferingFactory(delegateAddress: string, offeringFactoryProposalIndex: number) {
+    await this._contract.selectOfferingProposal(offeringFactoryProposalIndex, {
       from: delegateAddress,
       gas: 5000000,
     });
@@ -284,12 +342,27 @@ export default class SecurityToken extends ContractWrapper {
 
   /**
    * Start the Offering after the template and STO selection
-   * @param owner Address of the Owner of a Security Token
+   * @param startTime      Unix timestamp at which offering will start
+   * @param endTime        Unix timestamp at which offering will end
+   * @param polyTokenRate  Price of one security token in terms of poly
+   * @param maxPoly        Maximum amount of POLY issuer wants to raise
+   * @param owner          Address of the Owner of a Security Token
    */
-  async startSecurityTokenOffering(owner: string) {
-    await this._contract.startOffering({
-      from: owner,
-      gas: 500000,
+  async initialiseOffering(
+    owner: string,
+    startTime: BigNumber,
+    endTime: BigNumber,
+    polyTokenRate: BigNumber,
+    maxPoly: BigNumber,
+  ) {
+    await this._contract.initialiseOffering(
+      startTime,
+      endTime,
+      polyTokenRate,
+      maxPoly,
+      {
+        from: owner,
+        gas: 500000,
     });
   }
 
@@ -304,6 +377,52 @@ export default class SecurityToken extends ContractWrapper {
       gas: 1000000,
     });
   }
+
+  /**
+   * Add an array verified address to the Security Token whitelist
+   * @param owner                       Owner of the security token contract
+   * @param investorAddressArray        Investor addresses array to be whitelisted
+   */
+  async addToWhitelist(owner: string, investorAddressArray: Array<string>) {
+    await this._contract.addToWhitelist(investorAddressArray, {
+      from: owner,
+      gas: 1000000,
+    });
+  }
+
+  /**
+   * Add a verified address to the Security Token blacklist
+   * @param owner Owner of the security token contract
+   * @param blacklistAddress The address being added to the blacklist
+   */
+  async addToBlacklist(ownerAddress: string, blacklistAddress: string) {
+    await this._contract.addToBlacklist(blacklistAddress, {
+      from: ownerAddress,
+      gas: 1000000,
+    });
+  }
+
+  /**
+   * Add an array verified address to the Security Token blacklist
+   * @param owner                        Owner of the security token contract
+   * @param blacklistAddressArray        Investor addresses array to be blacklisted
+   */
+  async addToWhitelist(owner: string, blacklistAddressArray: Array<string>) {
+    await this._contract.addToWhitelist(blacklistAddressArray, {
+      from: owner,
+      gas: 1000000,
+    });
+  }
+
+  /**
+   * Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times
+   * @param address  User withdrawing their POLY
+   */
+  async withdrawUnallocatedPoly(address: string): Promise<boolean> {
+    const receipt = await this._contract.withdrawUnallocatedPoly({ from: address });
+    return receipt.logs.map(log => log.event).includes('Transfer');
+  }
+
 
   /**
    * Allow POLY allocations to be withdrawn by owner, delegate, and the STO auditor at appropriate times
@@ -487,16 +606,5 @@ export default class SecurityToken extends ContractWrapper {
     });
   }
 
-  /**
-   * Add a verified address to the Security Token blacklist
-   * @param owner Owner of the security token contract
-   * @param blacklistAddress The address being added to the blacklist
-   */
-  async addToBlacklist(ownerAddress: string, blacklistAddress: string) {
-    await this._contract.addToBlacklist(blacklistAddress, {
-      from: ownerAddress,
-      gas: 1000000,
-    });
-  }
-
+  
 }

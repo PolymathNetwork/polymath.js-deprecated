@@ -48,7 +48,7 @@ interface ITemplate {
       bytes32 _divisionJurisdiction,
       bool _accredited,
       uint8 _role
-  ) public constant returns (bool allowed);
+  ) public view returns (bool allowed);
 
   /**
    * @dev getTemplateDetails is a constant function that gets template details
@@ -57,7 +57,7 @@ interface ITemplate {
   function getTemplateDetails() view public returns (bytes32, bool);
 
   /**
-   * @dev `getUsageFees` is a function to get all the details on template usage fees
+   * @dev `getUsageDetails` is a function to get all the details on template usage fees
    * @return uint256 fee, uint8 quorum, uint256 vestingPeriod, address owner, address KYC
    */
   function getUsageDetails() view public returns (uint256, uint8, uint256, address, address);

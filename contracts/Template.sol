@@ -49,7 +49,6 @@ contract Template is ITemplate {
     ) public
     {
         require(_KYC != address(0) && _owner != address(0));
-        require(_fee > 0);
         require(_details.length > 0 && _expires > now && _issuerJurisdiction.length > 0);
         require(_quorum > 0 && _quorum <= 100);
         require(_vestingPeriod > 0);
@@ -143,7 +142,7 @@ contract Template is ITemplate {
         bytes32 _divisionJurisdiction,
         bool _accredited,
         uint8 _role
-    ) public constant returns (bool allowed)
+    ) public view returns (bool allowed)
     {
         require(_countryJurisdiction != 0x0);
         require(allowedJurisdictions[_countryJurisdiction] || !blockedDivisionJurisdictions[_divisionJurisdiction]);

@@ -32,7 +32,11 @@ interface ICustomers {
     bytes32 _divisionJurisdiction,
     uint8 _role,
     bool _accredited,
-    uint256 _expires
+    uint256 _expires,
+    uint _nonce,
+    uint8 _v,
+    bytes32 _r,
+    bytes32 _s
   ) public returns (bool success);
 
    ///////////////////
@@ -44,12 +48,11 @@ interface ICustomers {
     * @param _provider Address of the KYC provider.
     * @param _customer Address of the customer ethereum address
     */
-  function getCustomer(address _provider, address _customer) public constant returns (
+  function getCustomer(address _provider, address _customer) public view returns (
     bytes32,
     bytes32,
     bool,
     uint8,
-    bool,
     uint256
   );
 
@@ -57,7 +60,7 @@ interface ICustomers {
    * Get provider details and fee by ethereum address
    * @param _providerAddress Address of the KYC provider
    */
-  function getProvider(address _providerAddress) public constant returns (
+  function getProvider(address _providerAddress) public view returns (
     string name,
     uint256 joined,
     bytes32 details,
