@@ -42,7 +42,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @return  An identifier used to unsubscribe
    */
   subscribe(
-    eventName: 'LogNewSecurityToken',
+    eventName: 'LogNewSecurityToken' | 'LogNameSpaceChange',
     indexedFilterValues: IndexedFilterValues,
     callback: EventCallback<SecurityTokenRegistrarEventArgs>,
   ): string {
@@ -65,6 +65,34 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
   }
 
   /**
+   * Creates a securityToken name space
+   * @param nameSpace  Name space string
+   * @param owner      Owner for this name space
+   * @param fee        Fee for this name space
+   */
+  async createNameSpace(
+    nameSpace: string,
+    owner: string,
+    fee: BigNumber,
+  ){
+    await this._contract.createNameSpace(nameSpace, owner, fee);
+  }
+
+  /**
+   * Changes name space fee
+   * @param nameSpace  Name space string
+   * @param owner      Owner for this name space
+   * @param fee        Fee for this name space
+   */
+  async createNameSpace(
+    nameSpace: string,
+    owner: string,
+    fee: BigNumber,
+  ){
+    await this._contract.changeNameSpace(nameSpace, owner, fee, { from: owner });
+  }
+
+  /**
    * Creates a security token and stores it in the security token registry. Returns a promise of true it the security token was successfully created. This is done by event watching for the event {@link LogNewSecurityToken()}.
    *
    * @param creator The address from which the token is created
@@ -81,28 +109,24 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @param quorum Percent of initial investors required to freeze POLY raise
    */
   async createSecurityToken(
+    nameSpaceName: string,
     creator: string,
     name: string,
     ticker: string,
     totalSupply: BigNumber,
     decimals: number,
     owner: string,
-    maxPoly: BigNumber,
-    host: string,
-    fee: BigNumber,
     type: number,
     lockupPeriod: BigNumber,
     quorum: number,
   ) {
     await this._contract.createSecurityToken(
+      nameSpaceName,
       name,
       ticker,
       totalSupply,
       decimals,
       owner,
-      maxPoly,
-      host,
-      fee,
       type,
       lockupPeriod,
       quorum,

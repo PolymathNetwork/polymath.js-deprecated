@@ -7,6 +7,7 @@ import SecurityToken from './SecurityToken'
 import ContractWrapper from './ContractWrapper';
 import simpleCappedOfferingArtifact from '../artifacts/SimpleCappedOffering.json';
 import type {
+     SimpleCappedOfferingEventArgs,
      IndexedFilterValues,
      EventCallback,
      BlockRange 
@@ -39,7 +40,7 @@ export default class SimpleCappedOffering extends ContractWrapper {
   subscribe(
     eventName: 'LogBoughtSecurityToken',
     indexedFilterValues: IndexedFilterValues,
-    callback: EventCallback<LogBoughtSecurityToken>,
+    callback: EventCallback<SimpleCappedOfferingEventArgs>,
   ): string {
     return super._subscribe(eventName, indexedFilterValues, callback);
   }
