@@ -5,9 +5,7 @@ import Web3 from 'web3';
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 import ContractWrapper from './ContractWrapper';
-import Customers from './Customers';
-import SecurityTokenRegistrar from './SecurityTokenRegistrar';
-
+import Template from './Template';
 import complianceArtifact from '../artifacts/Compliance.json';
 import type {
   BlockRange,
@@ -28,13 +26,9 @@ export default class Compliance extends ContractWrapper {
    */
   constructor(
     web3Wrapper: Web3Wrapper,
-    customers: Customers,
     deployedAddress?: string,
   ) {
     super(web3Wrapper, complianceArtifact, deployedAddress);
-
-    this.customers = customers;
-    this.securityTokenRegistrar = SecurityTokenRegistrar;
   }
 
   /**
@@ -87,7 +81,7 @@ export default class Compliance extends ContractWrapper {
    * @param   fee                   Amount of POLY to use the template (held in escrow until issuance)
    * @param   quorum                Minimum percent of shareholders which need to vote to freeze
    * @param   vestingPeriod         Length of time to vest funds
-   * @return  The address of the created template
+   * @return  The created template
    */
   async createTemplate(
     legalDelegateAddress: string,
@@ -100,7 +94,7 @@ export default class Compliance extends ContractWrapper {
     fee: BigNumber,
     quorum: BigNumber,
     vestingPeriod: BigNumber,
-  ): Promise<string> {
+  ): Promise<Template> {
     const receipt = await this._contract.createTemplate(
       offeringType,
       Web3.prototype.fromAscii(issuerJurisdiction),
@@ -116,16 +110,30 @@ export default class Compliance extends ContractWrapper {
         gas: 4000000,
       },
     );
+    const logs = receipt.logs.filter(log => log.event === 'LogTemplateCreated');
 
-    for (let i = 0; i < receipt.logs.length; i++) {
-      const log = receipt.logs[i];
-
-      if (log.event === 'LogTemplateCreated') {
-        return log.args._template;
-      }
+    if (logs.length === 0) {
+      throw new Error('createTemplate couldn\'t find an event log.');
     }
 
-    throw new Error('createTemplate should have emitted LogTemplateCreated.');
+    const address = logs[0].args._template;
+
+    if (!address) {
+      throw new Error('createTemplate couldn\'t get template address.');
+    }
+
+    return this.getTemplateFromAddress(address);
+  }
+
+  /**
+   * Instantiates a template given its contract address.
+   * @param  address The address of the template contract
+   * @return The template instance
+   */
+  async getTemplateFromAddress(address: string): Promise<Template> {
+    const template = new Template(this._web3Wrapper, address);
+    await template.initialize();
+    return template;
   }
 
   /**
