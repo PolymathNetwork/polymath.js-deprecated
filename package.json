@@ -10,7 +10,7 @@
     "babel:watchsrc": "babel --watch --source-maps --copy-files --out-dir lib/src src --ignore anchor.js,site.js,split.js",
     "babel:watchtest": "babel --watch --source-maps --copy-files --out-dir lib/test test",
     "build": "webpack && run-s babel:src babel:test",
-    "build-poly-docs": "run-s install documentation-copy-babel-ignored documentation-build",
+    "build-poly-docs": "run-s prepack documentation-copy-babel-ignored documentation-build",
     "clean": "rm -rf ./lib ./build",
     "copy-artifacts": "node lib/src/cli copyartifacts",
     "compile": "run-s truffle:compile copy-artifacts",
