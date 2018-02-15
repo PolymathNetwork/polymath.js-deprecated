@@ -22,7 +22,7 @@ The polymath.js library will automatically figure out which network you are on i
 If you want to use testrpc for faster testing with the polymath contracts, you will have to clone this github repo in order to properly migrate the contracts to your testrpc. Once you clone this repo, you can run the following steps to get the contracts migrated to the testrpc:
 
 - `yarn install` to install the npm modules
-- `yarn testrpc` (keep this terminal running. this command is a custom npm script to set up an easier dev environemnt, see the package.json for more details on the ganache cli call)
+- `yarn testrpc` (keep this terminal running. This command is a custom npm script to set up an easier dev environment, see the package.json for more details on the ganache cli custom npm script)
 
 In a new terminal
 - `yarn compile` to compile the contracts and create truffle artifacts (ensure the testrpc stuff will still work)
@@ -33,7 +33,7 @@ Then you can use metamask to connected to localhost:8545. You will have to impor
 
 ## Developement Testing on local machine with truffle and mocha
 
-Clone this repo, then run the following commands. This will set up the environemnt to run tests on the polymath.js library functionality.
+For testing polymathjs source code, clone this repo, then run the following commands. This will set up the environment to run tests on the polymath.js library functionality.
 
 - `yarn prepack`to compile the javascript down to vanilla javascript
 - `yarn testrpc` (keep this terminal running)
