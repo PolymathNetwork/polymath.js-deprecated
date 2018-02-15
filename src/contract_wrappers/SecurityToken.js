@@ -210,6 +210,14 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /**
+   * Gets the OfferingFactory contract address if set.
+   * @return If set, the OfferingFactory contract address. Otherwise null
+   */
+  async getOfferingAddress(): Promise<string> {
+    return this._contract.Offering.call();
+  }
+
+  /**
    * Gets the Max Poly contribution allowed for the security token.
    * @return Max poly allowed.
    */
@@ -323,7 +331,7 @@ export default class SecurityToken extends ContractWrapper {
    * @param offeringFactoryProposalIndex     Array index of the STO proposal
    */
   async selectOfferingFactory(delegateAddress: string, offeringFactoryProposalIndex: number) {
-    await this._contract.selectOfferingProposal(offeringFactoryProposalIndex, {
+    await this._contract.selectOfferingFactory(offeringFactoryProposalIndex, {
       from: delegateAddress,
       gas: 5000000,
     });

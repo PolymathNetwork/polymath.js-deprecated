@@ -9,6 +9,7 @@ import {
   Compliance,
   Customers,
   SecurityToken,
+  SimpleCappedOffering,
 } from '../src/contract_wrappers';
 import {
   makePolyToken,
@@ -37,7 +38,10 @@ describe('SecurityToken wrapper', () => {
   let customers: Customers;
   let compliance: Compliance;
   let securityToken: SecurityToken;
+  let cappedOffering: SimpleCappedOffering;
   const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+  const polytokenRate = new BigNumber(100).times(new BigNumber(10).pow(18));
+  const maxPoly = new BigNumber(10000).times(new BigNumber(10).pow(18));
 
   before(async () => {
     accounts = await web3Wrapper.getAvailableAddressesAsync();
@@ -151,10 +155,16 @@ describe('SecurityToken wrapper', () => {
     const investor = accounts[3];
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
-    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+   // const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
     await makeKYCProvider(customers, kycProvider, expiryTime);
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
+    await makeLegalDelegate(
+      polyToken,
+      customers,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+    );
     const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
@@ -238,7 +248,7 @@ describe('SecurityToken wrapper', () => {
     );
   });
 
-  it('selectSTOProposal, getSTOContractAddress, getSTOStart, getSTOEnd', async () => {
+  it('selectOfferingFactory, getOfferingFactoryAddress', async () => {
     const owner = accounts[0];
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
@@ -307,10 +317,16 @@ describe('SecurityToken wrapper', () => {
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
     const investor = accounts[3];
-    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+    // const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
     await makeKYCProvider(customers, kycProvider);
 
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
+    await makeLegalDelegate(
+      polyToken,
+      customers,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+    );
 
     const templateAddress = (await makeTemplateWithFinalized(
       compliance,
@@ -378,11 +394,11 @@ describe('SecurityToken wrapper', () => {
       const legalDelegate = accounts[2];
       const kycProvider = accounts[1];
       const investor = accounts[3];
-      const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+      // const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
       // STO variables
       const auditor = accounts[4];
       const startTime = new BigNumber(
-        web3.eth.getBlock('latest').timestamp
+        web3.eth.getBlock('latest').timestamp,
       ).plus(200);
 
       const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(
@@ -391,7 +407,13 @@ describe('SecurityToken wrapper', () => {
 
       await makeKYCProvider(customers, kycProvider);
 
-      await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
+      await makeLegalDelegate(
+        polyToken,
+        customers,
+        kycProvider,
+        legalDelegate,
+        expiryTime,
+      );
 
       const templateAddress = (await makeTemplateWithFinalized(
         compliance,
@@ -422,35 +444,34 @@ describe('SecurityToken wrapper', () => {
       );
 
       // Create the offering Contract
-      const offering = await makeSecurityTokenOffering(
+      const offeringFactory = await makeProposedOfferingFactory(
         web3Wrapper,
         polyToken,
         securityToken,
         compliance,
-        auditor,
-        startTime,
-        endTime,
       );
 
-
-      await securityToken.selectSTOProposal(legalDelegate, 0);
+      await securityToken.selectOfferingFactory(legalDelegate, 0);
 
       assert.equal(
-        await securityToken.getSTOContractAddress(),
-        offering.address,
-        'It should equal to the Offering address that just created and select as the offering contract of securityToken',
+        await securityToken.getOfferingFactoryAddress(),
+        offeringFactory.address,
+        'It should equal to the Offering address that just created and select as the offeringFactory contract of securityToken',
       );
       // Start the offering
-      await securityToken.startSecurityTokenOffering(owner);
-
+      await securityToken.initialiseOffering(
+        owner,
+        startTime,
+        endTime,
+        polytokenRate,
+        maxPoly,
+      );
+      // getOfferingContractAddress
+      const offeringAddress = await securityToken.getOfferingAddress();
       assert.equal(
-        await securityToken.getBalanceOf(offering.address),
+        await securityToken.getBalanceOf(offeringAddress),
         1234567,
         'It Should equal to the totalsupply of the securityToken',
-      );
-      assert.isTrue(
-        await securityToken.getOfferingStatus(),
-       'Offering status should be true for the STO contract',
       );
 
       await polyToken.approve(investor, customers.address, 100);
@@ -476,16 +497,13 @@ describe('SecurityToken wrapper', () => {
       );
       await polyToken.approve(investor, securityToken.address, 10000);
       await increaseTime(1000); // Time Jump of 1000 seconds to reach beyond the sto start date
-      // getSTOContractAddress
-      const stoAddress = await securityToken.getSTOContractAddress();
-      assert.equal(
-        stoAddress,
-        offering.address,
-        'It should match with the desired offering address',
-      );
 
       // Bought Security Token using POLY
-      await offering.buySecurityTokenWithPoly(investor, new BigNumber(10000));
+      const offering = cappedOffering.at(offeringAddress);
+      await offering.buy(
+        investor,
+        new BigNumber(10000).times(new BigNumber(10).pow(18)),
+      );
       assert.equal(
         (await securityToken.getBalanceOf(investor)).toNumber(),
         100,

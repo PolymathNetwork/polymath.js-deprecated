@@ -105,10 +105,10 @@ export default class SimpleCappedOffering extends ContractWrapper {
    * @param  contributorAddress The Contributor or investor address who is willing to take participate in the offering of security token
    * @param  polyContributed Amount of the POLY contributed
    */
-  async buy(
-    contributorAddress: string,
-    polyContributed: Array<string>,
-  ) {
-      await this._contract.buy(polyContributed, { from : contributorAddress, gas : 300000 });
+  async buy(contributorAddress: string, polyContributed: BigNumber) {
+    await this._contract.buy(polyContributed, {
+      from: contributorAddress,
+      gas: 300000,
+    });
   }
 }
