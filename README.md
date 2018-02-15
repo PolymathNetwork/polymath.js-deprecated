@@ -15,7 +15,7 @@ Polymath.js is the main library for interacting with Polymath's smart contracts 
 
 The best way to use Polymath.js is to download the [polymathjs npm module](https://www.npmjs.com/package/polymathjs). Go into your project and run `npm install polymathjs`. Once you do that, you can check out the docs at https://docs.polymath.network to see decriptions of every single function call in the library.
 
-There is an example client side app located at XXX. It is built with create-react-app, and shows how you would wire up your project in order to use the library to make calls to the ropsten testnet and mainnet polymath core contracts. (Please note, polymathjs will work on the client side only).
+There is an example client side app located at https://github.com/PolymathNetwork/example-app-polymathjs. It is built with create-react-app, and shows how you would wire up your project in order to use the library to make calls to the ropsten testnet and mainnet polymath core contracts. (Please note, polymathjs will work on the client side only).
 
 The polymath.js library will automatically figure out which network you are on in the browser when you are connected through metamask. If you select mainnet or ropsten, it will connect to the correct contracts, just make sure you have ether to be able to test the function calls.
 
