@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './Polymath.png';
 import './App.css';
 import { Polymath } from 'polymathjs';
 
@@ -28,6 +28,8 @@ class App extends Component {
        * Ropsten = 	0x86535a0f5d0fa9552295b021ff95bca3fb74f523
       */
       console.log(await polymath.securityTokenRegistrar.getCustomersAddress())
+      console.log(await polymath.securityTokenRegistrar.getComplianceAddress())
+      console.log(await polymath.securityTokenRegistrar.getPolyTokenAddress())
 
       /*
        * Test connection to Compliance contract
@@ -62,10 +64,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Welcome to Polymath.js test example</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          Open up the dev console in the browser to see results being logged using the polymath npm module.
         </p>
       </div>
     );
