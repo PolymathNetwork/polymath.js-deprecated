@@ -19,6 +19,30 @@ There is an example client side app located at https://github.com/PolymathNetwor
 
 The polymath.js library will automatically figure out which network you are on in the browser when you are connected through metamask. If you select mainnet or ropsten, it will connect to the correct contracts, just make sure you have ether to be able to test the function calls.
 
+Currently polymathjs is connected to the v1 launched instances of the polymath core contracts for both ropsten and mainnet. Please see the contract addresses below:
+
+
+## V1 on Ethereum Mainnet
+
+| Contract                                                         | Address                                                                                                                       |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [PolyToken](./contracts/PolyToken.sol)                           | [0x9992eC3cF6A55b00978cdDF2b27BC6882d88D1eC](https://ropsten.etherscan.io/address/0x9992eC3cF6A55b00978cdDF2b27BC6882d88D1eC) |
+| [Compliance](./contracts/Compliance.sol)                         | [0x076719c05961a0c3398e558e2199085d32717ca6](https://ropsten.etherscan.io/address/0x076719c05961a0c3398e558e2199085d32717ca6) |
+| [Customers](./contracts/Customers.sol)                           | [0xeb30a60c199664ab84dec3f8b72de3badf1837f5](https://ropsten.etherscan.io/address/0xeb30a60c199664ab84dec3f8b72de3badf1837f5) |
+| [SecurityTokenRegistrar](./contracts/SecurityTokenRegistrar.sol) | [0x56e30b617c8b4798955b6be6fec706de91352ed0](https://ropsten.etherscan.io/address/0x56e30b617c8b4798955b6be6fec706de91352ed0) |
+
+
+## V1 on Ropsten testnet
+
+| Contract                                                         | Address                                                                                                                       |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [PolyToken](./contracts/PolyToken.sol)                           | [0x96a62428509002a7ae5f6ad29e4750d852a3f3d7](https://ropsten.etherscan.io/address/0x96a62428509002a7ae5f6ad29e4750d852a3f3d7) |
+| [Compliance](./contracts/Compliance.sol)                         | [0x238aa304fd1331a591c63e624453f4aeb08bc4b0](https://ropsten.etherscan.io/address/0x238aa304fd1331a591c63e624453f4aeb08bc4b0) |
+| [Customers](./contracts/Customers.sol)                           | [0x9d27f258663957f13fd2804b6c985797b8ca132e](https://ropsten.etherscan.io/address/0x9d27f258663957f13fd2804b6c985797b8ca132e) |
+| [SecurityTokenRegistrar](./contracts/SecurityTokenRegistrar.sol) | [0x7eD744cdE284417740bCF758795d54dd14DD08dA](https://ropsten.etherscan.io/address/0x7eD744cdE284417740bCF758795d54dd14DD08dA) |
+
+
+
 If you want to use testrpc for faster testing with the polymath contracts, you will have to clone this github repo in order to properly migrate the contracts to your testrpc. Once you clone this repo, you can run the following steps to get the contracts migrated to the testrpc:
 
 - `yarn install` to install the npm modules
