@@ -1,5 +1,5 @@
 install:
-  - yarn install
+  - yarn prepack
 env:
   - CI="true"
 

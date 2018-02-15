@@ -33,25 +33,14 @@ export type LogNewWhitelistedAddress = {
  * Wrapper for the SecurityToken Solidity contract
  */
 export default class SecurityToken extends ContractWrapper {
-  polyToken: PolyToken;
-  customers: Customers;
-  compliance: Compliance;
-
   /**
    * @hideconstructor
    */
   constructor(
     web3Wrapper: Web3Wrapper,
-    polyToken: PolyToken,
-    customers: Customers,
-    compliance: Compliance,
     deployedAddress: string,
   ) {
     super(web3Wrapper, securityTokenArtifact, deployedAddress);
-
-    this.polyToken = polyToken;
-    this.customers = customers;
-    this.compliance = compliance;
   }
 
   /**
@@ -213,11 +202,11 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /**
-   * Gets the STO contract address if set.
-   * @return If set, the STO contract address. Otherwise null
+   * Gets the OfferingFactory contract address if set.
+   * @return If set, the OfferingFactory contract address. Otherwise null
    */
-  async getSTOContractAddress(): Promise<string> {
-    return this._contract.STO.call();
+  async getOfferingFactoryAddress(): Promise<string> {
+    return this._contract.OfferingFactory.call();
   }
 
   /**
@@ -540,11 +529,11 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /**
-   * Returns if the STO is propsed or not
+   * Returns if the Offering factory is propsed or not
    * @return Returns true if it has been proposed.
    */
-  async isSTOProposed(): Promise<boolean> {
-    return this._contract.isSTOProposed.call();
+  async isOfferingFactorySet(): Promise<boolean> {
+    return this._contract.isOfferingFactorySet.call();
   }
 
   /**

@@ -17,7 +17,7 @@ import {
   makeKYCProvider,
   makeLegalDelegate,
   makeSelectedTemplateForSecurityToken,
-  makeSecurityTokenOffering,
+  makeProposedOfferingFactory,
   makeTemplateWithFinalized,
   makeSecurityTokenThroughRegistrar,
 } from './util/make_examples';
@@ -53,7 +53,6 @@ describe('SecurityToken wrapper', () => {
       polyToken,
       customers,
       compliance,
-      securityToken,
       accounts[0],
       accounts[1],
       expiryTime,
@@ -156,12 +155,12 @@ describe('SecurityToken wrapper', () => {
 
     await makeKYCProvider(customers, kycProvider, expiryTime);
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
 
     await compliance.proposeTemplate(
       legalDelegate,
@@ -211,9 +210,9 @@ describe('SecurityToken wrapper', () => {
   });
 
   it('tokensIssuedBySTO, isSTOProposed', async () => {
-    const isSTOProposed = await securityToken.isSTOProposed();
+    const isOfferingFactorySet = await securityToken.isOfferingFactorySet();
     assert.equal(
-      isSTOProposed,
+      isOfferingFactorySet,
       false,
       'Should read false as no STO has been proposed',
     );
@@ -243,25 +242,24 @@ describe('SecurityToken wrapper', () => {
     const owner = accounts[0];
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
-    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
-    // STO variables
     const auditor = accounts[4];
-    const startTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(200);
-
-    const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(
-      2592000,
-    ); // 1 Month duration
 
     await makeKYCProvider(customers, kycProvider);
 
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
-
-    const templateAddress = await makeTemplateWithFinalized(
-      compliance,
+    await makeLegalDelegate(
+      polyToken,
+      customers,
       kycProvider,
       legalDelegate,
       expiryTime,
     );
+
+    const templateAddress = (await makeTemplateWithFinalized(
+      compliance,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+    )).address;
     await makeSelectedTemplateForSecurityToken(
       securityToken,
       compliance,
@@ -285,30 +283,18 @@ describe('SecurityToken wrapper', () => {
       new BigNumber(15163975079),
     );
 
-    const offering = await makeSecurityTokenOffering(
+    const offeringFactory = await makeProposedOfferingFactory(
       web3Wrapper,
-      polyToken,
       securityToken,
       compliance,
       auditor,
-      startTime,
-      endTime,
     );
 
-    await securityToken.selectSTOProposal(legalDelegate, 0);
+    await securityToken.selectOfferingFactory(legalDelegate, 0);
 
-    assert.equal(await securityToken.getSTOContractAddress(), offering.address);
-    // getSTOEnd
     assert.equal(
-      (await securityToken.getSTOEnd()).toNumber(),
-      endTime.toNumber(),
-      'It should validates the end time STOContract with the endSTO present in the SecurityToken',
-    );
-    // getSTOStart
-    assert.equal(
-      (await securityToken.getSTOStart()).toNumber(),
-      startTime.toNumber(),
-      'It should validates the start time STOContract with the stratSTO present in the SecurityToken',
+      await securityToken.getOfferingFactoryAddress(),
+      offeringFactory.address,
     );
   });
 
@@ -326,12 +312,12 @@ describe('SecurityToken wrapper', () => {
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
     // Create the Selected Template for the SecurityToken
     await makeSelectedTemplateForSecurityToken(
       securityToken,
@@ -407,12 +393,12 @@ describe('SecurityToken wrapper', () => {
 
       await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
-      const templateAddress = await makeTemplateWithFinalized(
+      const templateAddress = (await makeTemplateWithFinalized(
         compliance,
         kycProvider,
         legalDelegate,
         expiryTime,
-      );
+      )).address;
       await makeSelectedTemplateForSecurityToken(
         securityToken,
         compliance,
@@ -660,12 +646,12 @@ describe('SecurityToken wrapper', () => {
     await makeKYCProvider(customers, kycProvider);
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
 
     await makeSelectedTemplateForSecurityToken(
       securityToken,
@@ -785,12 +771,12 @@ describe('SecurityToken wrapper', () => {
 
     await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
 
-    const templateAddress = await makeTemplateWithFinalized(
+    const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
       legalDelegate,
       expiryTime,
-    );
+    )).address;
     await makeSelectedTemplateForSecurityToken(
       securityToken,
       compliance,

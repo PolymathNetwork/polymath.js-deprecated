@@ -1,7 +1,7 @@
 {
   "name": "polymathjs",
   "author": "Polymath",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tools for interacting with the Polymath platform",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "babel:watchsrc": "babel --watch --source-maps --copy-files --out-dir lib/src src --ignore anchor.js,site.js,split.js",
     "babel:watchtest": "babel --watch --source-maps --copy-files --out-dir lib/test test",
     "build": "webpack && run-s babel:src babel:test",
-    "build-poly-docs": "run-s install documentation-copy-babel-ignored documentation-build",
+    "build-poly-docs": "run-s prepack documentation-copy-babel-ignored documentation-build",
     "clean": "rm -rf ./lib ./build",
     "copy-artifacts": "node lib/src/cli copyartifacts",
     "compile": "run-s truffle:compile copy-artifacts",
@@ -59,12 +59,12 @@
     "mnemonic": "age drama cover door helmet mechanic wine lesson vote inflict will keep"
   },
   "dependencies": {
+    "@0xproject/web3-wrapper": "0.1.2",
     "truffle-contract": "3.0.1",
     "uuid": "3.1.0",
     "web3": "0.20.1"
   },
   "devDependencies": {
-    "@0xproject/web3-wrapper": "0.1.2",
     "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
     "babel-eslint": "8.1.2",

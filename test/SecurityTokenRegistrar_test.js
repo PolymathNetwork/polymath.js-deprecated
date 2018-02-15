@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import chai from 'chai';
 import 'mocha';
+import Web3 from 'web3';
 
 import {
   makePolyToken,
@@ -49,7 +50,6 @@ describe('Registrar wrapper', () => {
       polyToken,
       customers,
       compliance,
-      securityToken,
       accounts[0],
     );
 
@@ -79,7 +79,7 @@ describe('Registrar wrapper', () => {
     const quorum = 75;
 
     await polyToken.approve(owner, registrar.address, fee);
-    await registrar.createSecurityToken(
+    const securityToken = await registrar.createSecurityToken(
       creator,
       name,
       ticker,
@@ -93,6 +93,8 @@ describe('Registrar wrapper', () => {
       lockupPeriod,
       quorum,
     );
+
+    assert(Web3.prototype.isAddress(securityToken.address), 'Returned security token has valid address.');
 
     const logs = await registrar.getLogs(
       'LogNewSecurityToken',
