@@ -6,19 +6,41 @@
 
 # Polymath.js
 
-Polymath.js is the main library for interacting with Polymath's smart contracts. It is written in javascript using flow, babel and eslint. The documentation is automatically generated using documentationjs. Checkout the [docs](https://docs.polymath.network)
+Polymath.js is the main library for interacting with Polymath's smart contracts on the client side. It is written in javascript using flow, babel and eslint. The documentation is automatically generated using documentationjs. Checkout the [docs](https://docs.polymath.network)
 
 [Read the whitepaper](whitepaper.pdf)
 
-## Testing locally
 
-Clone the repo, then run
-- `yarn install`
+## How to Use the Polymath.js Library
+
+The best way to use Polymath.js is to download the [polymathjs npm module](https://www.npmjs.com/package/polymathjs). Go into your project and run `npm install polymathjs`. Once you do that, you can check out the docs at https://docs.polymath.network to see decriptions of every single function call in the library.
+
+There is an example client side app located at XXX. It is built with create-react-app, and shows how you would wire up your project in order to use the library to make calls to the ropsten testnet and mainnet polymath core contracts. (Please note, polymathjs will work on the client side only).
+
+The polymath.js library will automatically figure out which network you are on in the browser when you are connected through metamask. If you select mainnet or ropsten, it will connect to the correct contracts, just make sure you have ether to be able to test the function calls.
+
+If you want to use testrpc for faster testing with the polymath contracts, you will have to clone this github repo in order to properly migrate the contracts to your testrpc. Once you clone this repo, you can run the following steps to get the contracts migrated to the testrpc:
+
+- `yarn install` to install the npm modules
+- `yarn testrpc` (keep this terminal running. this command is a custom npm script to set up an easier dev environemnt, see the package.json for more details on the ganache cli call)
+
+In a new terminal
+- `yarn compile` to compile the contracts and create truffle artifacts (ensure the testrpc stuff will still work)
+- `yarn migrate-testrpc` to migrate the contracts onto your testrpc
+
+Then you can use metamask to connected to localhost:8545. You will have to import the private keys from the testrpc into metamask. if you use `yarn testrpc` to start testrpc, then it will use the same 10 private keys everytime, which will be located in the terminal. They will be pre loaded with testrpc ether.
+
+
+## Developement Testing on local machine with truffle and mocha
+
+Clone this repo, then run the following commands. This will set up the environemnt to run tests on the polymath.js library functionality.
+
+- `yarn prepack`to compile the javascript down to vanilla javascript
 - `yarn testrpc` (keep this terminal running)
 
 In a new terminal
-- `yarn compile`
-- `yarn migrate-testrpc`
+- `yarn compile` to compile the contracts and create truffle artifacts
+- `yarn migrate-testrpc` to migrate the contracts onto your testrpc
 - `yarn start `(babel compiling) (keep this terminal running)
 
 In a new terminal
@@ -27,7 +49,9 @@ In a new terminal
 
 Note: If make changes to source files being compiled by babel, run `yarn clean` to remove the old compiled babel files, and then run `yarn start` to get an updated version with the new code.
 
-## Updating the contracts
+## Updating the polymath core contracts into polymath.js
+
+This should only be done when the npm module is ready to be upgraded to a new version of polymath core on the mainnet. The new contracts should be pulled into polymathjs repo, and then worked on in a branch. Once it is known that polymathjs is correctly working on new core contracts, the npm module can be published to reflect this.
 
 The following occurs:
 - Checks that polymath-core is on the master branch
@@ -46,6 +70,8 @@ Note: Ensure you have the following file structure
 ```
 
 ## Serving and building documentation
+
+The documentation should be built when the npm module is updated. When you build the docs, the build folder will update, and this repo is connected to netlify which will automatically serve the new documentation to https://docs.polymath.network. So building should only be done when the npm package is ready to upgrade, so that they are in sync.
 
 To serve the docs locally, run:
 
