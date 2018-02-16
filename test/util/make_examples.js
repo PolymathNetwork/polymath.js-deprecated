@@ -80,9 +80,8 @@ export async function makeSecurityToken(
     'Token Name',
     'TONA',
     new BigNumber(1000),
-    new BigNumber(10),
+    new BigNumber(18),
     account,
-    new BigNumber(1000),
     new BigNumber(9888888),
     new BigNumber(20),
     polyToken.address,
@@ -94,10 +93,7 @@ export async function makeSecurityToken(
     },
   );
 
-  const securityToken = new SecurityToken(
-    web3Wrapper,
-    instance.address,
-  );
+  const securityToken = new SecurityToken(web3Wrapper, instance.address);
   await securityToken.initialize();
   return securityToken;
 }
@@ -110,11 +106,10 @@ export const makeKYCProvider = async (
     kycProviderAddress,
     'Provider',
     '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-    new BigNumber(100),
+    new BigNumber(100).times(new BigNumber(10).pow(18)),
   );
-
 };
-
+// <--- NEED CHANGES ADD SIGN KEY CONCEPT --->
 export const makeLegalDelegate = async (
   polyToken: PolyToken,
   customers: Customers,
@@ -148,7 +143,7 @@ export const makeTemplate = async (
     kycProvider,
     '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
     expiryTime,
-    new BigNumber(1000),
+    new BigNumber(1000).times(new BigNumber(10).pow(18)),
     new BigNumber(10),
     new BigNumber(9888888),
   );
@@ -173,7 +168,7 @@ export const makeTemplateWithFinalized = async (
     kycProvider,
     '0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
     expiryTime,
-    new BigNumber(1000),
+    new BigNumber(1000).times(new BigNumber(10).pow(18)),
     new BigNumber(10),
     new BigNumber(9888888),
   );
@@ -303,16 +298,14 @@ export async function makeSecurityTokenThroughRegistrar(
   await registrar.initialize();
 
   // Start creating security token
-  const creator = account
+  const creator = account;
   const name = 'FUNTOKEN';
   const ticker = 'FUNT';
   const totalSupply = 1234567;
   const decimals = 8;
-  const owner = account
-  const host = hostAccount
-  const fee = 1000;
+  const owner = account;
+  const fee = new BigNumber(1000).times(new BigNumber(10).pow(18));
   const type = 1;
-  const maxPoly = 100000;
   const lockupPeriod = currentBlockTime + 31557600; // plus one year
   const quorum = 75;
 
@@ -334,9 +327,6 @@ export async function makeSecurityTokenThroughRegistrar(
     totalSupply,
     decimals,
     owner,
-    maxPoly,
-    host,
-    fee,
     type,
     lockupPeriod,
     quorum,
@@ -347,7 +337,7 @@ export async function makeSecurityTokenThroughRegistrar(
     {},
     { fromBlock: 1 },
   );
-  let tickerLog =   logs[0].args.ticker;
+  let tickerLog = logs[0].args.ticker;
   let securityTokenAddress = await registrar.getSecurityTokenAddress(ticker);
 
   const securityTokenThroughRegistrar = new SecurityToken(

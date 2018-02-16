@@ -660,10 +660,16 @@ describe('SecurityToken wrapper', () => {
     const kycProvider = accounts[1];
     const legalDelegate = accounts[2];
     const investor = accounts[3];
-    const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+    // const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
     await makeKYCProvider(customers, kycProvider);
 
-    await makeLegalDelegate(polyToken, customers, kycProvider, legalDelegate, expiryTime);
+    await makeLegalDelegate(
+      polyToken,
+      customers,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+    );
     const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
