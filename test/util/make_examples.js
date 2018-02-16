@@ -22,7 +22,7 @@ import securityTokenRegistrarArtifact from '../../src/artifacts/SecurityTokenReg
 import TemplateArtifact from '../../src/artifacts/Template.json';
 import securityTokenOfferingArtifact from '../../src/artifacts/SimpleCappedOffering.json';
 import simpleCappedOfferingFactoryArtifact from '../../src/artifacts/SimpleCappedOfferingFactory.json';
-import {web3StringToBytes32, signData} from './signData';
+import { web3StringToBytes32, signData } from './signdata';
 
 export async function makePolyToken(web3Wrapper: Web3Wrapper, account: string) {
   const contractTemplate = contract(polyTokenArtifact);
@@ -159,6 +159,55 @@ export const makeLegalDelegate = async (
   );
   console.log(isVerify);
 };
+
+export const makeCustomer = async (
+  polyToken: PolyToken,
+  customers: Customers,
+  kycProvider: string,
+  customerAddress: string,
+  customerRole: number,
+  expiryTime: BigNumber,
+  pk_customer: string,
+) => {
+  await polyToken.approve(customerAddress, customers.address, 100);
+  const nonce = 1;
+  const jurisdiction0 = 'US';
+  const jurisdiction0_0 = 'CA';
+  const sig = signData(
+    customers.address,
+    kycProvider,
+    jurisdiction0,
+    jurisdiction0_0,
+    customerRole,
+    true,
+    nonce,
+    pk_customer,
+  );
+  const r = `0x${sig.r.toString('hex')}`;
+  const s = `0x${sig.s.toString('hex')}`;
+  const v = sig.v;
+  console.log(r);
+  console.log(s);
+  console.log(v);
+
+  const isVerify = await customers.verifyCustomer(
+    kycProvider,
+    customerAddress,
+    jurisdiction0,
+    jurisdiction0_0,
+    customerRole,
+    true,
+    expiryTime, // 2 days more than current time
+    nonce,
+    v,
+    r,
+    s,
+    {
+      from: kycProvider,
+    },
+  );
+  console.log(isVerify);
+}; 
 
 export const makeTemplate = async (
   compliance: Compliance,
@@ -309,7 +358,6 @@ export async function makeSecurityTokenThroughRegistrar(
   customers: Customers,
   compliance: Compliance,
   creatorAccount: string,
-  hostAccount: string,
   currentBlockTime: number,
   nameSpaceOwnerAccount: string,
 ) {
@@ -328,36 +376,31 @@ export async function makeSecurityTokenThroughRegistrar(
   const registrar = new SecurityTokenRegistrar(web3Wrapper, instance.address);
 
   await registrar.initialize();
-  const nameSpaceName = 'FUNTOKEN';
+  const nameSpaceName = 'TESTING';
   const nameSpaceOwner = nameSpaceOwnerAccount;
   const nameSpaceFee = new BigNumber(10).times(new BigNumber(10).pow(18));
-
   // Start creating security token
   const creator = creatorAccount;
+  const name = 'FUNTOKEN';
   const ticker = 'FUNT';
   const totalSupply = 1234567;
   const decimals = 8;
   const owner = creatorAccount;
-  const fee = new BigNumber(1000).times(new BigNumber(10).pow(18));
   const type = 1;
   const lockupPeriod = currentBlockTime + 31557600; // plus one year
   const quorum = 75;
 
   // Fund two accounts.
   await polyToken.generateNewTokens(
-    new BigNumber(10).toPower(18).times(100000),
-    creatorAccount,
-  );
-  await polyToken.generateNewTokens(
-    new BigNumber(10).toPower(18).times(100000),
-    hostAccount,
-  );
-
-  await polyToken.approve(owner, registrar.address, fee + nameSpaceFee);
-  await registrar.createNameSpace(nameSpaceName, nameSpaceOwner, nameSpaceFee);
-  await registrar.createSecurityToken(
+    new BigNumber(10000).times(new BigNumber(10).pow(18)),
     creator,
+  );
+  await registrar.createNameSpace(nameSpaceName, nameSpaceOwner, nameSpaceFee);
+  await polyToken.approve(creator, registrar.address, nameSpaceFee);
+  await registrar.createSecurityToken(
     nameSpaceName,
+    creator,
+    name,
     ticker,
     totalSupply,
     decimals,
@@ -372,12 +415,11 @@ export async function makeSecurityTokenThroughRegistrar(
     {},
     { fromBlock: 1 },
   );
-  const tickerLog = logs[0].args.ticker;
+  const tickerLog = logs[0].args._ticker;
   const securityTokenAddress = await registrar.getSecurityTokenAddress(
     nameSpaceName,
     ticker,
   );
-
   const securityTokenThroughRegistrar = new SecurityToken(
     web3Wrapper,
     securityTokenAddress,
@@ -387,7 +429,7 @@ export async function makeSecurityTokenThroughRegistrar(
   return securityTokenThroughRegistrar;
 }
 
-export async function makeSelectedTemplateForSecurityToken (
+export async function makeSelectedTemplateForSecurityToken(
   securityToken: SecurityToken,
   compliance: Compliance,
   polyToken: PolyToken,

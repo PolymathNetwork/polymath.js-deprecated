@@ -65,12 +65,11 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @param owner      Owner for this name space
    * @param fee        Fee for this name space
    */
-  async createNameSpace(
-    nameSpace: string,
-    owner: string,
-    fee: BigNumber,
-  ){
-    await this._contract.createNameSpace(nameSpace, owner, fee);
+  async createNameSpace(nameSpace: string, owner: string, fee: BigNumber) {
+    await this._contract.createNameSpace(nameSpace, owner, fee, {
+      from: owner,
+      gas: 90000,
+    });
   }
 
   /**
@@ -79,26 +78,22 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @param owner      Owner for this name space
    * @param fee        Fee for this name space
    */
-  async createNameSpace(
-    nameSpace: string,
-    owner: string,
-    fee: BigNumber,
-  ){
-    await this._contract.changeNameSpace(nameSpace, owner, fee, { from: owner });
+  async changeNameSpace(nameSpace: string, owner: string, fee: BigNumber) {
+    await this._contract.changeNameSpace(nameSpace, owner, fee, {
+      from: owner,
+      gas: 40000,
+    });
   }
 
   /**
    * Creates a security token and stores it in the security token registry. Returns a promise of true it the security token was successfully created. This is done by event watching for the event {@link LogNewSecurityToken()}.
-   *
+   * @param nameSpaceName Name space string
    * @param creator The address from which the token is created
    * @param name Name of the security token
    * @param ticker Ticker name of the security
    * @param totalSupply Total amount of tokens being created
    * @param decimals The number of decimal places that the tokens can be split up into
    * @param owner Public Key address of the security token owner
-   * @param maxPoly Amount of POLY being raised
-   * @param host The host of the security token wizard
-   * @param fee POLY Fee being requested by the wizard host
    * @param type Type of security being tokenized (NEED TOKEN NUMBERS ie. security:1, somethingelse:2)
    * @param lockupPeriod Length of time (unix) raised POLY will be locked up for dispute
    * @param quorum Percent of initial investors required to freeze POLY raise
@@ -136,8 +131,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
     if (logs.length === 0) {
       throw new Error('createSecurityToken couldn\'t find an event log.');
     }
-
-    const address = logs[0].args.securityTokenAddress;
+    const address = logs[0].args._securityTokenAddress;
 
     if (!address) {
       throw new Error('createSecurityToken couldn\'t get security token address.');
@@ -175,11 +169,15 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
 
   /**
    * Getter function for ST addresses by passing the ticker/symbol as the argument.
+   * @param namespace Namespace string
    * @param ticker The security token ticker
    * @return The security token address
    */
-  async getSecurityTokenAddress(ticker: string): Promise<string> {
-    return this._contract.getSecurityTokenAddress.call(ticker);
+  async getSecurityTokenAddress(
+    namespace: string,
+    ticker: string
+  ): Promise<string> {
+    return this._contract.getSecurityTokenAddress.call(namespace, ticker);
   }
 
   /**

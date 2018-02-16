@@ -60,6 +60,8 @@
   },
   "dependencies": {
     "@0xproject/web3-wrapper": "0.1.2",
+    "ethereumjs-util": "^5.1.4",
+    "ethers": "^2.2.6",
     "truffle-contract": "3.0.1",
     "uuid": "3.1.0",
     "web3": "0.20.1"

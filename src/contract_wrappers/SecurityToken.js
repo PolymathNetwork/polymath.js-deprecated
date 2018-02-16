@@ -11,8 +11,8 @@ import PolyToken from './PolyToken';
 import securityTokenArtifact from '../artifacts/SecurityToken.json';
 import bytes32Zero from '../bytes32Zero';
 import { numberToRole } from '../roles';
-import typeimport { v1String } from '../../../../Library/Caches/typescript/2.6/node_modules/@types/uuid/interfaces';
- {
+//import typeimport { v1String } from '../../../../Library/Caches/typescript/2.6/node_modules/@types/uuid/interfaces';
+ import type {
   BlockRange,
   EventCallback,
   IndexedFilterValues,
@@ -226,22 +226,6 @@ export default class SecurityToken extends ContractWrapper {
   }
 
   /**
-   * Gets the STO start time as a unix timestamp.
-   * @return The start time
-   */
-  async getSTOStart(): Promise<BigNumber> {
-    return this._contract.startSTO.call();
-  }
-
-  /**
-   * Gets the STO end time as a unix timestamp.
-   * @return The end time
-   */
-  async getSTOEnd(): Promise<BigNumber> {
-    return this._contract.endSTO.call();
-  }
-
-  /**
    * Gets the boolean value of the hasOfferingStarted.
    * @return The bool value
    */
@@ -262,7 +246,7 @@ export default class SecurityToken extends ContractWrapper {
     if (newTotalSupply == await this.getTotalSupply()) {
       return true;
     } 
-    return "Only Owner of the Security Token can call this function before starting the offering";
+    return 'Only Owner of the Security Token can call this function before starting the offering';
   }
 
   /**
@@ -278,7 +262,7 @@ export default class SecurityToken extends ContractWrapper {
     if (newDecimals == await this.getDecimals()) {
       return true;
     } 
-    return "Only Owner of the Security Token can call this function before starting the offering";
+    return 'Only Owner of the Security Token can call this function before starting the offering';
   }
 
   /**
@@ -294,7 +278,7 @@ export default class SecurityToken extends ContractWrapper {
     if (newName == await this.getName()) {
       return true;
     } 
-    return "Only Owner of the Security Token can call this function before starting the offering";
+    return 'Only Owner of the Security Token can call this function before starting the offering';
   }
 
   /**
@@ -380,7 +364,10 @@ export default class SecurityToken extends ContractWrapper {
    * @param owner                       Owner of the security token contract
    * @param investorAddressArray        Investor addresses array to be whitelisted
    */
-  async addToWhitelist(owner: string, investorAddressArray: Array<string>) {
+  async addToWhitelistMulti(
+    owner: string,
+    investorAddressArray: Array<string>,
+  ) {
     await this._contract.addToWhitelist(investorAddressArray, {
       from: owner,
       gas: 1000000,
@@ -404,7 +391,10 @@ export default class SecurityToken extends ContractWrapper {
    * @param owner                        Owner of the security token contract
    * @param blacklistAddressArray        Investor addresses array to be blacklisted
    */
-  async addToWhitelist(owner: string, blacklistAddressArray: Array<string>) {
+  async addToBlacklistMulti(
+    owner: string,
+    blacklistAddressArray: Array<string>,
+  ) {
     await this._contract.addToWhitelist(blacklistAddressArray, {
       from: owner,
       gas: 1000000,
