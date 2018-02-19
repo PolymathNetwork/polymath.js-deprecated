@@ -171,7 +171,11 @@ export const makeCustomer = async (
   expiryTime: BigNumber,
   pk_customer: string,
 ) => {
-  await polyToken.approve(customerAddress, customers.address, 100);
+  await polyToken.approve(
+    customerAddress,
+    customers.address,
+    new BigNumber(100).times(new BigNumber(10).pow(18)),
+  );
   const nonce = 1;
   const jurisdiction0 = 'US';
   const jurisdiction0_0 = 'CA';
@@ -188,11 +192,8 @@ export const makeCustomer = async (
   const r = `0x${sig.r.toString('hex')}`;
   const s = `0x${sig.s.toString('hex')}`;
   const v = sig.v;
-  console.log(r);
-  console.log(s);
-  console.log(v);
 
-  const isVerify = await customers.verifyCustomer(
+  await customers.verifyCustomer(
     kycProvider,
     customerAddress,
     jurisdiction0,
@@ -208,8 +209,7 @@ export const makeCustomer = async (
       from: kycProvider,
     },
   );
-  console.log(isVerify);
-}; 
+};
 
 export const makeTemplate = async (
   compliance: Compliance,

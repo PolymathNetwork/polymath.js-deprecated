@@ -136,6 +136,25 @@ export default class Compliance extends ContractWrapper {
     return template;
   }
 
+   /**
+   * Get the Registrar contract address.
+   * @return The Registrar instance
+   */
+  async getRegistrarAddress(): Promise<string> {
+    return this._contract.STRegistrar.call();
+  }
+
+   /**
+   * Set the Registrar contract address.
+   * @param _STRAddress Address of the SecurityTokenRegistrar
+   * @param _ownerAddress Address of the deployer
+   */
+  async setRegistrarAddress(_STRAddress:string, _ownerAddress:string) {
+    await this._contract.setRegistrarAddress(_STRAddress, { from: _ownerAddress });
+  }
+
+
+
   /**
    * Allows a legal delegate to propose a template to a security token.
    * @param   legalDelegateAddress  Ethereum address of legal delegate creating the template

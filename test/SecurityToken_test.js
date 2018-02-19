@@ -74,7 +74,7 @@ describe('SecurityToken wrapper', () => {
     );
     securityToken = data[0];
     registrar = data[1];
-
+    compliance.setRegistrarAddress(registrar.address, accounts[8]);
     // Fund five accounts.
     await polyToken.generateNewTokens(
       new BigNumber(100000).times(new BigNumber(10).pow(18)),
@@ -179,6 +179,7 @@ describe('SecurityToken wrapper', () => {
       expiryTime,
       pk_2,
     );
+
     const templateAddress = (await makeTemplateWithFinalized(
       compliance,
       kycProvider,
@@ -191,16 +192,16 @@ describe('SecurityToken wrapper', () => {
       securityToken.address,
       templateAddress,
     );
-    console.log('hello345');
+
     // Security token must have the template's fee before applying the template.
-    await polyToken.transfer(kycProvider, securityToken.address, 1000);
-
+    await polyToken.transfer(
+      kycProvider,
+      securityToken.address,
+      new BigNumber(1000).times(new BigNumber(10).pow(18)),
+    );
     await securityToken.selectTemplate(owner, 0);
-
     assert.equal(await securityToken.getKYCProviderAddress(), kycProvider);
     assert.equal(await securityToken.getDelegateAddress(), legalDelegate);
-
-    await polyToken.approve(investor, customers.address, 100);
 
     await makeCustomer(
       polyToken,
@@ -208,10 +209,9 @@ describe('SecurityToken wrapper', () => {
       kycProvider,
       investor,
       1,
-      new BigNumber(15163975079),
+      expiryTime,
       pk_3,
     );
-
     await securityToken.addToWhitelist(owner, investor);
 
     const checkShareholderDetails = await securityToken.getShareholderDetails(
@@ -233,21 +233,21 @@ describe('SecurityToken wrapper', () => {
     );
   });
 
-  // it('tokensIssuedBySTO, isSTOProposed', async () => {
-  //   const isOfferingFactorySet = await securityToken.isOfferingFactorySet();
-  //   assert.equal(
-  //     isOfferingFactorySet,
-  //     false,
-  //     'Should read false as no STO has been proposed',
-  //   );
+  it('tokensIssuedBySTO, isSTOProposed', async () => {
+    const isOfferingFactorySet = await securityToken.isOfferingFactorySet();
+    assert.equal(
+      isOfferingFactorySet,
+      false,
+      'Should read false as no STO has been proposed',
+    );
 
-  //   const tokensIssuedBySTO = await securityToken.tokensIssuedBySTO();
-  //   assert.equal(
-  //     tokensIssuedBySTO,
-  //     0,
-  //     'Should read zero we havent issued tokens yet',
-  //   );
-  // });
+    const tokensIssuedBySTO = await securityToken.tokensIssuedBySTO();
+    assert.equal(
+      tokensIssuedBySTO,
+      0,
+      'Should read zero we havent issued tokens yet',
+    );
+  });
 
   // it('getVoted, getContributedToSTO', async () => {
   //   const hasVoted = await securityToken.getVoted(accounts[8], accounts[7]); //random accounts
