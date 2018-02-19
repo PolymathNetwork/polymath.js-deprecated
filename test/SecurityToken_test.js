@@ -29,6 +29,7 @@ import { increaseTime } from './util/time';
 import { strictEqual } from 'assert';
 import { log } from 'util';
 import { pk } from './util/testprivatekey';
+import SecurityTokenRegistrar from '../src/contract_wrappers/SecurityTokenRegistrar';
 
 const { assert } = chai;
 
@@ -36,12 +37,16 @@ describe('SecurityToken wrapper', () => {
   const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
   let accounts;
+  let data;
+  let registrar;
   let polyToken: PolyToken;
   let customers: Customers;
   let compliance: Compliance;
   let securityToken: SecurityToken;
   let cappedOffering: SimpleCappedOffering;
-  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+  const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(
+    100000,
+  );
   const polytokenRate = new BigNumber(100).times(new BigNumber(10).pow(18));
   const maxPoly = new BigNumber(10000).times(new BigNumber(10).pow(18));
   const pk_1 = pk.account_1;
@@ -58,7 +63,7 @@ describe('SecurityToken wrapper', () => {
     customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
     compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
 
-    securityToken = await makeSecurityTokenThroughRegistrar(
+    data = await makeSecurityTokenThroughRegistrar(
       web3Wrapper,
       polyToken,
       customers,
@@ -67,30 +72,32 @@ describe('SecurityToken wrapper', () => {
       web3.eth.getBlock('latest').timestamp,
       accounts[1],
     );
+    securityToken = data[0];
+    registrar = data[1];
 
     // Fund five accounts.
     await polyToken.generateNewTokens(
-      new BigNumber(10).toPower(18).times(100000),
+      new BigNumber(100000).times(new BigNumber(10).pow(18)),
       accounts[0],
     );
 
     await polyToken.generateNewTokens(
-      new BigNumber(10).toPower(18).times(100000),
+      new BigNumber(100000).times(new BigNumber(10).pow(18)),
       accounts[1],
     );
 
     await polyToken.generateNewTokens(
-      new BigNumber(10).toPower(18).times(100000),
+      new BigNumber(100000).times(new BigNumber(10).pow(18)),
       accounts[2],
     );
 
     await polyToken.generateNewTokens(
-      new BigNumber(10).toPower(18).times(100000),
+      new BigNumber(100000).times(new BigNumber(10).pow(18)),
       accounts[3],
     );
 
     await polyToken.generateNewTokens(
-      new BigNumber(10).toPower(18).times(100000),
+      new BigNumber(100000).times(new BigNumber(10).pow(18)),
       accounts[4],
     );
 
@@ -128,103 +135,103 @@ describe('SecurityToken wrapper', () => {
     );
   });
 
-  // it('updateComplianceProof, getTokenDetails', async () => {
-  //   await securityToken.updateComplianceProof(
-  //     accounts[0],
-  //     fakeBytes32,
-  //     fakeBytes32,
-  //   );
+  it('updateComplianceProof, getTokenDetails', async () => {
+    await securityToken.updateComplianceProof(
+      accounts[0],
+      fakeBytes32,
+      fakeBytes32,
+    );
 
-  //   const details = await securityToken.getTokenDetails();
-  //   assert.equal(
-  //     details.merkleRoot,
-  //     fakeBytes32,
-  //     'Should validate the assigned merkle root',
-  //   );
-  // });
+    const details = await securityToken.getTokenDetails();
+    assert.equal(
+      details.merkleRoot,
+      fakeBytes32,
+      'Should validate the assigned merkle root',
+    );
+  });
 
-  // it('getMerkleRoot', async () => {
-  //   await securityToken.updateComplianceProof(
-  //     accounts[0],
-  //     fakeBytes32,
-  //     fakeBytes32,
-  //   );
-  //   assert.equal(
-  //     await securityToken.getMerkleRoot(),
-  //     fakeBytes32,
-  //     'Should validate the assigned merkle root',
-  //   );
-  // });
+  it('getMerkleRoot', async () => {
+    await securityToken.updateComplianceProof(
+      accounts[0],
+      fakeBytes32,
+      fakeBytes32,
+    );
+    assert.equal(
+      await securityToken.getMerkleRoot(),
+      fakeBytes32,
+      'Should validate the assigned merkle root',
+    );
+  });
 
-  // it('selectTemplate, addToWhiteList, getShareholderDetails, getPolyAllocationDetails, getKYCProviderAddress, getDelegate', async () => {
-  //   const owner = accounts[0];
-  //   const investor = accounts[3];
-  //   const legalDelegate = accounts[2];
-  //   const kycProvider = accounts[1];
-  //  // const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+  it('selectTemplate, addToWhiteList, getShareholderDetails, getPolyAllocationDetails, getKYCProviderAddress, getDelegate', async () => {
+    const owner = accounts[0];
+    const investor = accounts[3];
+    const legalDelegate = accounts[2];
+    const kycProvider = accounts[1];
+   // const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+    await makeKYCProvider(customers, kycProvider);
 
-  //   await makeKYCProvider(customers, kycProvider);
-  //   await makeLegalDelegate(
-  //     polyToken,
-  //     customers,
-  //     kycProvider,
-  //     legalDelegate,
-  //     expiryTime,
-  //     pk_2,
-  //   );
-  //   const templateAddress = (await makeTemplateWithFinalized(
-  //     compliance,
-  //     kycProvider,
-  //     legalDelegate,
-  //     expiryTime,
-  //   )).address;
+    await makeLegalDelegate(
+      polyToken,
+      customers,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+      pk_2,
+    );
+    const templateAddress = (await makeTemplateWithFinalized(
+      compliance,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+    )).address;
 
-  //   await compliance.proposeTemplate(
-  //     legalDelegate,
-  //     securityToken.address,
-  //     templateAddress,
-  //   );
+    await compliance.proposeTemplate(
+      legalDelegate,
+      securityToken.address,
+      templateAddress,
+    );
+    console.log('hello345');
+    // Security token must have the template's fee before applying the template.
+    await polyToken.transfer(kycProvider, securityToken.address, 1000);
 
-  //   // Security token must have the template's fee before applying the template.
-  //   await polyToken.transfer(kycProvider, securityToken.address, 1000);
+    await securityToken.selectTemplate(owner, 0);
 
-  //   await securityToken.selectTemplate(owner, 0);
+    assert.equal(await securityToken.getKYCProviderAddress(), kycProvider);
+    assert.equal(await securityToken.getDelegateAddress(), legalDelegate);
 
-  //   assert.equal(await securityToken.getKYCProviderAddress(), kycProvider);
-  //   assert.equal(await securityToken.getDelegateAddress(), legalDelegate);
+    await polyToken.approve(investor, customers.address, 100);
 
-  //   await polyToken.approve(investor, customers.address, 100);
+    await makeCustomer(
+      polyToken,
+      customers,
+      kycProvider,
+      investor,
+      1,
+      new BigNumber(15163975079),
+      pk_3,
+    );
 
-  //   await makeCustomer(
-  //     polyToken,
-  //     customers,
-  //     kycProvider,
-  //     investor,
-  //     1,
-  //     new BigNumber(15163975079),
-  //     pk_3,
-  //   );
+    await securityToken.addToWhitelist(owner, investor);
 
-  //   await securityToken.addToWhitelist(owner, investor);
+    const checkShareholderDetails = await securityToken.getShareholderDetails(
+      investor,
+    );
+    assert.equal(
+      checkShareholderDetails[1],
+      true,
+      'Should read true, investor has been whitelisted',
+    );
 
-  //   const checkShareholderDetails = await securityToken.getShareholderDetails(
-  //     investor,
-  //   );
-  //   assert.equal(
-  //     checkShareholderDetails[1],
-  //     true,
-  //     'Should read true, investor has been whitelisted',
-  //   );
-
-  //   const checkPolyAllocationDetails = await securityToken.getPolyAllocationDetails(
-  //     legalDelegate,
-  //   );
-  //   assert.equal(
-  //     checkPolyAllocationDetails[1],
-  //     9888888,
-  //     'Should equal 9888888 from make_examples value used',
-  //   );
-  // });
+    const checkPolyAllocationDetails = await securityToken.getPolyAllocationDetails(
+      legalDelegate,
+    );
+    assert.equal(
+      checkPolyAllocationDetails[1],
+      9888888,
+      'Should equal 9888888 from make_examples value used',
+    );
+  });
 
   // it('tokensIssuedBySTO, isSTOProposed', async () => {
   //   const isOfferingFactorySet = await securityToken.isOfferingFactorySet();

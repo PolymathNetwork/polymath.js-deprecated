@@ -3,6 +3,7 @@
 import BigNumber from 'bignumber.js';
 import contract from 'truffle-contract';
 import { Web3Wrapper } from '@0xproject/web3-wrapper';
+import { makeWeb3 } from './web3';
 
 import {
   Compliance,
@@ -119,7 +120,11 @@ export const makeLegalDelegate = async (
   expiryTime: BigNumber,
   pk_delegate: string,
 ) => {
-  await polyToken.approve(legalDelegate, customers.address, 100);
+  await polyToken.approve(
+    legalDelegate,
+    customers.address,
+    new BigNumber(100).times(new BigNumber(10).pow(18)),
+  );
   const nonce = 1;
   const jurisdiction0 = 'US';
   const jurisdiction0_0 = 'CA';
@@ -134,12 +139,10 @@ export const makeLegalDelegate = async (
     nonce,
     pk_delegate,
   );
+
   const r = `0x${sig.r.toString('hex')}`;
   const s = `0x${sig.s.toString('hex')}`;
   const v = sig.v;
-  console.log(r);
-  console.log(s);
-  console.log(v);
 
   const isVerify = await customers.verifyCustomer(
     kycProvider,
@@ -157,7 +160,6 @@ export const makeLegalDelegate = async (
       from: kycProvider,
     },
   );
-  console.log(isVerify);
 };
 
 export const makeCustomer = async (
@@ -230,7 +232,6 @@ export const makeTemplate = async (
 
   await template.addJurisdiction(legalDelegate, ['US-CA'], [true]);
   await template.addRoles(legalDelegate, ['investor'], [true]);
-
   return template;
 };
 
@@ -426,7 +427,7 @@ export async function makeSecurityTokenThroughRegistrar(
   );
 
   await securityTokenThroughRegistrar.initialize();
-  return securityTokenThroughRegistrar;
+  return [securityTokenThroughRegistrar, registrar];
 }
 
 export async function makeSelectedTemplateForSecurityToken(
