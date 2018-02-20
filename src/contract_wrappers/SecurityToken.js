@@ -214,7 +214,7 @@ export default class SecurityToken extends ContractWrapper {
    * @return If set, the OfferingFactory contract address. Otherwise null
    */
   async getOfferingAddress(): Promise<string> {
-    return this._contract.Offering.call();
+    return this._contract.offering.call();
   }
 
   /**
@@ -343,8 +343,9 @@ export default class SecurityToken extends ContractWrapper {
       maxPoly,
       {
         from: owner,
-        gas: 500000,
-    });
+        gas: 4500000,
+      },
+    );
   }
 
   /**

@@ -344,7 +344,6 @@ export async function makeProposedOfferingFactory(
   await offeringFactory.initialize();
 
   await compliance.registerOfferingFactory(offeringFactory.address, auditor);
-
   await compliance.proposeOfferingFactoryToSecurityToken(
     auditor,
     securityToken.address,
@@ -457,4 +456,13 @@ export async function makeSelectedTemplateForSecurityToken(
   await securityToken.selectTemplate(owner, 0);
 
   await securityToken.updateComplianceProof(owner, fakeBytes32, fakeBytes32);
+}
+
+export async function makeSecurityTokenOffering(
+  web3Wrapper: Web3Wrapper,
+  offeringAddress: string,
+) {
+  const offering = new SimpleCappedOffering(web3Wrapper, offeringAddress);
+  await offering.initialize();
+  return offering;
 }

@@ -21,6 +21,7 @@ import {
   makeSelectedTemplateForSecurityToken,
   makeProposedOfferingFactory,
   makeTemplateWithFinalized,
+  makeSecurityTokenOffering,
   makeSecurityTokenThroughRegistrar,
 } from './util/make_examples';
 import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
@@ -47,7 +48,7 @@ describe('SecurityToken wrapper', () => {
   const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(
     100000,
   );
-  const polytokenRate = new BigNumber(100).times(new BigNumber(10).pow(18));
+  const polytokenRate = new BigNumber(100);
   const maxPoly = new BigNumber(10000).times(new BigNumber(10).pow(18));
   const pk_1 = pk.account_1;
   const pk_2 = pk.account_2;
@@ -168,7 +169,7 @@ describe('SecurityToken wrapper', () => {
     const investor = accounts[3];
     const legalDelegate = accounts[2];
     const kycProvider = accounts[1];
-   // const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
+   
     await makeKYCProvider(customers, kycProvider);
 
     await makeLegalDelegate(
@@ -249,342 +250,341 @@ describe('SecurityToken wrapper', () => {
     );
   });
 
-  // it('getVoted, getContributedToSTO', async () => {
-  //   const hasVoted = await securityToken.getVoted(accounts[8], accounts[7]); //random accounts
-  //   assert.equal(hasVoted, false, 'Should read false no one has voted');
-  //   const getContributedToSTO = await securityToken.getContributedToSTO(
-  //     accounts[1],
-  //   );
-  //   assert.equal(
-  //     getContributedToSTO,
-  //     false,
-  //     `Should read 0 no one has contributed yet`,
-  //   );
-  // });
+  it('getVoted, getContributedToSTO', async () => {
+    const hasVoted = await securityToken.getVoted(accounts[8], accounts[7]); //random accounts
+    assert.equal(hasVoted, false, 'Should read false no one has voted');
+    const getContributedToSTO = await securityToken.getContributedToSTO(
+      accounts[1],
+    );
+    assert.equal(
+      getContributedToSTO,
+      false,
+      `Should read 0 no one has contributed yet`,
+    );
+  });
 
-  // it('selectOfferingFactory, getOfferingFactoryAddress', async () => {
-  //   const owner = accounts[0];
-  //   const legalDelegate = accounts[2];
-  //   const kycProvider = accounts[1];
-  //   const auditor = accounts[4];
+  it('selectOfferingFactory, getOfferingFactoryAddress', async () => {
+    const owner = accounts[0];
+    const legalDelegate = accounts[2];
+    const kycProvider = accounts[1];
+    const auditor = accounts[4];
 
-  //   await makeKYCProvider(customers, kycProvider);
+    await makeKYCProvider(customers, kycProvider);
 
-  //   await makeLegalDelegate(
-  //     polyToken,
-  //     customers,
-  //     kycProvider,
-  //     legalDelegate,
-  //     expiryTime,
-  //     pk_2,
-  //   );
+    await makeLegalDelegate(
+      polyToken,
+      customers,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+      pk_2,
+    );
 
-  //   const templateAddress = (await makeTemplateWithFinalized(
-  //     compliance,
-  //     kycProvider,
-  //     legalDelegate,
-  //     expiryTime,
-  //   )).address;
-  //   await makeSelectedTemplateForSecurityToken(
-  //     securityToken,
-  //     compliance,
-  //     polyToken,
-  //     owner,
-  //     legalDelegate,
-  //     kycProvider,
-  //     fakeBytes32,
-  //     templateAddress,
-  //   );
+    const templateAddress = (await makeTemplateWithFinalized(
+      compliance,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+    )).address;
+    await makeSelectedTemplateForSecurityToken(
+      securityToken,
+      compliance,
+      polyToken,
+      owner,
+      legalDelegate,
+      kycProvider,
+      fakeBytes32,
+      templateAddress,
+    );
 
-  //   await polyToken.approve(auditor, customers.address, 100);
+    await makeCustomer(
+      polyToken,
+      customers,
+      kycProvider,
+      auditor,
+      1,
+      expiryTime,
+      pk_4,
+    );
+    const offeringFactory = await makeProposedOfferingFactory(
+      web3Wrapper,
+      securityToken,
+      compliance,
+      auditor,
+    );
+    await polyToken.transfer(owner, securityToken.address, 100);
+    await securityToken.selectOfferingFactory(legalDelegate, 0);
 
-  //   await makeCustomer(
-  //     polyToken,
-  //     customers,
-  //     kycProvider,
-  //     auditor,
-  //     1,
-  //     new BigNumber(15163975079),
-  //     pk_4,
-  //   );
+    assert.equal(
+      await securityToken.getOfferingFactoryAddress(),
+      offeringFactory.address,
+    );
+  });
 
-  //   const offeringFactory = await makeProposedOfferingFactory(
-  //     web3Wrapper,
-  //     securityToken,
-  //     compliance,
-  //     auditor,
-  //   );
+  it('addToBlackList, addToWhiteList', async () => {
+    const owner = accounts[0];
+    const legalDelegate = accounts[2];
+    const kycProvider = accounts[1];
+    const investor = accounts[3];
 
-  //   await securityToken.selectOfferingFactory(legalDelegate, 0);
+    await makeKYCProvider(customers, kycProvider);
 
-  //   assert.equal(
-  //     await securityToken.getOfferingFactoryAddress(),
-  //     offeringFactory.address,
-  //   );
-  // });
+    await makeLegalDelegate(
+      polyToken,
+      customers,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+      pk_2,
+    );
 
-  // it('getMaximumPOLYContribution', async () => {
-  //   assert.equal(await securityToken.getMaximumPOLYContribution(), 100000); // 100000 value from make_examples.js
-  // });
+    const templateAddress = (await makeTemplateWithFinalized(
+      compliance,
+      kycProvider,
+      legalDelegate,
+      expiryTime,
+    )).address;
+    // Create the Selected Template for the SecurityToken
+    await makeSelectedTemplateForSecurityToken(
+      securityToken,
+      compliance,
+      polyToken,
+      owner,
+      legalDelegate,
+      kycProvider,
+      fakeBytes32,
+      templateAddress,
+    );
 
-  // it('addToBlackList', async () => {
-  //   const owner = accounts[0];
-  //   const legalDelegate = accounts[2];
-  //   const kycProvider = accounts[1];
-  //   const investor = accounts[3];
-  //   // const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
-  //   await makeKYCProvider(customers, kycProvider);
+    await makeCustomer(
+      polyToken,
+      customers,
+      kycProvider,
+      investor,
+      1,
+      expiryTime,
+      pk_3,
+    );
+    // addToWhiteList
+    await securityToken.addToWhitelist(owner, investor);
+    let checkShareholderDetails = await securityToken.getShareholderDetails(
+      investor,
+    );
+    assert.equal(
+      checkShareholderDetails[1],
+      true,
+      'Should read true, investor has been whitelisted',
+    );
 
-  //   await makeLegalDelegate(
-  //     polyToken,
-  //     customers,
-  //     kycProvider,
-  //     legalDelegate,
-  //     expiryTime,
-  //     pk_2,
-  //   );
+    // addToBlackList
+    await securityToken.addToBlacklist(owner, investor);
+    checkShareholderDetails = await securityToken.getShareholderDetails(
+      investor,
+    );
+    assert.equal(
+      checkShareholderDetails[1],
+      false,
+      'Should read false, investor has been blacklisted',
+    );
+  });
 
-  //   const templateAddress = (await makeTemplateWithFinalized(
-  //     compliance,
-  //     kycProvider,
-  //     legalDelegate,
-  //     expiryTime,
-  //   )).address;
-  //   // Create the Selected Template for the SecurityToken
-  //   await makeSelectedTemplateForSecurityToken(
-  //     securityToken,
-  //     compliance,
-  //     polyToken,
-  //     owner,
-  //     legalDelegate,
-  //     kycProvider,
-  //     fakeBytes32,
-  //     templateAddress,
-  //   );
-  //   await polyToken.approve(investor, customers.address, 100);
-  //   await makeCustomer(
-  //     polyToken,
-  //     customers,
-  //     kycProvider,
-  //     investor,
-  //     1,
-  //     new BigNumber(15163975079),
-  //     pk_3,
-  //   );
-  //   // addToWhiteList
-  //   await securityToken.addToWhitelist(owner, investor);
-  //   let checkShareholderDetails = await securityToken.getShareholderDetails(
-  //     investor,
-  //   );
-  //   assert.equal(
-  //     checkShareholderDetails[1],
-  //     true,
-  //     'Should read true, investor has been whitelisted',
-  //   );
+  describe('ERC20 Functions', async () => {
+    it('getBalanceOf', async () => {
+      const balance = await securityToken.getBalanceOf(accounts[0]);
+      assert.equal(
+        balance.toNumber(),
+        1234567, // 1234567 data is taken from the make_examples.js
+        'It should equal to the totalSupply of the securityToken',
+      );
+    });
 
-  //   // addToBlackList
-  //   await securityToken.addToBlacklist(owner, investor);
-  //   checkShareholderDetails = await securityToken.getShareholderDetails(
-  //     investor,
-  //   );
-  //   assert.equal(
-  //     checkShareholderDetails[1],
-  //     false,
-  //     'Should read false, investor has been blacklisted',
-  //   );
-  // });
+    it('transfer, getAllowance, approve, transferFrom, getOfferingStatus, getSTOContractAddress, getPolyAllocationDetails, withdrawPoly, voteTofreeze, startSecurityTokenOffering', async () => {
+      const owner = accounts[0];
+      const legalDelegate = accounts[2];
+      const kycProvider = accounts[1];
+      const investor = accounts[3];
 
-  // describe('ERC20 Functions', async () => {
-  //   it('getBalanceOf', async () => {
-  //     const balance = await securityToken.getBalanceOf(accounts[0]);
-  //     assert.equal(
-  //       balance.toNumber(),
-  //       1234567, // 1234567 data is taken from the make_examples.js
-  //       'It should equal to the totalSupply of the securityToken',
-  //     );
-  //   });
+      // STO variables
+      const auditor = accounts[4];
+      const startTime = new BigNumber(
+        web3.eth.getBlock('latest').timestamp,
+      ).plus(200);
 
-  //   it('transfer, getAllowance, approve, transferFrom, getOfferingStatus, getSTOContractAddress, getPolyAllocationDetails, withdrawPoly, voteTofreeze, startSecurityTokenOffering', async () => {
-  //     const owner = accounts[0];
-  //     const legalDelegate = accounts[2];
-  //     const kycProvider = accounts[1];
-  //     const investor = accounts[3];
-  //     // const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
-  //     // STO variables
-  //     const auditor = accounts[4];
-  //     const startTime = new BigNumber(
-  //       web3.eth.getBlock('latest').timestamp,
-  //     ).plus(200);
+      const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(
+        2592000,
+      ); // 1 Month duration
 
-  //     const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(
-  //       2592000,
-  //     ); // 1 Month duration
+      await makeKYCProvider(customers, kycProvider);
+      await makeLegalDelegate(
+        polyToken,
+        customers,
+        kycProvider,
+        legalDelegate,
+        expiryTime,
+        pk_2,
+      );
+      const templateAddress = (await makeTemplateWithFinalized(
+        compliance,
+        kycProvider,
+        legalDelegate,
+        expiryTime,
+      )).address;
 
-  //     await makeKYCProvider(customers, kycProvider);
+      await makeSelectedTemplateForSecurityToken(
+        securityToken,
+        compliance,
+        polyToken,
+        owner,
+        legalDelegate,
+        kycProvider,
+        fakeBytes32,
+        templateAddress,
+      );
 
-  //     await makeLegalDelegate(
-  //       polyToken,
-  //       customers,
-  //       kycProvider,
-  //       legalDelegate,
-  //       expiryTime,
-  //       pk_2,
-  //     );
+      await makeCustomer(
+        polyToken,
+        customers,
+        kycProvider,
+        auditor,
+        1,
+        expiryTime,
+        pk_4,
+      );
+      // Create the offering Contract
+      const offeringFactory = await makeProposedOfferingFactory(
+        web3Wrapper,
+        securityToken,
+        compliance,
+        auditor,
+      );
 
-  //     const templateAddress = (await makeTemplateWithFinalized(
-  //       compliance,
-  //       kycProvider,
-  //       legalDelegate,
-  //       expiryTime,
-  //     )).address;
-  //     await makeSelectedTemplateForSecurityToken(
-  //       securityToken,
-  //       compliance,
-  //       polyToken,
-  //       owner,
-  //       legalDelegate,
-  //       kycProvider,
-  //       fakeBytes32,
-  //       templateAddress,
-  //     );
-  //     await polyToken.approve(auditor, customers.address, 100);
+      await polyToken.transfer(
+        owner,
+        securityToken.address,
+        new BigNumber(100).times(new BigNumber(10).pow(18)),
+      );
 
-  //     await makeCustomer(
-  //       polyToken,
-  //       customers,
-  //       kycProvider,
-  //       auditor,
-  //       1,
-  //       new BigNumber(15163975079),
-  //       pk_4,
-  //     );
+      await securityToken.selectOfferingFactory(legalDelegate, 0);
 
-  //     // Create the offering Contract
-  //     const offeringFactory = await makeProposedOfferingFactory(
-  //       web3Wrapper,
-  //       polyToken,
-  //       securityToken,
-  //       compliance,
-  //     );
+      assert.equal(
+        await securityToken.getOfferingFactoryAddress(),
+        offeringFactory.address,
+        'It should equal to the Offering address that just created and select as the offeringFactory contract of securityToken',
+      );
+      // Start the offering
+      await securityToken.initialiseOffering(
+        owner,
+        startTime,
+        endTime,
+        polytokenRate,
+        maxPoly,
+      );
+      // getOfferingContractAddress
+      const offeringAddress = await securityToken.getOfferingAddress();
+      assert.equal(
+        await securityToken.getBalanceOf(offeringAddress),
+        1234567,
+        'It Should equal to the totalsupply of the securityToken',
+      );
+      await makeCustomer(
+        polyToken,
+        customers,
+        kycProvider,
+        investor,
+        1,
+        expiryTime,
+        pk_3,
+      );
 
-  //     await securityToken.selectOfferingFactory(legalDelegate, 0);
+      await securityToken.addToWhitelist(owner, investor);
 
-  //     assert.equal(
-  //       await securityToken.getOfferingFactoryAddress(),
-  //       offeringFactory.address,
-  //       'It should equal to the Offering address that just created and select as the offeringFactory contract of securityToken',
-  //     );
-  //     // Start the offering
-  //     await securityToken.initialiseOffering(
-  //       owner,
-  //       startTime,
-  //       endTime,
-  //       polytokenRate,
-  //       maxPoly,
-  //     );
-  //     // getOfferingContractAddress
-  //     const offeringAddress = await securityToken.getOfferingAddress();
-  //     assert.equal(
-  //       await securityToken.getBalanceOf(offeringAddress),
-  //       1234567,
-  //       'It Should equal to the totalsupply of the securityToken',
-  //     );
+      let checkShareholderDetails = await securityToken.getShareholderDetails(
+        investor,
+      );
+      assert.equal(
+        checkShareholderDetails[1],
+        true,
+        'Should read true, investor has been whitelisted',
+      );
+      await polyToken.approve(
+        investor,
+        securityToken.address,
+        new BigNumber(10000).times(new BigNumber(10).pow(18)),
+      );
+      await increaseTime(1000); // Time Jump of 1000 seconds to reach beyond the sto start date
+      // Bought Security Token using POLY
+      const offering = await makeSecurityTokenOffering(
+        web3Wrapper,
+        offeringAddress,
+      );
+      await offering.buy(
+        investor,
+        new BigNumber(10000).times(new BigNumber(10).pow(18)),
+      );
+      assert.equal(
+        (await securityToken.getBalanceOf(investor)).toNumber(),
+        100,
+        'Balance of the investor should be eqaul to 100',
+      );
+      // Whitelisting the address
+      await securityToken.addToWhitelist(owner, auditor);
+      checkShareholderDetails = await securityToken.getShareholderDetails(
+        auditor,
+      );
+      assert.equal(
+        checkShareholderDetails[1],
+        true,
+        'Should read true, investor has been whitelisted',
+      );
 
-  //     await polyToken.approve(investor, customers.address, 100);
-  //     await makeCustomer(
-  //       polyToken,
-  //       customers,
-  //       kycProvider,
-  //       investor,
-  //       1,
-  //       new BigNumber(15163975079),
-  //       pk_3,
-  //     );
+      // transfer
+      await securityToken.transfer(investor, auditor, 20);
 
-  //     await securityToken.addToWhitelist(owner, investor);
+      // getBalanceOf
+      assert.equal(
+        (await securityToken.getBalanceOf(auditor)).toNumber(),
+        20,
+        'Balance of the auditor should be eqaul to 20',
+      );
 
-  //     let checkShareholderDetails = await securityToken.getShareholderDetails(
-  //       investor,
-  //     );
-  //     assert.equal(
-  //       checkShareholderDetails[1],
-  //       true,
-  //       'Should read true, investor has been whitelisted',
-  //     );
-  //     await polyToken.approve(investor, securityToken.address, 10000);
-  //     await increaseTime(1000); // Time Jump of 1000 seconds to reach beyond the sto start date
+      // approve
+      await securityToken.approve(auditor, accounts[5], 10);
 
-  //     // Bought Security Token using POLY
-  //     const offering = cappedOffering.at(offeringAddress);
-  //     await offering.buy(
-  //       investor,
-  //       new BigNumber(10000).times(new BigNumber(10).pow(18)),
-  //     );
-  //     assert.equal(
-  //       (await securityToken.getBalanceOf(investor)).toNumber(),
-  //       100,
-  //       'Balance of the investor should be eqaul to 100',
-  //     );
+      // getAllowance()
+      assert.equal(
+        (await securityToken.getAllowance(auditor, accounts[5])).toNumber(),
+        10,
+        'Allowance should be 10 security tokens',
+      );
 
-  //     // Whitelisting the address
-  //     await securityToken.addToWhitelist(owner, auditor);
-  //     checkShareholderDetails = await securityToken.getShareholderDetails(
-  //       auditor,
-  //     );
-  //     assert.equal(
-  //       checkShareholderDetails[1],
-  //       true,
-  //       'Should read true, investor has been whitelisted',
-  //     );
+      // transferFrom
+      await securityToken.transferFrom(auditor, investor, accounts[5], 5);
+      assert.equal(
+        (await securityToken.getBalanceOf(investor)).toNumber(),
+        85,
+        'Balance of investor should equal to 85',
+      );
 
-  //     // transfer
-  //     await securityToken.transfer(investor, auditor, 20);
+      // voteToFreeze
+      await increaseTime(2592000 + 100); // time jump to reach the endSTO timestamp
+      await securityToken.voteToFreeze(investor, auditor);
+      const allocationDetailsOfAuditor = await securityToken.getPolyAllocationDetails(
+        auditor,
+      );
+      assert.isTrue(
+        allocationDetailsOfAuditor[5],
+        'Freeze variable of the Allocation array should be true after vote freeze',
+      );
 
-  //     // getBalanceOf
-  //     assert.equal(
-  //       (await securityToken.getBalanceOf(auditor)).toNumber(),
-  //       20,
-  //       'Balance of the auditor should be eqaul to 20',
-  //     );
-
-  //     // approve
-  //     await securityToken.approve(auditor, accounts[5], 10);
-
-  //     // getAllowance()
-  //     assert.equal(
-  //       (await securityToken.getAllowance(auditor, accounts[5])).toNumber(),
-  //       10,
-  //       'Allowance should be 10 security tokens',
-  //     );
-
-  //     // transferFrom
-  //     await securityToken.transferFrom(auditor, investor, accounts[5], 5);
-  //     assert.equal(
-  //       (await securityToken.getBalanceOf(investor)).toNumber(),
-  //       85,
-  //       'Balance of investor should equal to 85',
-  //     );
-
-  //     // voteToFreeze
-  //     await increaseTime(2592000 + 100); // time jump to reach the endSTO timestamp
-  //     await securityToken.voteToFreeze(investor, auditor);
-  //     const allocationDetailsOfAuditor = await securityToken.getPolyAllocationDetails(
-  //       auditor,
-  //     );
-  //     assert.isTrue(
-  //       allocationDetailsOfAuditor[5],
-  //       'Freeze variable of the Allocation array should be true after vote freeze',
-  //     );
-
-  //     // withdrawPoly
-  //     await increaseTime(9888888 + 1000); // time jump to reach the vesting period
-  //     const status = await securityToken.withdrawPoly(legalDelegate);
-  //     assert.isTrue(
-  //       status,
-  //       'Status should be true after successing the withdraw',
-  //     );
-  //   });
-  // });
+      // withdrawPoly
+      await increaseTime(9888888 + 1000); // time jump to reach the vesting period
+      const status = await securityToken.withdrawPoly(legalDelegate);
+      assert.isTrue(
+        status,
+        'Status should be true after successing the withdraw',
+      );
+    });
+  });
 
   // it('subscribe, unsubscribe, unsubscribeAll, getLogs', async () => {
   //   // Subscribtion setup
