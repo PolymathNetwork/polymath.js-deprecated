@@ -165,12 +165,13 @@ export default class Compliance extends ContractWrapper {
     legalDelegateAddress: string,
     securityTokenAddress: string,
     templateAddress: string,
-  ) {
+  ): Promise<string> {
+    console.log(securityTokenAddress, templateAddress);
     await this._contract.proposeTemplate(
       securityTokenAddress,
       templateAddress,
       {
-        gas: 1000000,
+        gas: 4000000,
         from: legalDelegateAddress,
       },
     );
@@ -333,11 +334,10 @@ export default class Compliance extends ContractWrapper {
     templateAddress: string,
   ): Promise<TemplateReputation> {
     const template = await this._contract.templates.call(templateAddress);
+    console.log(template);
     return {
-      owner: template[0],
-      totalRaised: template[1],
-      timesUsed: template[2],
-      expires: template[3],
+      totalRaised: template[0],
+      usedBy: template[1],
     };
   }
 

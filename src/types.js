@@ -130,10 +130,8 @@ export type CustomersEventArgs = LogNewProviderArgs | LogCustomerVerifiedArgs;
  * TemplateReputation struct from Compliance.sol
  */
 export type TemplateReputation = {
-  owner: string,
   totalRaised: BigNumber,
-  timesUsed: BigNumber,
-  expires: BigNumber,
+  usedBy: Array<string>,
 };
 
 /**
