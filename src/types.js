@@ -266,7 +266,7 @@ export type LogOfferingFactorySet = {
  */
 export type LogOfferingStarted = {
   _offeringFactory: string,
-  _owner: string, 
+  _owner: string,
   _startTime: BigNumber,
   _endTime: BigNumber,
   _fxPolyToken: BigNumber

@@ -166,7 +166,6 @@ export default class Compliance extends ContractWrapper {
     securityTokenAddress: string,
     templateAddress: string,
   ): Promise<string> {
-    console.log(securityTokenAddress, templateAddress);
     await this._contract.proposeTemplate(
       securityTokenAddress,
       templateAddress,
@@ -197,7 +196,7 @@ export default class Compliance extends ContractWrapper {
 
   /**
    * Set an STO contract factory to be stored in the offeringsFactories mapping in Compliance.sol
-   * @param factoryAddress Address of the factory 
+   * @param factoryAddress Address of the factory
    * @param factoryCreatorAddress Address of the factory creator
    */
   async registerOfferingFactory(
@@ -332,12 +331,12 @@ export default class Compliance extends ContractWrapper {
    */
   async getTemplateReputation(
     templateAddress: string,
-  ): Promise<TemplateReputation> {
+  ): BigNumber {
     const template = await this._contract.templates.call(templateAddress);
-    console.log(template);
     return {
-      totalRaised: template[0],
-      usedBy: template[1],
+      template
+      // totalRaised: template[0],
+      // usedBy: template[1],
     };
   }
 

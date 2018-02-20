@@ -186,7 +186,6 @@ describe('Compliance wrapper', () => {
       templateAddress,
       'Template address does not match the logged version',
     );
-    console.log('Testing 123');
     const logNewTemplateProposal = await logNewTemplateProposalArgsPromise;
     assert.equal(
       logNewTemplateProposal._securityToken,
@@ -198,10 +197,12 @@ describe('Compliance wrapper', () => {
     const templateReputation = await compliance.getTemplateReputation(
       templateAddress,
     );
-    assert.isAbove(
-      templateReputation.usedBy.length,
-      1,
-      `TemplateReputation not stored or read properly`,
+    let templateReputationReturnedTotalRaised = templateReputation.template.toNumber()
+
+    assert.equal(
+      templateReputationReturnedTotalRaised,
+      0,
+      `TemplateReputation should read 0 becuase none has been raised yet`,
     );
 
     // Get Template Address By Proposal
@@ -251,10 +252,10 @@ describe('Compliance wrapper', () => {
     await compliance.unsubscribeAll();
   });
 
-  // it('getMinimumVestingPeriod', async () => {
-  //   let minimum = await compliance.getMinimumVestingPeriod();
-  //   assert.equal(minimum, 60 * 60 * 24 * 100, "Does not equal 100 days, when it should")
-  // })
+  it('getMinimumVestingPeriod', async () => {
+    let minimum = await compliance.getMinimumVestingPeriod();
+    assert.equal(minimum, 60 * 60 * 24 * 100, "Does not equal 100 days, when it should")
+  })
 
   // it('setSTO, proposeSTO, cancleSTO, getSTOProposal, getSTOAddressByProposal, getAllOfferingProposals', async () => {
 
