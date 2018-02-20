@@ -460,9 +460,12 @@ export async function makeSelectedTemplateForSecurityToken(
 
 export async function makeSecurityTokenOffering(
   web3Wrapper: Web3Wrapper,
+  securityToken: SecurityToken,
   offeringAddress: string,
+
 ) {
-  const offering = new SimpleCappedOffering(web3Wrapper, offeringAddress);
+
+  const offering = new SimpleCappedOffering(web3Wrapper, securityToken, offeringAddress);
   await offering.initialize();
   return offering;
 }

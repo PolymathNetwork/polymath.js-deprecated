@@ -10,14 +10,14 @@ import type {
      SimpleCappedOfferingEventArgs,
      IndexedFilterValues,
      EventCallback,
-     BlockRange 
+     BlockRange
 } from '../types';
 
 /**
  * Wrapper for the SimpleCappedOffering Solidity contract
  */
 export default class SimpleCappedOffering extends ContractWrapper {
-  securityToken: SecurityToken;
+  // securityToken: SecurityToken;
   /**
    * @hideconstructor
    */
