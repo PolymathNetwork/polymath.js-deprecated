@@ -308,7 +308,6 @@ export default class Compliance extends ContractWrapper {
    */
   async getAllOfferingFactoryProposals(
     securityTokenAddress: string,
-    offeringIndex: string,
   ): Promise<Array<string>> {
     const proposal = await this._contract.getAllOfferingFactoryProposals(
       securityTokenAddress,
@@ -329,12 +328,28 @@ export default class Compliance extends ContractWrapper {
    * @param   templateAddress  Ethereum address of the template on the EVM
    * @return  The type {@link TemplateReputation}.
    */
-  async getTemplateReputation(
-    templateAddress: string,
-  ): BigNumber {
+  async getTemplateReputation(templateAddress: string): BigNumber {
     const template = await this._contract.templates.call(templateAddress);
     return {
-      template
+      template,
+      // totalRaised: template[0],
+      // usedBy: template[1],
+    };
+  }
+
+  /**
+   * Get the Template reputation details.
+   * @param   OfferingFactoryAddress  Ethereum address of the OfferingFactory on the EVM
+   * @return  The type {@link OfferingFactoryReputation}.
+   */
+  async getOfferingFactoryReputation(
+    OfferingFactoryAddress: string,
+  ): BigNumber {
+    const offeringFactory = await this._contract.offeringFactories.call(
+      OfferingFactoryAddress,
+    );
+    return {
+      offeringFactory,
       // totalRaised: template[0],
       // usedBy: template[1],
     };

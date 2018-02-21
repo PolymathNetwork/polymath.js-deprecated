@@ -469,3 +469,4 @@ export async function makeSecurityTokenOffering(
   await offering.initialize();
   return offering;
 }
+

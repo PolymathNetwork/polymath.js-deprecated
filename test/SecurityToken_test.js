@@ -520,7 +520,7 @@ describe('SecurityToken wrapper', () => {
       );
       await offering.buy(
         investor,
-        10000 // because fx is set to 100, we need to contribute 10000 POLY to get 100 back of the security token
+        10000, // because fx is set to 100, we need to contribute 10000 POLY to get 100 back of the security token
       );
       assert.equal(
         (await securityToken.getBalanceOf(investor)).toNumber(),

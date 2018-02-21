@@ -11,9 +11,11 @@ import {
   makeKYCProvider,
   makeLegalDelegate,
   makeTemplate,
+  makeCustomer,
   makeSecurityToken,
   makeSecurityTokenRegistrar,
   makeTemplateWithFinalized,
+  makeProposedOfferingFactory,
   makeSecurityTokenThroughRegistrar,
   makeSelectedTemplateForSecurityToken,
   makeSecurityTokenOffering,
@@ -197,7 +199,7 @@ describe('Compliance wrapper', () => {
     const templateReputation = await compliance.getTemplateReputation(
       templateAddress,
     );
-    let templateReputationReturnedTotalRaised = templateReputation.template.toNumber()
+    let templateReputationReturnedTotalRaised = templateReputation.template.toNumber();
 
     assert.equal(
       templateReputationReturnedTotalRaised,
@@ -253,132 +255,100 @@ describe('Compliance wrapper', () => {
   });
 
   it('getMinimumVestingPeriod', async () => {
-    let minimum = await compliance.getMinimumVestingPeriod();
-    assert.equal(minimum, 60 * 60 * 24 * 100, "Does not equal 100 days, when it should")
-  })
+    const minimum = await compliance.getMinimumVestingPeriod();
+    assert.equal(
+      minimum,
+      60 * 60 * 24 * 100,
+      `Does not equal 100 days, when it should`,
+    );
+  });
 
-  // it('setSTO, proposeSTO, cancleSTO, getSTOProposal, getSTOAddressByProposal, getAllOfferingProposals', async () => {
+  it('registerOfferingFactory, proposeOfferingFactory, cancelOfferingFactoryProposal, getOfferingFactoryByProposal, getAllOfferingFactoryProposals', async () => {
+    // STO variables
+    const auditor = accounts[4];
 
-  //   //subscribtion setup
-  //   let subscriptionID3 = null;
-  //   const eventName3 = 'LogNewContractProposal';
-  //   const indexedFilterValues3 = ["_securityToken"];
+    await makeKYCProvider(customers, KYCProvider);
 
-  //   //the callback is passed into the filter.watch function, and is operated on when a new event comes in
-  //   const logNewContractProposalArgsPromise = new Promise((resolve, reject) => {
+    await makeLegalDelegate(
+      polyToken,
+      customers,
+      KYCProvider,
+      legalDelegate,
+      expiryTime,
+      pk_2,
+    );
+    const templateAddress = (await makeTemplateWithFinalized(
+      compliance,
+      KYCProvider,
+      legalDelegate,
+      expiryTime,
+    )).address;
 
-  //     subscriptionID3 = compliance.subscribe(eventName3, indexedFilterValues3, (err, log) => {
-  //       if (err !== null) {
-  //         reject(err);
-  //         return;
-  //       }
-  //       resolve(log.args);
-  //     });
-  //   });
+    await makeSelectedTemplateForSecurityToken(
+      securityToken,
+      compliance,
+      polyToken,
+      owner,
+      legalDelegate,
+      KYCProvider,
+      fakeBytes32,
+      templateAddress,
+    );
 
+    await makeCustomer(
+      polyToken,
+      customers,
+      KYCProvider,
+      auditor,
+      1,
+      expiryTime,
+      pk_4,
+    );
 
+    // This make example does registerOfferingFactory and proposeOfferingFactory, and we will test below
+    await makeProposedOfferingFactory(
+      web3Wrapper,
+      securityToken,
+      compliance,
+      auditor,
+    );
 
-  //   //subscribtion setup
-  //   let subscriptionID5 = null;
-  //   const eventName5 = 'LogCancelContractProposal';
-  //   const indexedFilterValues5 = ["_securityToken"];
+    const offeringAddress = await compliance.getOfferingFactoryByProposal(
+      securityToken.address,
+      0,
+    );
+    assert.isAbove(
+      offeringAddress.length,
+      20,
+      'It should be the address of the offering contract',
+    );
 
-  //   //the callback is passed into the filter.watch function, and is operated on when a new event comes in
-  //   const logCancleContractProposalArgsPromise = new Promise((resolve, reject) => {
+    const allFactoryProposal = await compliance.getAllOfferingFactoryProposals(
+      securityToken.address,
+    );
 
-  //     subscriptionID5 = compliance.subscribe(eventName5, indexedFilterValues5, (err, log) => {
-  //       if (err !== null) {
-  //         reject(err);
-  //         return;
-  //       }
-  //       resolve(log.args);
-  //     });
-  //   });
+    assert.equal(
+      allFactoryProposal.length,
+      1,
+      'Factory contract should be added in the offeringFactoryProposal mapping',
+    );
 
+    assert.equal(allFactoryProposal[0], offeringAddress);
 
-  //   const owner = accounts[0];
-  //   const legalDelegate = accounts[2];
-  //   const kycProvider = accounts[1];
+    // Cancel Proposal
+    await compliance.cancelOfferingFactoryProposal(
+      auditor,
+      securityToken.address,
+      0,
+    );
 
+    const cancelledAddress = await compliance.getOfferingFactoryByProposal(
+      securityToken.address,
+      0,
+    );
 
-  //   // STO variables
-  //   const auditor = accounts[4];
-  //   const startTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(200);
-  //   const endTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(2592000);
-
-
-  //   await makeKYCProvider(customers, kycProvider);
-
-  //   await makeLegalDelegate(polyToken, customers, accounts[1], accounts[2], expiryTime);
-  //   const templateAddress = (await makeTemplateWithFinalized(
-  //     compliance,
-  //     kycProvider,
-  //     legalDelegate,
-  //     expiryTime,
-  //   )).address;
-
-  //   await makeSelectedTemplateForSecurityToken(
-  //     securityToken,
-  //     compliance,
-  //     polyToken,
-  //     owner,
-  //     legalDelegate,
-  //     kycProvider,
-  //     fakeBytes32,
-  //     templateAddress,
-  //   );
-
-  //   await polyToken.approve(auditor, customers.address, 100);
-
-  //   await customers.verifyCustomer(
-  //     kycProvider,
-  //     auditor,
-  //     'US',
-  //     'CA',
-  //     'investor',
-  //     true,
-  //     new BigNumber(15163975079),
-  //   );
-
-  //   //this make example does setSTO and proposeSTO, and we will test below
-  //   const offering = await makeSecurityTokenOffering(
-  //     web3Wrapper,
-  //     polyToken,
-  //     securityToken,
-  //     compliance,
-  //     auditor,
-  //     startTime,
-  //     endTime,
-  //   );
-
-
-  //   let logNewContractProposal = await logNewContractProposalArgsPromise;
-  //   assert.equal(logNewContractProposal._delegate, auditor, 'legal delegate not picked up from LogNewProposal event') //needs to be renamed from core
-
-  //   let getSTO = await compliance.getSTOProposal(securityToken.address, 0)
-  //   assert.equal(getSTO.auditorAddress, auditor, "Auditor address not read properly");
-
-  //   //to confirm proposeSTO worked, we check offeringProposals, which is getSTOAddress by proposal
-  //   let getSTOProposal = await compliance.getSTOAddressByProposal(securityToken.address, 0)
-  //   assert.equal(getSTOProposal, getSTO.stoContractAddress, "STO address not read properly");
-
-  //   let getAllOfferings = await compliance.getAllOfferingProposals(securityToken.address, 0)
-  //   assert.equal(getAllOfferings[0], getSTO.stoContractAddress, "STO array of addresses not read properly");
-
-
-  //   // Cancel Proposal
-  //   await compliance.cancelSTOProposal(auditor, securityToken.address, 0);
-
-  //   let logCancleContractProposal = await logCancleContractProposalArgsPromise;
-  //   assert.equal(logNewContractProposal._securityToken, securityToken.address, 'ST address not picked up from LogCancleContractProposal event') //needs to be renamed from core
-
-
-  //   const addressShouldBeZero = await compliance.getSTOAddressByProposal(securityToken.address, 0)
-  //   assert.equal(addressShouldBeZero, 0, 'Proposal did not return zero, which it should have for being cancelled');
-
-  //   await compliance.unsubscribe(subscriptionID3);
-  //   await compliance.unsubscribe(subscriptionID5);
-  // })
+    assert.equal(cancelledAddress, 0x0);
+  });
 
   // it('LogTemplateCreated event test, subscribe, unsubscribe', async () => {
 
