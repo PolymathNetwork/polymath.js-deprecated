@@ -3,22 +3,23 @@ import chai from 'chai';
 import 'mocha';
 
 import { makePolyToken } from './util/make_examples';
-import { makeWeb3Wrapper } from './util/web3';
+import { makeWeb3 } from './util/web3';
+import getAccounts from './util/getAccounts';
 
 const { assert } = chai;
 
 describe('PolyToken wrapper', () => {
-  const web3Wrapper = makeWeb3Wrapper();
+  const web3 = makeWeb3();
 
   let accounts;
   let polyToken;
 
   before(async () => {
-    accounts = await web3Wrapper.getAvailableAddressesAsync();
+    accounts = await getAccounts(web3);
   });
 
   beforeEach(async () => {
-    polyToken = await makePolyToken(web3Wrapper, accounts[0]);
+    polyToken = await makePolyToken(web3, accounts[0]);
   });
 
   it('getTotalSupply', async () => {

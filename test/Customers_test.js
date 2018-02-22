@@ -3,13 +3,13 @@ import chai from 'chai';
 import 'mocha';
 
 import { makeCustomers, makePolyToken, makeKYCProvider } from './util/make_examples';
-import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
+import { makeWeb3 } from './util/web3';
 import { fakeAddress } from './util/fake';
+import getAccounts from './util/getAccounts';
 
 const { assert } = chai;
 
 describe('Customers wrapper', () => {
-  const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
   const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
   let accounts;
@@ -17,12 +17,12 @@ describe('Customers wrapper', () => {
   let customers;
 
   before(async () => {
-    accounts = await web3Wrapper.getAvailableAddressesAsync();
+    accounts = await getAccounts(web3);
   });
 
   beforeEach(async () => {
-    polyToken = await makePolyToken(web3Wrapper, accounts[0]);
-    customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
+    polyToken = await makePolyToken(web3, accounts[0]);
+    customers = await makeCustomers(web3, polyToken, accounts[0]);
 
     // Fund three accounts.
     await polyToken.generateNewTokens(

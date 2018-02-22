@@ -18,13 +18,13 @@ import {
   makeSelectedTemplateForSecurityToken,
   makeSecurityTokenOffering,
 } from './util/make_examples';
-import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
+import { makeWeb3 } from './util/web3';
 import { fakeAddress, fakeBytes32 } from './util/fake';
+import getAccounts from './util/getAccounts';
 
 const { assert } = chai;
 
 describe('Compliance wrapper', () => {
-  const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
   const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
@@ -39,18 +39,18 @@ describe('Compliance wrapper', () => {
     //accounts[0] = owner
     //accounts[1] = kyc
     //accounts[2] = legal delegate
-
-    accounts = await web3Wrapper.getAvailableAddressesAsync();
+    //
+    accounts = await getAccounts(web3);
   });
 
   beforeEach(async () => {
-    polyToken = await makePolyToken(web3Wrapper, accounts[0]);
-    customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
-    compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
+    polyToken = await makePolyToken(web3, accounts[0]);
+    customers = await makeCustomers(web3, polyToken, accounts[0]);
+    compliance = await makeCompliance(web3, customers, accounts[0]);
 
 
     securityToken = await makeSecurityTokenThroughRegistrar(
-      web3Wrapper,
+      web3,
       polyToken,
       customers,
       compliance,
@@ -266,7 +266,7 @@ describe('Compliance wrapper', () => {
 
     //this make example does setSTO and proposeSTO, and we will test below
     const offering = await makeSecurityTokenOffering(
-      web3Wrapper,
+      web3,
       polyToken,
       securityToken,
       compliance,

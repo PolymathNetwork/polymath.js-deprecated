@@ -2,7 +2,7 @@
 
 import contract from 'truffle-contract';
 import uuid from 'uuid/v4';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
+import Web3 from 'web3';
 
 import type {
   BlockRange,
@@ -16,7 +16,7 @@ import type {
  * ContractWrapper is the base class for all contract wrappers in this library.
  */
 export default class ContractWrapper {
-  _web3Wrapper: Web3Wrapper;
+  _web3: Web3;
 
   _contractTemplate: any;
   _contractAddress: ?string;
@@ -32,14 +32,14 @@ export default class ContractWrapper {
    * @hideconstructor
    */
   constructor(
-    web3Wrapper: Web3Wrapper,
+    web3: Web3,
     artifact: any,
     deployedAddress?: string,
   ) {
-    this._web3Wrapper = web3Wrapper;
+    this._web3 = web3;
 
     this._contractTemplate = contract(artifact);
-    this._contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+    this._contractTemplate.setProvider(web3.currentProvider);
     this._contractAddress = deployedAddress;
 
     this._filters = {};
