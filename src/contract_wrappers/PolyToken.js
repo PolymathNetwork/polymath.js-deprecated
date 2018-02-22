@@ -1,7 +1,6 @@
 // @flow
 
 import BigNumber from 'bignumber.js';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 import ContractWrapper from './ContractWrapper';
 import polyTokenArtifact from '../artifacts/PolyTokenMock.json';
@@ -20,8 +19,8 @@ export default class PolyToken extends ContractWrapper {
   /**
    * @hideconstructor
    */
-  constructor(web3Wrapper: Web3Wrapper, deployedAddress?: string) {
-    super(web3Wrapper, polyTokenArtifact, deployedAddress);
+  constructor(web3: Web3, deployedAddress?: string) {
+    super(web3, polyTokenArtifact, deployedAddress);
   }
 
   /**

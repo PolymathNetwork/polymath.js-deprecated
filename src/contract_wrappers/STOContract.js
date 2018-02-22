@@ -1,15 +1,14 @@
 // @flow
 
 import BigNumber from 'bignumber.js';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
+import Web3 from 'web3';
+
 import {
   EventCallback,
   IndexedFilterValues,
   STOContractEventArgs,
 } from '../types';
-
 import ContractWrapper from './ContractWrapper';
-
 import securityTokenOfferingArtifact from '../artifacts/STOContract.json';
 
 /*NOTE - KEEP ALL COMMENTS NORMAL, i.e. NO DOUBLE STAR. THIS FILE DOES NOT NEED TO BE PICKED UP BY DOCUMENTATION.js
@@ -20,12 +19,12 @@ export default class STOContract extends ContractWrapper {
    * @hideconstructor
    */
   constructor(
-    web3Wrapper: Web3Wrapper,
+    web3: Web3,
     polyToken: string,
     owner: string,
     deployedAddress: string,
   ) {
-    super(web3Wrapper, securityTokenOfferingArtifact, deployedAddress);
+    super(web3, securityTokenOfferingArtifact, deployedAddress);
 
     this.POLY = polyToken;
     this.owner = owner;

@@ -2,7 +2,7 @@
 
 import BigNumber from 'bignumber.js';
 import contract from 'truffle-contract';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
+import Web3 from 'web3';
 
 import {
   Compliance,
@@ -21,59 +21,59 @@ import securityTokenRegistrarArtifact from '../../src/artifacts/SecurityTokenReg
 import TemplateArtifact from '../../src/artifacts/Template.json';
 import securityTokenOfferingArtifact from '../../src/artifacts/STOContract.json';
 
-export async function makePolyToken(web3Wrapper: Web3Wrapper, account: string) {
+export async function makePolyToken(web3: Web3, account: string) {
   const contractTemplate = contract(polyTokenArtifact);
-  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  contractTemplate.setProvider(web3.currentProvider);
   const instance = await contractTemplate.new({ gas: 6000000, from: account });
 
-  const polyToken = new PolyToken(web3Wrapper, instance.address);
+  const polyToken = new PolyToken(web3, instance.address);
   await polyToken.initialize();
   return polyToken;
 }
 
 export async function makeCustomers(
-  web3Wrapper: Web3Wrapper,
+  web3: Web3,
   polyToken: PolyToken,
   account: string,
 ) {
   const contractTemplate = contract(customersArtifact);
-  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  contractTemplate.setProvider(web3.currentProvider);
   const instance = await contractTemplate.new(polyToken.address, {
     gas: 6000000,
     from: account,
   });
 
-  const customers = new Customers(web3Wrapper, polyToken, instance.address);
+  const customers = new Customers(web3, polyToken, instance.address);
   await customers.initialize();
   return customers;
 }
 
 export async function makeCompliance(
-  web3Wrapper: Web3Wrapper,
+  web3: Web3,
   customers: Customers,
   account: string,
 ) {
   const contractTemplate = contract(complianceArtifact);
-  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  contractTemplate.setProvider(web3.currentProvider);
   const instance = await contractTemplate.new(customers.address, {
     from: account,
     gas: 6000000,
   });
 
-  const compliance = new Compliance(web3Wrapper, instance.address);
+  const compliance = new Compliance(web3, instance.address);
   await compliance.initialize();
   return compliance;
 }
 
 export async function makeSecurityToken(
-  web3Wrapper: Web3Wrapper,
+  web3: Web3,
   polyToken: PolyToken,
   customers: Customers,
   compliance: Compliance,
   account: string,
 ) {
   const securityTokenTemplate = contract(securityTokenArtifact);
-  securityTokenTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  securityTokenTemplate.setProvider(web3.currentProvider);
   const instance = await securityTokenTemplate.new(
     'Token Name',
     'TONA',
@@ -93,7 +93,7 @@ export async function makeSecurityToken(
   );
 
   const securityToken = new SecurityToken(
-    web3Wrapper,
+    web3,
     instance.address,
   );
   await securityToken.initialize();
@@ -184,7 +184,7 @@ export const makeTemplateWithFinalized = async (
 };
 
 export async function makeTemplateDirectCall(
-  web3Wrapper: Web3Wrapper,
+  web3: Web3,
   owner: string,
   offeringType: string,
   issuerJurisdiction: string,
@@ -197,7 +197,7 @@ export async function makeTemplateDirectCall(
   vestingPeriod: number,
 ) {
   const contractTemplate = contract(TemplateArtifact);
-  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  contractTemplate.setProvider(web3.currentProvider);
   const instance = await contractTemplate.new(
     owner,
     offeringType,
@@ -214,21 +214,21 @@ export async function makeTemplateDirectCall(
       from: owner,
     },
   );
-  const template = new Template(web3Wrapper, instance.address);
+  const template = new Template(web3, instance.address);
 
   await template.initialize();
   return template;
 }
 
 export async function makeSecurityTokenRegistrar(
-  web3Wrapper: Web3Wrapper,
+  web3: Web3,
   polyToken: PolyToken,
   customers: Customers,
   compliance: Compliance,
   account: string,
 ) {
   const contractTemplate = contract(securityTokenRegistrarArtifact);
-  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  contractTemplate.setProvider(web3.currentProvider);
 
   const instance = await contractTemplate.new(
     polyToken.address,
@@ -239,14 +239,14 @@ export async function makeSecurityTokenRegistrar(
       from: account,
     },
   );
-  const registrar = new SecurityTokenRegistrar(web3Wrapper, instance.address);
+  const registrar = new SecurityTokenRegistrar(web3, instance.address);
 
   await registrar.initialize();
   return registrar;
 }
 
 export async function makeSecurityTokenOffering(
-  web3Wrapper: Web3Wrapper,
+  web3: Web3,
   polyToken: PolyToken,
   securityToken: SecurityToken,
   compliance: Compliance,
@@ -256,7 +256,7 @@ export async function makeSecurityTokenOffering(
 
 ) {
   const contractTemplate = contract(securityTokenOfferingArtifact);
-  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  contractTemplate.setProvider(web3.currentProvider);
   const instance = await contractTemplate.new(polyToken.address,
   {
     gas: 15000000,
@@ -265,7 +265,7 @@ export async function makeSecurityTokenOffering(
   );
 
   const offering = new STOContract(
-    web3Wrapper,
+    web3,
     polyToken,
     auditor,
     instance.address,
@@ -297,7 +297,7 @@ export async function makeSecurityTokenOffering(
 }
 
 export async function makeSecurityTokenThroughRegistrar(
-  web3Wrapper: Web3Wrapper,
+  web3: Web3,
   polyToken: PolyToken,
   customers: Customers,
   compliance: Compliance,
@@ -306,7 +306,7 @@ export async function makeSecurityTokenThroughRegistrar(
   currentBlockTime: number,
 ) {
   const contractTemplate = contract(securityTokenRegistrarArtifact);
-  contractTemplate.setProvider(web3Wrapper.getCurrentProvider());
+  contractTemplate.setProvider(web3.currentProvider);
 
   const instance = await contractTemplate.new(
     polyToken.address,
@@ -317,7 +317,7 @@ export async function makeSecurityTokenThroughRegistrar(
       from: account,
     },
   );
-  const registrar = new SecurityTokenRegistrar(web3Wrapper, instance.address);
+  const registrar = new SecurityTokenRegistrar(web3, instance.address);
 
   await registrar.initialize();
 
@@ -370,7 +370,7 @@ export async function makeSecurityTokenThroughRegistrar(
   let securityTokenAddress = await registrar.getSecurityTokenAddress(ticker);
 
   const securityTokenThroughRegistrar = new SecurityToken(
-    web3Wrapper,
+    web3,
     securityTokenAddress,
   );
 

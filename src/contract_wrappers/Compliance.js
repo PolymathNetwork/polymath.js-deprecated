@@ -2,7 +2,6 @@
 
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 import ContractWrapper from './ContractWrapper';
 import Template from './Template';
@@ -25,10 +24,10 @@ export default class Compliance extends ContractWrapper {
    * @hideconstructor
    */
   constructor(
-    web3Wrapper: Web3Wrapper,
+    web3: Web3,
     deployedAddress?: string,
   ) {
-    super(web3Wrapper, complianceArtifact, deployedAddress);
+    super(web3, complianceArtifact, deployedAddress);
   }
 
   /**
@@ -131,7 +130,7 @@ export default class Compliance extends ContractWrapper {
    * @return The template instance
    */
   async getTemplateFromAddress(address: string): Promise<Template> {
-    const template = new Template(this._web3Wrapper, address);
+    const template = new Template(this._web3, address);
     await template.initialize();
     return template;
   }

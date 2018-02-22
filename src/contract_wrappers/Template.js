@@ -1,7 +1,6 @@
 // @flow
 
 import BigNumber from 'bignumber.js';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import Web3 from 'web3';
 
 import ContractWrapper from './ContractWrapper';
@@ -15,8 +14,8 @@ export default class Template extends ContractWrapper {
   /**
    * @hideconstructor
    */
-  constructor(web3Wrapper: Web3Wrapper, deployedAddress: string) {
-    super(web3Wrapper, templateArtifact, deployedAddress);
+  constructor(web3: Web3, deployedAddress: string) {
+    super(web3, templateArtifact, deployedAddress);
   }
 
   /**

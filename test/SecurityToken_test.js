@@ -1,5 +1,7 @@
 // @flow
 
+import { strictEqual } from 'assert';
+import { log } from 'util';
 import BigNumber from 'bignumber.js';
 import chai from 'chai';
 import { before, beforeEach, describe, it } from 'mocha';
@@ -21,16 +23,14 @@ import {
   makeTemplateWithFinalized,
   makeSecurityTokenThroughRegistrar,
 } from './util/make_examples';
-import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
+import { makeWeb3 } from './util/web3';
 import { fakeBytes32 } from './util/fake';
 import { increaseTime } from './util/time';
-import { strictEqual } from 'assert';
-import { log } from 'util';
+import getAccounts from './util/getAccounts';
 
 const { assert } = chai;
 
 describe('SecurityToken wrapper', () => {
-  const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
   let accounts;
   let polyToken: PolyToken;
@@ -40,16 +40,16 @@ describe('SecurityToken wrapper', () => {
   const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
   before(async () => {
-    accounts = await web3Wrapper.getAvailableAddressesAsync();
+    accounts = await getAccounts(web3);
   });
 
   beforeEach(async () => {
-    polyToken = await makePolyToken(web3Wrapper, accounts[0]);
-    customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
-    compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
+    polyToken = await makePolyToken(web3, accounts[0]);
+    customers = await makeCustomers(web3, polyToken, accounts[0]);
+    compliance = await makeCompliance(web3, customers, accounts[0]);
 
     securityToken = await makeSecurityTokenThroughRegistrar(
-      web3Wrapper,
+      web3,
       polyToken,
       customers,
       compliance,
@@ -285,7 +285,7 @@ describe('SecurityToken wrapper', () => {
     );
 
     const offering = await makeSecurityTokenOffering(
-      web3Wrapper,
+      web3,
       polyToken,
       securityToken,
       compliance,
@@ -436,7 +436,7 @@ describe('SecurityToken wrapper', () => {
 
       // Create the offering Contract
       const offering = await makeSecurityTokenOffering(
-        web3Wrapper,
+        web3,
         polyToken,
         securityToken,
         compliance,
@@ -814,7 +814,7 @@ describe('SecurityToken wrapper', () => {
     );
 
     const offering = await makeSecurityTokenOffering(
-      web3Wrapper,
+      web3,
       polyToken,
       securityToken,
       compliance,

@@ -2,23 +2,6 @@
 # yarn lockfile v1
 
 
-"@0xproject/utils@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@0xproject/utils/-/utils-0.1.2.tgz#450bbb4b831389ee54f07fb846c6bcfba7df29d9"
-  dependencies:
-    bignumber.js "~4.1.0"
-    js-sha3 "^0.7.0"
-    lodash "^4.17.4"
-
-"@0xproject/web3-wrapper@0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@0xproject/web3-wrapper/-/web3-wrapper-0.1.2.tgz#14576997b657a51504d3f20dd4d4f9546b8030ed"
-  dependencies:
-    "@0xproject/utils" "^0.1.2"
-    bignumber.js "~4.1.0"
-    lodash "^4.17.4"
-    web3 "^0.20.0"
-
 "@babel/code-frame@7.0.0-beta.31":
   version "7.0.0-beta.31"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.31.tgz#473d021ecc573a2cce1c07d5b509d5215f46ba35"
@@ -1113,10 +1096,6 @@ bignumber.js@5.0.0:
 "bignumber.js@git+https://github.com/frozeman/bignumber.js-nolookahead.git":
   version "2.0.7"
   resolved "git+https://github.com/frozeman/bignumber.js-nolookahead.git#57692b3ecfc98bbdd6b3a516cb2353652ea49934"
-
-bignumber.js@~4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-4.1.0.tgz#db6f14067c140bd46624815a7916c92d9b6c24b1"
 
 binary-extensions@^1.0.0:
   version "1.11.0"
@@ -3461,10 +3440,6 @@ jest-validate@^21.1.0:
 js-sha3@0.5.5:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.5.5.tgz#baf0c0e8c54ad5903447df96ade7a4a1bca79a4a"
-
-js-sha3@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.7.0.tgz#0a5c57b36f79882573b2d84051f8bb85dd1bd63a"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -6187,7 +6162,7 @@ web3@0.20.1:
     xhr2 "*"
     xmlhttprequest "*"
 
-web3@^0.20.0, web3@^0.20.1:
+web3@^0.20.1:
   version "0.20.3"
   resolved "https://registry.yarnpkg.com/web3/-/web3-0.20.3.tgz#caa44373dc8815ac8767bddb6ba73073964caa8b"
   dependencies:

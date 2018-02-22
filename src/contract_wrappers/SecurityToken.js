@@ -1,7 +1,7 @@
 // @flow
 
 import BigNumber from 'bignumber.js';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
+import Web3 from 'web3';
 
 import ContractWrapper from './ContractWrapper';
 import Compliance from './Compliance';
@@ -36,10 +36,10 @@ export default class SecurityToken extends ContractWrapper {
    * @hideconstructor
    */
   constructor(
-    web3Wrapper: Web3Wrapper,
+    web3: Web3,
     deployedAddress: string,
   ) {
-    super(web3Wrapper, securityTokenArtifact, deployedAddress);
+    super(web3, securityTokenArtifact, deployedAddress);
   }
 
   /**

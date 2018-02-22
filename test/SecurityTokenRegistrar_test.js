@@ -10,13 +10,13 @@ import {
   makeSecurityToken,
   makeSecurityTokenRegistrar,
 } from './util/make_examples';
-import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
+import { makeWeb3 } from './util/web3';
+import getAccounts from './util/getAccounts';
 import SecurityToken from '../src/contract_wrappers/SecurityToken';
 
 const { assert } = chai;
 
 describe('Registrar wrapper', () => {
-  const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
   const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
@@ -28,17 +28,17 @@ describe('Registrar wrapper', () => {
   let securityToken;
 
   before(async () => {
-    accounts = await web3Wrapper.getAvailableAddressesAsync();
+    accounts = await getAccounts(web3);
   });
 
   beforeEach(async () => {
-    polyToken = await makePolyToken(web3Wrapper, accounts[0]);
-    customers = await makeCustomers(web3Wrapper, polyToken, accounts[0]);
+    polyToken = await makePolyToken(web3, accounts[0]);
+    customers = await makeCustomers(web3, polyToken, accounts[0]);
 
-    compliance = await makeCompliance(web3Wrapper, customers, accounts[0]);
+    compliance = await makeCompliance(web3, customers, accounts[0]);
 
     securityToken = await makeSecurityToken(
-      web3Wrapper,
+      web3,
       polyToken,
       customers,
       compliance,
@@ -46,7 +46,7 @@ describe('Registrar wrapper', () => {
     );
 
     registrar = await makeSecurityTokenRegistrar(
-      web3Wrapper,
+      web3,
       polyToken,
       customers,
       compliance,
