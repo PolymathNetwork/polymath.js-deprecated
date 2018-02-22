@@ -1,7 +1,7 @@
 {
   "name": "polymathjs",
   "author": "Polymath",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Tools for interacting with the Polymath platform",
   "main": "index.js",
   "scripts": {
