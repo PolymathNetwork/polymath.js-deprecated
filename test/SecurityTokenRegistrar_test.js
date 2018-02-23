@@ -231,32 +231,32 @@ describe('Registrar wrapper', () => {
       'Type wasnt found in event subscription',
     );
 
-    await registrar.changeNameSpace(
-      'awesome poly',
-      owner,
-      new BigNumber(10).times(new BigNumber(10).pow(18)),
-    );
+    // await registrar.changeNameSpace(
+    //   'awesome poly',
+    //   owner,
+    //   new BigNumber(10).times(new BigNumber(10).pow(18)),
+    // );
 
-    const logNameSpaceChange = logNameSpaceChangeArgsPromise;
-    assert.equal(
-      logNameSpaceChange._nameSpace,
-      nameSpaceName,
-      'Name space name does not found in the event subscription',
-    );
+    // const logNameSpaceChange = logNameSpaceChangeArgsPromise;
+    // assert.equal(
+    //   logNameSpaceChange._nameSpace,
+    //   nameSpaceName,
+    //   'Name space name does not found in the event subscription',
+    // );
 
-    assert.equal(
-      logNameSpaceChange._owner,
-      owner,
-      'owner does not found in the event subscription',
-    );
-    logNameSpaceChange._newFee = logNameSpaceChange._newFee
-      .dividedBy(new BigNumber(10).pow(18))
-      .toNumber();
-    assert.equal(
-      logNameSpaceChange._newFee,
-      10,
-      'owner does not found in the event subscription',
-    );
+    // assert.equal(
+    //   logNameSpaceChange._owner,
+    //   owner,
+    //   'owner does not found in the event subscription',
+    // );
+    // logNameSpaceChange._newFee = logNameSpaceChange._newFee
+    //   .dividedBy(new BigNumber(10).pow(18))
+    //   .toNumber();
+    // assert.equal(
+    //   logNameSpaceChange._newFee,
+    //   10,
+    //   'owner does not found in the event subscription',
+    // );
 
     // note: if unsubscribe does not work, the test in the terminal will be stuck running a process
     // and you can see the process is running by looking at testrpc and seeing 'eth_getFilterChanges' constantly repeated
