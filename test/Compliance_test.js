@@ -20,14 +20,14 @@ import {
   makeSelectedTemplateForSecurityToken,
   makeSecurityTokenOffering,
 } from './util/make_examples';
-import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
+import { makeWeb3 } from './util/web3';
 import { fakeAddress, fakeBytes32 } from './util/fake';
 import { pk } from './util/testprivatekey';
+import getAccounts from './util/getAccounts';
 
 const { assert } = chai;
 
 describe('Compliance wrapper', () => {
-  const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
   const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(
     10000,
@@ -47,19 +47,20 @@ describe('Compliance wrapper', () => {
   let legalDelegate;
 
   before(async () => {
-    accounts = await web3Wrapper.getAvailableAddressesAsync();
+    accounts = await getAccounts(web3);
     owner = accounts[0];
     KYCProvider = accounts[1];
     legalDelegate = accounts[2];
   });
 
   beforeEach(async () => {
-    polyToken = await makePolyToken(web3Wrapper, owner);
-    customers = await makeCustomers(web3Wrapper, polyToken, owner);
-    compliance = await makeCompliance(web3Wrapper, customers, owner);
+    polyToken = await makePolyToken(web3, accounts[0]);
+    customers = await makeCustomers(web3, polyToken, accounts[0]);
+    compliance = await makeCompliance(web3, customers, accounts[0]);
 
-    const data = await makeSecurityTokenThroughRegistrar(
-      web3Wrapper,
+
+    securityToken = await makeSecurityTokenThroughRegistrar(
+      web3,
       polyToken,
       customers,
       compliance,
@@ -306,12 +307,7 @@ describe('Compliance wrapper', () => {
     );
 
     // This make example does registerOfferingFactory and proposeOfferingFactory, and we will test below
-    await makeProposedOfferingFactory(
-      web3Wrapper,
-      securityToken,
-      compliance,
-      auditor,
-    );
+    await makeProposedOfferingFactory(web3, securityToken, compliance, auditor);
 
     const offeringAddress = await compliance.getOfferingFactoryByProposal(
       securityToken.address,

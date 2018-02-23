@@ -2,7 +2,6 @@
 
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
 
 import ContractWrapper from './ContractWrapper';
 import customersContract from '../artifacts/Customers.json';
@@ -36,11 +35,11 @@ export default class Customers extends ContractWrapper {
    * @hideconstructor
    */
   constructor(
-    web3Wrapper: Web3Wrapper,
+    web3: Web3,
     polyToken: PolyToken,
     deployedAddress?: string,
   ) {
-    super(web3Wrapper, customersContract, deployedAddress);
+    super(web3, customersContract, deployedAddress);
 
     this.polyToken = polyToken;
   }

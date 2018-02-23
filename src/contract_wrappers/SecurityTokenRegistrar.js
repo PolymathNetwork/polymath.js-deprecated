@@ -1,7 +1,7 @@
 // @flow
 
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import { BigNumber } from 'bignumber.js';
+import Web3 from 'web3';
 
 import ContractWrapper from './ContractWrapper';
 import SecurityToken from './SecurityToken';
@@ -23,10 +23,10 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @hideconstructor
    */
   constructor(
-    web3Wrapper: Web3Wrapper,
+    web3: Web3,
     deployedAddress?: string,
   ) {
-    super(web3Wrapper, securityTokenRegistrarArtifact, deployedAddress);
+    super(web3, securityTokenRegistrarArtifact, deployedAddress);
   }
 
   /**
@@ -162,7 +162,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @return The security token instance
    */
   async getSecurityTokenByAddress(address: string): Promise<SecurityToken> {
-    const securityToken = new SecurityToken(this._web3Wrapper, address);
+    const securityToken = new SecurityToken(this._web3, address);
     await securityToken.initialize();
     return securityToken;
   }

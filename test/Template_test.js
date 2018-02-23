@@ -4,13 +4,13 @@ import 'mocha';
 import BigNumber from 'bignumber.js';
 
 import { makeTemplateDirectCall } from './util/make_examples';
-import { makeWeb3Wrapper, makeWeb3 } from './util/web3';
+import { makeWeb3 } from './util/web3';
 import { fakeBytes32, fakeAddress } from './util/fake';
+import getAccounts from './util/getAccounts';
 
 const { assert } = chai;
 
 describe('Template wrapper', () => {
-  const web3Wrapper = makeWeb3Wrapper();
   const web3 = makeWeb3();
   const expiryTime = new BigNumber(web3.eth.getBlock('latest').timestamp).plus(10000);
 
@@ -18,7 +18,7 @@ describe('Template wrapper', () => {
   let template;
 
   before(async () => {
-    accounts = await web3Wrapper.getAvailableAddressesAsync();
+    accounts = await getAccounts(web3);
   });
 
   beforeEach(async () => {
@@ -37,7 +37,7 @@ describe('Template wrapper', () => {
     const expiryTime2 = new BigNumber(web3.eth.getBlock('latest').timestamp);
 
     template = await makeTemplateDirectCall(
-      web3Wrapper,
+      web3,
       owner,
       offeringType,
       issuerJurisdiction,
