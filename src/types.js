@@ -367,18 +367,28 @@ export type SecurityTokenData = {
  * Arguments for the SecurityTokenRegistrar.sol LogNewSecurityToken event
  */
 export type LogNewSecurityToken = {
-  ticker: string,
-  securityTokenAddress: string,
-  owner: string,
-  host: string,
-  fee: BigNumber,
+  _nameSpace: string,
+  _ticker: string,
+  _securityTokenAddress: string,
+  _owner: string,
   _type: Number,
+};
+
+/**
+ * Arguments for the SecurityTokenRegistrar.sol LogNameSpaceChange event
+ */
+export type LogNameSpaceChange = {
+  _nameSpace: string,
+  _owner: string,
+  _newFee: BigNumber,
 };
 
 /**
  * Arguments for the SecurityTokenRegistrar events
  */
-export type SecurityTokenRegistrarEventArgs = LogNewSecurityToken;
+export type SecurityTokenRegistrarEventArgs =
+  | LogNewSecurityToken
+  | LogNameSpaceChange;
 
 // SimpleCappedOffering Events
 

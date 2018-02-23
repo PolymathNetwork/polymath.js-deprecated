@@ -52,7 +52,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @return  An array of logs
    */
   async getLogs(
-    eventName: 'LogNewSecurityToken',
+    eventName: 'LogNewSecurityToken' | 'LogNameSpaceChange',
     indexedFilterValues: IndexedFilterValues,
     blockRange?: BlockRange,
   ): Promise<Array<Log<SecurityTokenRegistrarEventArgs>>> {
@@ -81,7 +81,7 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
   async changeNameSpace(nameSpace: string, owner: string, fee: BigNumber) {
     await this._contract.changeNameSpace(nameSpace, owner, fee, {
       from: owner,
-      gas: 40000,
+      gas: 90000,
     });
   }
 
@@ -185,7 +185,8 @@ export default class SecurityTokenRegistrar extends ContractWrapper {
    * @return The address of polyToken on the blockchain that the registrar is connected to
    */
   async getPolyTokenAddress(): Promise<string> {
-    return this._contract.polyTokenAddress.call();
+    const polyAddress = await this._contract.PolyToken.call();
+    return polyAddress;
   }
 
   /**
