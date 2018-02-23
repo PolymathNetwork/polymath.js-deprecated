@@ -452,7 +452,7 @@ describe('SecurityToken wrapper', () => {
       );
       // Create the offering Contract
       const offeringFactory = await makeProposedOfferingFactory(
-        web,
+        web3,
         securityToken,
         compliance,
         auditor,
@@ -514,7 +514,7 @@ describe('SecurityToken wrapper', () => {
       await increaseTime(1000); // Time Jump of 1000 seconds to reach beyond the sto start date
       // Bought Security Token using POLY
       const offering = await makeSecurityTokenOffering(
-        web3Wrapper,
+        web3,
         securityToken,
         offeringAddress,
       );

@@ -59,7 +59,7 @@ describe('Compliance wrapper', () => {
     compliance = await makeCompliance(web3, customers, accounts[0]);
 
 
-    securityToken = await makeSecurityTokenThroughRegistrar(
+    const data = await makeSecurityTokenThroughRegistrar(
       web3,
       polyToken,
       customers,
